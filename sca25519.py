@@ -14,7 +14,7 @@ def parse_output():
             with open(os.path.join(output_dir, filename), encoding="utf-8") as output_file:
                 output += output_file.read()
 
-    parsed = re.findall(r'#####.+?Address: (0x[a-f0-9]+?)\. Hit: (\d+?).+? Run result: (.+?)$.+?Output.+?: ([a-f0-9]+?)$',
+    parsed = re.findall(r'#####.+?Address: (0x[a-f0-9]+?)\. Hit: (\d+).+? Run result: (.+?)$.+?Output.+?: ([a-f0-9]+?)$',
                         output, re.MULTILINE | re.DOTALL)
     for case in parsed:
         yield case
