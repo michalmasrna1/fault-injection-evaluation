@@ -7,7 +7,7 @@ from cryptography.hazmat.primitives import serialization
 
 def parse_output():
     executable_dir = os.path.dirname(os.path.abspath(__file__))
-    output_dir = os.path.join(executable_dir, "sca25519-unprotected", "outputs")
+    output_dir = os.path.join(executable_dir, "sca25519-ephemeral", "outputs")
     output = ""
     for filename in os.listdir(output_dir):
         if filename.endswith(".txt"):
