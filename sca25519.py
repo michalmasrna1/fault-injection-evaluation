@@ -47,60 +47,8 @@ def check_key_shortening():
                 print(f"Skipped address {faulted_address} on hit {hit}. Resulting key - {faulted_key.hex()}. Result - {output} == {result.hex()}.")
 
 
-def get_correct_result():
-    # d37e13aab886caff8490926060c8515506e5693eb9ac2e4e14e5af194f6f676e
-    private_bytes = bytes([0x80, 0x65, 0x74, 0xba, 0x61, 0x62, 0xcd, 0x58, 0x49, 0x30, 0x59,
-                0x47, 0x36, 0x16, 0x35, 0xb6, 0xe7, 0x7d, 0x7c, 0x7a, 0x83, 0xde,
-                0x38, 0xc0, 0x80, 0x74, 0xb8, 0xc9, 0x8f, 0xd4, 0x0a, 0x43])
-    private_key = x25519.X25519PrivateKey.from_private_bytes(private_bytes)
-    public_key = private_key.public_key()
-    print(public_key.public_bytes(encoding=serialization.Encoding.Raw, format=serialization.PublicFormat.Raw).hex())
-
-def get_incorrect_result_lower():
-    private_bytes = bytes([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                0x00, 0x00, 0x00, 0x00, 0x00, 0xe7, 0x7d, 0x7c, 0x7a, 0x83, 0xde,
-                0x38, 0xc0, 0x80, 0x74, 0xb8, 0xc9, 0x8f, 0xd4, 0x0a, 0x43])
-    private_key = x25519.X25519PrivateKey.from_private_bytes(private_bytes)
-    public_key = private_key.public_key()
-    print(public_key.public_bytes(encoding=serialization.Encoding.Raw, format=serialization.PublicFormat.Raw).hex())
-
-def get_incorrect_result_upper():
-    private_bytes = bytes([0x80, 0x65, 0x74, 0xba, 0x61, 0x62, 0xcd, 0x58, 0x49, 0x30, 0x59,
-                0x47, 0x36, 0x16, 0x35, 0xb6, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00])
-    private_key = x25519.X25519PrivateKey.from_private_bytes(private_bytes)
-    public_key = private_key.public_key()
-    print(public_key.public_bytes(encoding=serialization.Encoding.Raw, format=serialization.PublicFormat.Raw).hex())
-
-def find_private_key_for_result(expected_result, upper_half=False):
-    for i in range(0, 2**128):
-        if upper_half:
-            upper_half = i.to_bytes(16, 'big')
-            lower_half = bytes([0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-                    0x00, 0x00, 0x00, 0x00, 0x00])
-            private_bytes = upper_half + lower_half
-        else:
-            private_bytes = i.to_bytes(32, 'big')
-        private_key = x25519.X25519PrivateKey.from_private_bytes(private_bytes)
-        public_key = private_key.public_key()
-        public_key_bytes = public_key.public_bytes(encoding=serialization.Encoding.Raw, format=serialization.PublicFormat.Raw).hex()
-        
-        if public_key_bytes == expected_result:
-            print(f"Found matching private key: {private_bytes.hex()}")
-            return private_bytes
-
-    print("No matching private key found.")
-    return None
-
 def main():
     check_key_shortening()
-    # find_private_key_for_result("edbfc71d3107d9be840c24b6d5dc20eb8961eb87fd026f30e9c1a52fff778116", True)
-    # print("Correct result:")
-    # get_correct_result()
-    # print("Incorrect result lower:")
-    # get_incorrect_result_lower()
-    # print("Incorrect result upper:")
-    # get_incorrect_result_upper()
     
 
 main()
