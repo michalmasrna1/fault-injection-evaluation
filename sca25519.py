@@ -40,7 +40,8 @@ def generate_faulted_results(original_key: bytes) -> Iterable[tuple[bytes, bytes
 
 def check_key_shortening():
     results_from_simulator = list(parse_output())
-    print(len(results_from_simulator))
+    print(f"Number of fault results: {len(results_from_simulator)}")
+    print()
     for faulted_key, result in generate_faulted_results(
         bytes([0x80, 0x65, 0x74, 0xba, 0x61, 0x62, 0xcd, 0x58, 0x49, 0x30, 0x59,
                 0x47, 0x36, 0x16, 0x35, 0xb6, 0xe7, 0x7d, 0x7c, 0x7a, 0x83, 0xde,
@@ -49,7 +50,8 @@ def check_key_shortening():
             if output == result.hex():
                 print(f"Skipped address {faulted_address} on hit {hit}.")
                 print(f"Resulting key - {faulted_key.hex()}.")
-                print(f"Result - {output} == {result.hex()}.")
+                print(f"Result - {output} ==")
+                print(f"         {result.hex()}.")
 
 
 def main():
