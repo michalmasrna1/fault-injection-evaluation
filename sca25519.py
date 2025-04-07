@@ -80,10 +80,54 @@ def check_key_shortening(output_dir: str):
                 print(f"         {result.hex()}.")
 
 
+def check_safe_error(output_dir1: str, output_dir2: str):
+    results_from_simulator1 = list(parse_output(output_dir1))
+    results_from_simulator2 = list(parse_output(output_dir2))
+    print(f"Number of fault results: {len(results_from_simulator1)}, {len(results_from_simulator2)}")
+    print()
+    # Any value definitely larger than the total number of instructions
+    results_from_simulator1_ordered: list[SimulationResult | None] = [None for _ in range(1_000_000)]
+    results_from_simulator2_ordered: list[SimulationResult | None] = [None for _ in range(1_000_000)]
+    for result_from_simulator_1_tmp in results_from_simulator1:
+        results_from_simulator1_ordered[result_from_simulator_1_tmp.instruction] = result_from_simulator_1_tmp
+    for result_from_simulator_2_tmp in results_from_simulator2:
+        results_from_simulator2_ordered[result_from_simulator_2_tmp.instruction] = result_from_simulator_2_tmp
+    # # All zeroes
+    # correct_result_1 = get_public_key_bytes_from_private_bytes(int(0).to_bytes(32, 'big'))
+    # # All ones
+    # correct_result_2 = get_public_key_bytes_from_private_bytes(int((1 << 256) - 1).to_bytes(32, 'big'))
+    # All 0x93
+    correct_result_1 = get_public_key_bytes_from_private_bytes(bytes([0x93] * 32))
+    # All 0x6c
+    correct_result_2 = get_public_key_bytes_from_private_bytes(bytes([0x6c] * 32))
+
+    potentailly_prone_addresses: dict[str, set[int]] = {}
+    for result_from_simulator_1, result_from_simulator_2 in zip(
+        results_from_simulator1_ordered, results_from_simulator2_ordered):
+        if result_from_simulator_1 is None or result_from_simulator_2 is None:
+            continue
+        assert result_from_simulator_1.address == result_from_simulator_2.address
+        assert result_from_simulator_1.hit == result_from_simulator_2.hit
+        assert result_from_simulator_1.instruction == result_from_simulator_2.instruction
+        if (result_from_simulator_1.output == correct_result_1.hex()) ^\
+            (result_from_simulator_2.output == correct_result_2.hex()):
+                if result_from_simulator_1.address not in potentailly_prone_addresses:
+                    potentailly_prone_addresses[result_from_simulator_1.address] = set()
+                potentailly_prone_addresses[result_from_simulator_1.address].add(result_from_simulator_1.hit)
+    print("Addresses potentially prone to safe error attack (on hit):")
+    for address, hits in sorted(potentailly_prone_addresses.items()):
+        print(f"{address} ({', '.join(map(str, sorted(hits)))})")
+
+
 def main():
     executable_dir = os.path.dirname(os.path.abspath(__file__))
-    original_output_dir = os.path.join(executable_dir, "sca25519-unprotected", "outputs-original")
-    check_key_shortening(original_output_dir)
+    
+    # original_output_dir = os.path.join(executable_dir, "sca25519-unprotected", "outputs-original")
+    # check_key_shortening(original_output_dir)
+    
+    output_dir_1 = os.path.join(executable_dir, "sca25519-unprotected", "outputs-93")
+    output_dir_2 = os.path.join(executable_dir, "sca25519-unprotected", "outputs-6c")
+    check_safe_error(output_dir_1, output_dir_2)
 
 
 main()
