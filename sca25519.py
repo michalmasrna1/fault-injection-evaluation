@@ -39,6 +39,16 @@ def parse_output(output_dir: str) -> Iterable[SimulationResult]:
             output=output
         )
 
+
+def get_public_key_bytes_from_private_bytes(private_bytes: bytes) -> bytes:
+    private_key = x25519.X25519PrivateKey.from_private_bytes(private_bytes)
+    public_key = private_key.public_key()
+    public_key_bytes = public_key.public_bytes(
+        encoding=serialization.Encoding(serialization.Encoding.Raw),
+        format=serialization.PublicFormat(serialization.PublicFormat.Raw))
+    return public_key_bytes
+    
+
 def generate_faulted_results(original_key: bytes) -> Iterable[tuple[bytes, bytes]]:
     fault_masks: list[bytes] = []
     # Keep every of the 1, 4, 8 and 16 bytes blocks.
@@ -50,11 +60,7 @@ def generate_faulted_results(original_key: bytes) -> Iterable[tuple[bytes, bytes
         
     for mask in fault_masks:
         faulted_key_bytes = bytes(a & b for a, b in zip(original_key, mask))
-        faulted_key = x25519.X25519PrivateKey.from_private_bytes(faulted_key_bytes)
-        public_key = faulted_key.public_key()
-        public_key_bytes = public_key.public_bytes(
-            encoding=serialization.Encoding(serialization.Encoding.Raw),
-            format=serialization.PublicFormat(serialization.PublicFormat.Raw))
+        public_key_bytes = get_public_key_bytes_from_private_bytes(faulted_key_bytes)
         yield faulted_key_bytes, public_key_bytes
 
 
