@@ -140,20 +140,20 @@ def check_safe_error(output_dir1: str, output_dir2: str):
                 if result_from_simulator_1.address not in potentailly_prone_addresses:
                     potentailly_prone_addresses[result_from_simulator_1.address] = set()
                 potentailly_prone_addresses[result_from_simulator_1.address].add(result_from_simulator_1.hit)
-    print("Addresses potentially prone to safe error attack (on hit):")
+    print("Addresses potentially prone to safe error attack:")
     for address, hits in sorted(potentailly_prone_addresses.items()):
-        print(f"{address} ({', '.join(map(str, sorted(hits)))})")
+        print(f"{address} on hits ({', '.join(map(str, sorted(hits)))})")
 
 
 def main():
     executable_dir = os.path.dirname(os.path.abspath(__file__))
     
-    original_output_dir = os.path.join(executable_dir, "sca25519-ephemeral", "outputs")
-    check_key_shortening(original_output_dir)
+    # original_output_dir = os.path.join(executable_dir, "sca25519-ephemeral", "outputs")
+    # check_key_shortening(original_output_dir)
     
-    # output_dir_1 = os.path.join(executable_dir, "sca25519-unprotected", "outputs-93")
-    # output_dir_2 = os.path.join(executable_dir, "sca25519-unprotected", "outputs-6c")
-    # check_safe_error(output_dir_1, output_dir_2)
+    output_dir_1 = os.path.join(executable_dir, "sca25519-unprotected", "outputs-93")
+    output_dir_2 = os.path.join(executable_dir, "sca25519-unprotected", "outputs-6c")
+    check_safe_error(output_dir_1, output_dir_2)
 
 
 main()
