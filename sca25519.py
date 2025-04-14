@@ -53,6 +53,7 @@ def get_public_key_bytes_from_private_bytes(private_bytes: bytes) -> bytes:
 
 
 def generate_faulted_results(original_key: bytes) -> Iterable[tuple[bytes, bytes]]:
+    faulted_keys: list[bytes] = []
     fault_masks: list[bytes] = []
     # Keep every of the 1, 4, 8 and 16 bytes blocks.
     for block in [8, 32, 64, 128]:
@@ -72,8 +73,23 @@ def generate_faulted_results(original_key: bytes) -> Iterable[tuple[bytes, bytes
 
     for mask in fault_masks:
         faulted_key_bytes = bytes(a & b for a, b in zip(original_key, mask))
-        public_key_bytes = get_public_key_bytes_from_private_bytes(faulted_key_bytes)
-        yield faulted_key_bytes, public_key_bytes
+        faulted_keys.append(faulted_key_bytes)
+
+    # The original key shifted any number of positions to either left or right,
+    # the remaining bits set to either 0 or 1
+    for bits_shifted in range(1, 255):
+        shifted_left_fill_0 = (int.from_bytes(original_key, byteorder='big') << bits_shifted) & ((1 << 256) - 1)
+        shifted_right_fill_0 = int.from_bytes(original_key, byteorder='big') >> bits_shifted
+        shifted_left_fill_1 = shifted_left_fill_0 | ((1 << bits_shifted) - 1)
+        shifted_right_fill_1 = shifted_right_fill_0 | (((1 << bits_shifted) - 1) << (256 - bits_shifted))
+        faulted_keys.append(shifted_left_fill_0.to_bytes(32, 'big'))
+        faulted_keys.append(shifted_right_fill_0.to_bytes(32, 'big'))
+        faulted_keys.append(shifted_left_fill_1.to_bytes(32, 'big'))
+        faulted_keys.append(shifted_right_fill_1.to_bytes(32, 'big'))
+
+    for faulted_key in faulted_keys:
+        resulting_public_key = get_public_key_bytes_from_private_bytes(faulted_key)
+        yield faulted_key, resulting_public_key
 
 
 def check_key_shortening(output_dir: str):
@@ -96,6 +112,7 @@ def check_key_shortening(output_dir: str):
             seen_effective_keys[faulted_key] = results_sim[result.hex()]
 
     # Order by how many bits are removed from the untouched key
+    # TODO: The sort does not work correctly with the shifted keys
     for faulted_key, addresses in sorted(
         seen_effective_keys.items(),
         key=lambda item: bin(int.from_bytes(item[0], byteorder='big') ^
