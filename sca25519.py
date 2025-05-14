@@ -1,7 +1,9 @@
+import json
 import os
 import re
 from dataclasses import dataclass
-from typing import Iterable
+from itertools import combinations
+from typing import Iterable, Literal
 
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import x25519
@@ -52,8 +54,14 @@ def get_public_key_bytes_from_private_bytes(private_bytes: bytes) -> bytes:
     return public_key_bytes
 
 
-def generate_faulted_results(original_key: bytes) -> Iterable[tuple[bytes, bytes]]:
-    faulted_keys: list[bytes] = []
+def swap_endian(key: bytes) -> bytes:
+    # Swap the endianness of the key
+    swapped_key = int.from_bytes(key, byteorder='big')
+    swapped_key = swapped_key.to_bytes(32, byteorder='little')
+    return swapped_key
+
+
+def generate_faulted_keys(original_key: bytes) -> Iterable[bytes]:
     fault_masks: list[bytes] = []
     # Keep every of the 1, 4, 8 and 16 bytes blocks.
     for block in [8, 32, 64, 128]:
@@ -70,26 +78,71 @@ def generate_faulted_results(original_key: bytes) -> Iterable[tuple[bytes, bytes
             start_of_mask = ((1 << 256) - 1) ^ (1 << 256 - bits_from_start) - 1
             end_of_mask = (1 << bits_from_end) - 1
             fault_masks.append((start_of_mask | end_of_mask).to_bytes(32, 'big'))
+            fault_masks.append((start_of_mask | end_of_mask).to_bytes(32, 'little'))
 
     for mask in fault_masks:
         faulted_key_bytes = bytes(a & b for a, b in zip(original_key, mask))
-        faulted_keys.append(faulted_key_bytes)
+        yield faulted_key_bytes
 
     # The original key shifted any number of positions to either left or right,
     # the remaining bits set to either 0 or 1
-    for bits_shifted in range(1, 255):
-        shifted_left_fill_0 = (int.from_bytes(original_key, byteorder='big') << bits_shifted) & ((1 << 256) - 1)
-        shifted_right_fill_0 = int.from_bytes(original_key, byteorder='big') >> bits_shifted
-        shifted_left_fill_1 = shifted_left_fill_0 | ((1 << bits_shifted) - 1)
-        shifted_right_fill_1 = shifted_right_fill_0 | (((1 << bits_shifted) - 1) << (256 - bits_shifted))
-        faulted_keys.append(shifted_left_fill_0.to_bytes(32, 'big'))
-        faulted_keys.append(shifted_right_fill_0.to_bytes(32, 'big'))
-        faulted_keys.append(shifted_left_fill_1.to_bytes(32, 'big'))
-        faulted_keys.append(shifted_right_fill_1.to_bytes(32, 'big'))
+    for bits_shifted in range(1, 256):
+        endian: Literal['big'] | Literal['little']
+        for endian in ['big', 'little']:
+            # for endian in ['little']:
+            # The shifts with big are not really what we want as the keys are interpreted as low endian
+            # but we keep them just in case \_()_/
+            shifted_left_fill_0 = (int.from_bytes(original_key, byteorder=endian) << bits_shifted) & ((1 << 256) - 1)
+            shifted_right_fill_0 = int.from_bytes(original_key, byteorder=endian) >> bits_shifted
+            shifted_left_fill_1 = shifted_left_fill_0 | ((1 << bits_shifted) - 1)
+            shifted_right_fill_1 = shifted_right_fill_0 | (((1 << bits_shifted) - 1) << (256 - bits_shifted))
+            yield from (x.to_bytes(32, endian) for x in (
+                shifted_left_fill_0,
+                shifted_right_fill_0,
+                shifted_left_fill_1,
+                shifted_right_fill_1
+            ))
 
-    for faulted_key in faulted_keys:
-        resulting_public_key = get_public_key_bytes_from_private_bytes(faulted_key)
-        yield faulted_key, resulting_public_key
+    for i in range(1 << 8):
+        yield i.to_bytes(32, 'big')
+        yield i.to_bytes(32, 'little')
+
+    # Only highest and lowest byte non-empty
+    for upper_num_bits in range(0, 8):
+        for upper_bits in combinations(range(8), upper_num_bits):
+            for lower_num_bits in range(0, 8):
+                for lower_bits in combinations(range(8), lower_num_bits):
+                    faulted_key = 0
+                    for bit in upper_bits:
+                        faulted_key |= 1 << bit
+                    for bit in lower_bits:
+                        faulted_key |= 1 << (bit + 248)
+                    yield faulted_key.to_bytes(32, 'big')  # endianity doesn't really matter here
+
+
+def generate_faulted_results(original_key: bytes) -> Iterable[tuple[bytes, bytes]]:
+    key_result_dict: dict[str, str] = {}
+    if os.path.exists('faulted_results.json'):  # TODO: Better path
+        with open('faulted_results.json') as f:
+            key_result_dict = json.loads(f.read())
+    for faulted_key in generate_faulted_keys(original_key):
+        clamped_key = clamp(faulted_key)
+        if clamped_key.hex() in key_result_dict:
+            resulting_public_key = bytes.fromhex(key_result_dict[clamped_key.hex()])
+        else:
+            resulting_public_key = get_public_key_bytes_from_private_bytes(clamped_key)
+            key_result_dict[clamped_key.hex()] = resulting_public_key.hex()
+        yield clamped_key, resulting_public_key
+    with open('faulted_results.json', 'w') as f:
+        f.write(json.dumps(key_result_dict))
+
+
+def clamp(key: bytes) -> bytes:
+    key_int = int.from_bytes(key, byteorder='big')
+    key_int &= ~(1 << 7)
+    key_int |= (1 << 6)
+    key_int &= ~(7 << 248)
+    return key_int.to_bytes(32, 'big')
 
 
 def check_key_shortening(output_dir: str):
@@ -119,10 +172,39 @@ def check_key_shortening(output_dir: str):
                              int.from_bytes(untouched_key, byteorder='big')).count('1'),
         reverse=True
     ):
+        # print(bin(int.from_bytes(faulted_key, byteorder='big') ^ int.from_bytes(untouched_key, byteorder='big')).count('1'))
         print(f"Faulted key - {faulted_key.hex()}.")
         for address, hits in addresses.items():
             print(f"Address {address} on hits {', '.join(map(str, sorted(hits)))}")
         print()
+
+
+def check_known_outputs(output_dir: str):
+    with open("known_outputs.txt", "r") as f:  # TODO: Better path
+        known_outputs = f.read().splitlines()
+    known_outputs = set(known_outputs)
+    seen_known_outputs: dict[str, dict[str, set[int]]] = {}
+    # TODO: parse the output only once
+    for result_sim in parse_output(output_dir):
+        output = result_sim.output
+        if output in known_outputs:
+            if output not in seen_known_outputs:
+                seen_known_outputs[output] = {result_sim.address: set([result_sim.hit])}
+            else:
+                if result_sim.address in seen_known_outputs[output]:
+                    seen_known_outputs[output][result_sim.address].add(result_sim.hit)
+                else:
+                    seen_known_outputs[output][result_sim.address] = set([result_sim.hit])
+
+    for output, addresses in seen_known_outputs.items():
+        print(f"Known output discovered - {output}")
+        for address, hits in addresses.items():
+            print(f"Address {address} on hits {', '.join(map(str, sorted(hits)))}")
+
+
+def check_predictable_outputs(output_dir: str):
+    check_key_shortening(output_dir)
+    check_known_outputs(output_dir)
 
 
 def check_safe_error(output_dir_1: str, output_dir_2: str):
@@ -168,8 +250,21 @@ def check_safe_error(output_dir_1: str, output_dir_2: str):
 def main():
     executable_dir = os.path.dirname(os.path.abspath(__file__))
 
-    original_output_dir = os.path.join(executable_dir, "sca25519-unprotected", "outputs-original")
-    check_key_shortening(original_output_dir)
+    # untouched_key = bytes([0x80, 0x65, 0x74, 0xba, 0x61, 0x62, 0xcd, 0x58, 0x49, 0x30, 0x59, 0x47,
+    #                        0x36, 0x16, 0x35, 0xb6, 0xe7, 0x7d, 0x7c, 0x7a, 0x83, 0xde, 0x38, 0xc0,
+    #                        0x80, 0x74, 0xb8, 0xc9, 0x8f, 0xd4, 0x0a, 0x43])
+    # for key in generate_faulted_results(untouched_key):
+    #     pass
+    output_dir = os.path.join(executable_dir, "sca25519-static", "outputs", "original-skips-only")
+    check_predictable_outputs(output_dir)
+
+    # private_bytes = bytes.fromhex("0000000000000000000000000000000000000000000000000000000000000000")
+    # private_bytes = bytes.fromhex("806574ba6162cd5849305947361635b600000000000000000000000000000000")
+    # public_bytes = get_public_key_bytes_from_private_bytes(private_bytes)
+    # print(f"{public_bytes.hex()}")
+    # private_bytes = bytes.fromhex("856574ba6162cd5849305947361635b6e77d7c7a83de38c08074b8c98fd40ac3")
+    # public_bytes = get_public_key_bytes_from_private_bytes(private_bytes)
+    # print(f"{public_bytes.hex()}")
 
     # output_dir_1 = os.path.join(executable_dir, "sca25519-unprotected", "outputs-93")
     # output_dir_2 = os.path.join(executable_dir, "sca25519-unprotected", "outputs-6c")
