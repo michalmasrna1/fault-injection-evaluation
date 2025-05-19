@@ -8,6 +8,8 @@ from typing import Iterable, Literal
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import x25519
 
+EXECUTABLE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 
 @dataclass
 class SimulationResult:
@@ -122,8 +124,9 @@ def generate_faulted_keys(original_key: bytes) -> Iterable[bytes]:
 
 def generate_faulted_results(original_key: bytes) -> Iterable[tuple[bytes, bytes]]:
     key_result_dict: dict[str, str] = {}
-    if os.path.exists('faulted_results.json'):  # TODO: Better path
-        with open('faulted_results.json') as f:
+    faulted_results_path = os.path.join(EXECUTABLE_DIR, "faulted_results.json")
+    if os.path.exists(faulted_results_path):
+        with open(faulted_results_path) as f:
             key_result_dict = json.loads(f.read())
     for faulted_key in generate_faulted_keys(original_key):
         clamped_key = clamp(faulted_key)
@@ -133,7 +136,7 @@ def generate_faulted_results(original_key: bytes) -> Iterable[tuple[bytes, bytes
             resulting_public_key = get_public_key_bytes_from_private_bytes(clamped_key)
             key_result_dict[clamped_key.hex()] = resulting_public_key.hex()
         yield clamped_key, resulting_public_key
-    with open('faulted_results.json', 'w') as f:
+    with open(faulted_results_path, 'w') as f:
         f.write(json.dumps(key_result_dict))
 
 
@@ -180,7 +183,8 @@ def check_key_shortening(output_dir: str):
 
 
 def check_known_outputs(output_dir: str):
-    with open("known_outputs.txt", "r") as f:  # TODO: Better path
+    known_outputs_path = os.path.join(EXECUTABLE_DIR, "known_outputs.txt")
+    with open(known_outputs_path, "r") as f:
         known_outputs = f.read().splitlines()
     known_outputs = set(known_outputs)
     seen_known_outputs: dict[str, dict[str, set[int]]] = {}
@@ -248,15 +252,13 @@ def check_safe_error(output_dir_1: str, output_dir_2: str):
 
 
 def main():
-    executable_dir = os.path.dirname(os.path.abspath(__file__))
-
     # untouched_key = bytes([0x80, 0x65, 0x74, 0xba, 0x61, 0x62, 0xcd, 0x58, 0x49, 0x30, 0x59, 0x47,
     #                        0x36, 0x16, 0x35, 0xb6, 0xe7, 0x7d, 0x7c, 0x7a, 0x83, 0xde, 0x38, 0xc0,
     #                        0x80, 0x74, 0xb8, 0xc9, 0x8f, 0xd4, 0x0a, 0x43])
     # for key in generate_faulted_results(untouched_key):
     #     pass
-    output_dir = os.path.join(executable_dir, "sca25519-static", "outputs", "original-skips-only")
-    check_predictable_outputs(output_dir)
+    results_dir = os.path.join(EXECUTABLE_DIR, "sca25519-static", "outputs", "original-skips-only")
+    check_predictable_outputs(results_dir)
 
     # private_bytes = bytes.fromhex("0000000000000000000000000000000000000000000000000000000000000000")
     # private_bytes = bytes.fromhex("806574ba6162cd5849305947361635b600000000000000000000000000000000")
