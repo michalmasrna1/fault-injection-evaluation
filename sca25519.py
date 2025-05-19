@@ -175,7 +175,6 @@ def check_key_shortening(output_dir: str):
                              int.from_bytes(untouched_key, byteorder='big')).count('1'),
         reverse=True
     ):
-        # print(bin(int.from_bytes(faulted_key, byteorder='big') ^ int.from_bytes(untouched_key, byteorder='big')).count('1'))
         print(f"Faulted key - {faulted_key.hex()}.")
         for address, hits in addresses.items():
             print(f"Address {address} on hits {', '.join(map(str, sorted(hits)))}")
@@ -188,7 +187,8 @@ def check_known_outputs(output_dir: str):
         known_outputs = f.read().splitlines()
     known_outputs = set(known_outputs)
     seen_known_outputs: dict[str, dict[str, set[int]]] = {}
-    # TODO: parse the output only once
+    # TODO: parse the output only once when checking predictable outputs
+    # - you are also parsing the output in check_key_shortening
     for result_sim in parse_output(output_dir):
         output = result_sim.output
         if output in known_outputs:
