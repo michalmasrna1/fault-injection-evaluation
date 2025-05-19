@@ -141,11 +141,11 @@ def generate_faulted_results(original_key: bytes) -> Iterable[tuple[bytes, bytes
 
 
 def clamp(key: bytes) -> bytes:
-    key_int = int.from_bytes(key, byteorder='big')
-    key_int &= ~(1 << 7)
-    key_int |= (1 << 6)
-    key_int &= ~(7 << 248)
-    return key_int.to_bytes(32, 'big')
+    key_int = int.from_bytes(key, byteorder='little')
+    key_int &= ~(1 << 255)  # highest bit is 0
+    key_int |= (1 << 254)  # second highest bit is 1
+    key_int &= ~7  # lowest three bits are 0
+    return key_int.to_bytes(32, 'little')
 
 
 def check_key_shortening(output_dir: str):
