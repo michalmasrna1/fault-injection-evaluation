@@ -1,0 +1,2 @@
+cryptography
+pyecsca @ git+https://github.com/J08nY/pyecsca
