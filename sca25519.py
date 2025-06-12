@@ -16,6 +16,21 @@ from results import SimulationResult
 EXECUTABLE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
+def swap_endian(key: bytes) -> bytes:
+    # Swap the endianness of the key
+    swapped_key = int.from_bytes(key, byteorder='big')
+    swapped_key = swapped_key.to_bytes(32, byteorder='little')
+    return swapped_key
+
+
+def clamp(key: bytes) -> bytes:
+    key_int = int.from_bytes(key, byteorder='little')
+    key_int &= ~(1 << 255)  # highest bit is 0
+    key_int |= (1 << 254)  # second highest bit is 1
+    key_int &= ~7  # lowest three bits are 0
+    return key_int.to_bytes(32, 'little')
+
+
 def get_public_key_bytes_from_private_bytes(private_bytes: bytes) -> bytes:
     private_key = x25519.X25519PrivateKey.from_private_bytes(private_bytes)
     public_key = private_key.public_key()
@@ -25,13 +40,6 @@ def get_public_key_bytes_from_private_bytes(private_bytes: bytes) -> bytes:
     return public_key_bytes
 
 
-def swap_endian(key: bytes) -> bytes:
-    # Swap the endianness of the key
-    swapped_key = int.from_bytes(key, byteorder='big')
-    swapped_key = swapped_key.to_bytes(32, byteorder='little')
-    return swapped_key
-
-
 def parse_output(output_dir: str) -> Iterable[SimulationResult]:
     for filename in os.listdir(output_dir):
         if filename.endswith(".bin"):
@@ -39,6 +47,12 @@ def parse_output(output_dir: str) -> Iterable[SimulationResult]:
                 # Read 64 byte chunks, for each call SimulationResult.from_bytes()
                while chunk := output_file.read(64):
                    yield SimulationResult.from_bytes(chunk)
+
+
+def parse_known_outputs(known_outputs_path: str) -> set[bytes]:
+    with open(known_outputs_path, "r") as f:
+        known_outputs = [bytes.fromhex(line) for line in f.read().splitlines()]
+    return set(known_outputs)
 
 
 def generate_computational_loop_abort_keys():
@@ -158,14 +172,6 @@ def generate_faulted_results(original_key: bytes) -> Iterable[tuple[bytes, bytes
         f.write(json.dumps(key_result_dict))
 
 
-def clamp(key: bytes) -> bytes:
-    key_int = int.from_bytes(key, byteorder='little')
-    key_int &= ~(1 << 255)  # highest bit is 0
-    key_int |= (1 << 254)  # second highest bit is 1
-    key_int &= ~7  # lowest three bits are 0
-    return key_int.to_bytes(32, 'little')
-
-
 def check_key_shortening(output_dir: str, key: bytes):
     results_sim: dict[bytes, dict[bytes, set[int]]] = {}
     for result_sim in parse_output(output_dir):
@@ -195,11 +201,6 @@ def check_key_shortening(output_dir: str, key: bytes):
             print(f"Address {address.hex()} on hits {', '.join(map(str, sorted(hits)))}")
         print()
 
-
-def parse_known_outputs(known_outputs_path: str) -> set[bytes]:
-    with open(known_outputs_path, "r") as f:
-        known_outputs = [bytes.fromhex(line) for line in f.read().splitlines()]
-    return set(known_outputs)
 
 def check_known_outputs(output_dir: str, known_outputs: set[bytes]):
     seen_known_outputs: dict[bytes, dict[bytes, set[int]]] = {}
