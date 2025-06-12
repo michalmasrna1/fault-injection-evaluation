@@ -1,3 +1,4 @@
+import argparse
 import json
 import os
 from itertools import combinations
@@ -165,7 +166,7 @@ def clamp(key: bytes) -> bytes:
     return key_int.to_bytes(32, 'little')
 
 
-def check_key_shortening(output_dir: str):
+def check_key_shortening(output_dir: str, key: bytes):
     results_sim: dict[bytes, dict[bytes, set[int]]] = {}
     for result_sim in parse_output(output_dir):
         if result_sim.output not in results_sim:
@@ -175,10 +176,7 @@ def check_key_shortening(output_dir: str):
         results_sim[result_sim.output][result_sim.executed_instruction.address].add(result_sim.executed_instruction.hit)
 
     seen_effective_keys: dict[bytes, dict[bytes, set[int]]] = {}
-    untouched_key = bytes([0x80, 0x65, 0x74, 0xba, 0x61, 0x62, 0xcd, 0x58, 0x49, 0x30, 0x59, 0x47,
-                           0x36, 0x16, 0x35, 0xb6, 0xe7, 0x7d, 0x7c, 0x7a, 0x83, 0xde, 0x38, 0xc0,
-                           0x80, 0x74, 0xb8, 0xc9, 0x8f, 0xd4, 0x0a, 0x43])
-    for faulted_key, result in generate_faulted_results(untouched_key):
+    for faulted_key, result in generate_faulted_results(key):
         if result in results_sim:
             if faulted_key in seen_effective_keys:
                 continue
@@ -189,7 +187,7 @@ def check_key_shortening(output_dir: str):
     for faulted_key, addresses in sorted(
         seen_effective_keys.items(),
         key=lambda item: bin(int.from_bytes(item[0], byteorder='big') ^
-                             int.from_bytes(untouched_key, byteorder='big')).count('1'),
+                             int.from_bytes(key, byteorder='big')).count('1'),
         reverse=True
     ):
         print(f"Faulted key - {faulted_key.hex()}.")
@@ -198,11 +196,12 @@ def check_key_shortening(output_dir: str):
         print()
 
 
-def check_known_outputs(output_dir: str):
-    known_outputs_path = os.path.join(EXECUTABLE_DIR, "known_outputs.txt")
+def parse_known_outputs(known_outputs_path: str) -> set[bytes]:
     with open(known_outputs_path, "r") as f:
         known_outputs = [bytes.fromhex(line) for line in f.read().splitlines()]
-    known_outputs = set(known_outputs)
+    return set(known_outputs)
+
+def check_known_outputs(output_dir: str, known_outputs: set[bytes]):
     seen_known_outputs: dict[bytes, dict[bytes, set[int]]] = {}
     # TODO: parse the output only once when checking predictable outputs
     # - you are also parsing the output in check_key_shortening
@@ -223,12 +222,13 @@ def check_known_outputs(output_dir: str):
             print(f"Address {address.hex()} on hits {', '.join(map(str, sorted(hits)))}")
 
 
-def check_predictable_outputs(output_dir: str):
-    check_key_shortening(output_dir)
-    check_known_outputs(output_dir)
+def check_predictable_outputs(output_dir: str, key: bytes, known_outputs_path: str):
+    check_key_shortening(output_dir, key)
+    known_outputs = parse_known_outputs(known_outputs_path)
+    check_known_outputs(output_dir, known_outputs)
 
 
-def check_safe_error(output_dir_1: str, output_dir_2: str):
+def check_safe_error(output_dir_1: str, output_dir_2: str, key_1: bytes, key_2: bytes):
     results_sim_1 = list(parse_output(output_dir_1))
     results_sim_2 = list(parse_output(output_dir_2))
     print(f"Number of fault results: {len(results_sim_1)}, {len(results_sim_2)}")
@@ -240,14 +240,9 @@ def check_safe_error(output_dir_1: str, output_dir_2: str):
         results_sim_1_ordered[result_sim_1_tmp.executed_instruction.instruction] = result_sim_1_tmp
     for result_sim_2_tmp in results_sim_2:
         results_sim_2_ordered[result_sim_2_tmp.executed_instruction.instruction] = result_sim_2_tmp
-    # # All zeroes
-    # correct_result_1 = get_public_key_bytes_from_private_bytes(int(0).to_bytes(32, 'big'))
-    # # All ones
-    # correct_result_2 = get_public_key_bytes_from_private_bytes(int((1 << 256) - 1).to_bytes(32, 'big'))
-    # All 0x93
-    correct_result_1 = get_public_key_bytes_from_private_bytes(bytes([0x93] * 32))
-    # All 0x6c
-    correct_result_2 = get_public_key_bytes_from_private_bytes(bytes([0x6c] * 32))
+    
+    correct_result_1 = get_public_key_bytes_from_private_bytes(key_1)
+    correct_result_2 = get_public_key_bytes_from_private_bytes(key_2)
 
     potentially_prone_addresses: dict[bytes, set[int]] = {}
     for result_sim_1, result_sim_2 in zip(
@@ -269,12 +264,30 @@ def check_safe_error(output_dir_1: str, output_dir_2: str):
 
 
 def main():
-    results_dir = os.path.join(EXECUTABLE_DIR, "sca25519-static", "outputs", "original-skips-only")
-    check_predictable_outputs(results_dir)
+    parser = argparse.ArgumentParser()
+    subparsers = parser.add_subparsers(dest="command")
+    subparsers.required = True
 
-    # output_dir_1 = os.path.join(executable_dir, "sca25519-unprotected", "outputs-93")
-    # output_dir_2 = os.path.join(executable_dir, "sca25519-unprotected", "outputs-6c")
-    # check_safe_error(output_dir_1, output_dir_2)
+    parser_check_predictable = subparsers.add_parser("predictable")
+    parser_check_predictable.add_argument("output_dir", type=str)
+    parser_check_predictable.add_argument("key", type=str)
+    parser_check_predictable.add_argument("known_outputs_path", type=str)
+
+    parser_check_safe_error = subparsers.add_parser("safe_error")
+    parser_check_safe_error.add_argument("output_dir_1", type=str)
+    parser_check_safe_error.add_argument("output_dir_2", type=str)
+    parser_check_safe_error.add_argument("key_1", type=str)
+    parser_check_safe_error.add_argument("key_2", type=str)
+
+    args = parser.parse_args()
+    if args.command == "predictable":
+        key_bytes = bytes.fromhex(args.key)
+        check_predictable_outputs(args.output_dir, key_bytes, args.known_outputs_path)
+    elif args.command == "safe_error":
+        key_1_bytes = bytes.fromhex(args.key_1)
+        key_2_bytes = bytes.fromhex(args.key_2)
+        check_safe_error(args.output_dir_1, args.output_dir_2, key_1_bytes, key_2_bytes)
 
 
-main()
+if __name__ == "__main__":
+    main()
