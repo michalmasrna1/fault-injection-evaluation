@@ -55,7 +55,7 @@ def parse_known_outputs(known_outputs_path: str) -> set[bytes]:
     return set(known_outputs)
 
 
-def generate_computational_loop_abort_keys():
+def generate_computational_loop_abort_keys(key: bytes) -> Iterable[bytes]:
     curve25519 = get_params("other", "Curve25519", "xz", infty=False)
     ladd = curve25519.curve.coordinate_model.formulas["ladd-1987-m-3"]
     scl = curve25519.curve.coordinate_model.formulas["scale"]
@@ -64,9 +64,6 @@ def generate_computational_loop_abort_keys():
 
     multiplier = LadderMultiplier(ladd, scl=scl, complete=False, short_circuit=False, full=True)
     generator = curve25519.generator
-    key = bytes([0x80, 0x65, 0x74, 0xba, 0x61, 0x62, 0xcd, 0x58, 0x49, 0x30, 0x59, 0x47,
-                0x36, 0x16, 0x35, 0xb6, 0xe7, 0x7d, 0x7c, 0x7a, 0x83, 0xde, 0x38, 0xc0,
-                0x80, 0x74, 0xb8, 0xc9, 0x8f, 0xd4, 0x0a, 0x43])
 
     with local(DefaultContext()) as ctx:
         assert isinstance(ctx, DefaultContext)
@@ -74,7 +71,8 @@ def generate_computational_loop_abort_keys():
         multiplier.multiply(int.from_bytes(key, byteorder="little"))
 
         multiplication_node = ctx.actions[0]
-        for bit_no, child in enumerate(multiplication_node.children):
+        # The final two children contain the correct result
+        for bit_no, child in enumerate(multiplication_node.children[:-2]):
             assert isinstance(child, Node)
             assert isinstance(child.action, ResultAction)
             action = child.action
@@ -88,11 +86,12 @@ def generate_computational_loop_abort_keys():
                 result_point = multiplier._scl(action.result[correct_index])
             elif len(action.result) == 1:
                 # The final result after the reduction (packing, scaling)
+                # We should not get here, because at this point the result is without fault
                 result_point = action.result[0]
             else:
                 raise ValueError(f"Unexpected result length: {len(action.result)}")
             assert isinstance(result_point, Point) # result_point is not None
-            print(int(str(result_point.coords["X"])).to_bytes(32, byteorder="little").hex())
+            yield int(str(result_point.coords["X"])).to_bytes(32, byteorder="little")
 
 
 def generate_faulted_keys(original_key: bytes) -> Iterable[bytes]:
@@ -223,6 +222,14 @@ def check_known_outputs(output_dir: str, known_outputs: set[bytes]):
             print(f"Address {address.hex()} on hits {', '.join(map(str, sorted(hits)))}")
 
 
+def generate_known_outputs(key: bytes, known_outputs_path: str):
+    if not os.path.exists(known_outputs_path):
+        os.makedirs(os.path.dirname(known_outputs_path), exist_ok=True)
+    with open(known_outputs_path, "w") as known_outputs_file:
+        for computational_loop_abort_key in generate_computational_loop_abort_keys(key):
+            known_outputs_file.write(computational_loop_abort_key.hex() + "\n")
+
+
 def check_predictable_outputs(output_dir: str, key: bytes, known_outputs_path: str):
     check_key_shortening(output_dir, key)
     known_outputs = parse_known_outputs(known_outputs_path)
@@ -269,22 +276,29 @@ def main():
     subparsers = parser.add_subparsers(dest="command")
     subparsers.required = True
 
-    parser_check_predictable = subparsers.add_parser("predictable")
+    parser_check_key_shortening = subparsers.add_parser("generate-known-outputs")
+    parser_check_key_shortening.add_argument("key", type=str)
+    parser_check_key_shortening.add_argument("known_outputs_path", type=str)
+
+    parser_check_predictable = subparsers.add_parser("check-predictable")
     parser_check_predictable.add_argument("output_dir", type=str)
     parser_check_predictable.add_argument("key", type=str)
     parser_check_predictable.add_argument("known_outputs_path", type=str)
 
-    parser_check_safe_error = subparsers.add_parser("safe_error")
+    parser_check_safe_error = subparsers.add_parser("check-safe-error")
     parser_check_safe_error.add_argument("output_dir_1", type=str)
     parser_check_safe_error.add_argument("output_dir_2", type=str)
     parser_check_safe_error.add_argument("key_1", type=str)
     parser_check_safe_error.add_argument("key_2", type=str)
 
     args = parser.parse_args()
-    if args.command == "predictable":
+    if args.command == "generate-known-outputs":
+        key_bytes = bytes.fromhex(args.key)
+        generate_known_outputs(key_bytes, args.known_outputs_path)
+    if args.command == "check-predictable":
         key_bytes = bytes.fromhex(args.key)
         check_predictable_outputs(args.output_dir, key_bytes, args.known_outputs_path)
-    elif args.command == "safe_error":
+    elif args.command == "check-safe-error":
         key_1_bytes = bytes.fromhex(args.key_1)
         key_2_bytes = bytes.fromhex(args.key_2)
         check_safe_error(args.output_dir_1, args.output_dir_2, key_1_bytes, key_2_bytes)
