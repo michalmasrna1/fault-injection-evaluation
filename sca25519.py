@@ -4,9 +4,15 @@ import re
 from dataclasses import dataclass
 from itertools import combinations
 from typing import Iterable, Literal
+from unittest import result
 
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import x25519
+from pyecsca.ec.context import DefaultContext, Node, ResultAction, local
+from pyecsca.ec.formula import LadderFormula, ScalingFormula
+from pyecsca.ec.mult import LadderMultiplier
+from pyecsca.ec.params import get_params
+from pyecsca.ec.point import Point
 
 EXECUTABLE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -61,6 +67,46 @@ def swap_endian(key: bytes) -> bytes:
     swapped_key = int.from_bytes(key, byteorder='big')
     swapped_key = swapped_key.to_bytes(32, byteorder='little')
     return swapped_key
+
+
+def generate_computational_loop_abort_keys():
+    curve25519 = get_params("other", "Curve25519", "xz", infty=False)
+    ladd = curve25519.curve.coordinate_model.formulas["ladd-1987-m-3"]
+    scl = curve25519.curve.coordinate_model.formulas["scale"]
+    assert isinstance(ladd, LadderFormula)
+    assert isinstance(scl, ScalingFormula)
+
+    multiplier = LadderMultiplier(ladd, scl=scl, complete=False, short_circuit=False, full=True)
+    generator = curve25519.generator
+    key = bytes([0x80, 0x65, 0x74, 0xba, 0x61, 0x62, 0xcd, 0x58, 0x49, 0x30, 0x59, 0x47,
+                0x36, 0x16, 0x35, 0xb6, 0xe7, 0x7d, 0x7c, 0x7a, 0x83, 0xde, 0x38, 0xc0,
+                0x80, 0x74, 0xb8, 0xc9, 0x8f, 0xd4, 0x0a, 0x43])
+
+    with local(DefaultContext()) as ctx:
+        assert isinstance(ctx, DefaultContext)
+        multiplier.init(curve25519, generator)
+        multiplier.multiply(int.from_bytes(key, byteorder="little"))
+
+        multiplication_node = ctx.actions[0]
+        for bit_no, child in enumerate(multiplication_node.children):
+            assert isinstance(child, Node)
+            assert isinstance(child.action, ResultAction)
+            action = child.action
+            result_point: Point | None = None
+            if len(action.result) == 2:
+                # One of the ladder steps, the two results are xp and xq
+                # The correct result is determined by the last processed bit
+                # (see the last call to cswap after the computational loop)
+                correct_index = int.from_bytes(key, "little") >> (254 - bit_no) & 1
+                # reduce and pack the result
+                result_point = multiplier._scl(action.result[correct_index])
+            elif len(action.result) == 1:
+                # The final result after the reduction (packing, scaling)
+                result_point = action.result[0]
+            else:
+                raise ValueError(f"Unexpected result length: {len(action.result)}")
+            assert isinstance(result_point, Point) # result_point is not None
+            print(int(str(result_point.coords["X"])).to_bytes(32, byteorder="little").hex())
 
 
 def generate_faulted_keys(original_key: bytes) -> Iterable[bytes]:
