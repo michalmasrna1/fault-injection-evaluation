@@ -1,5 +1,6 @@
 from enum import Enum
 
+NO_OUTPUT = b"nooutput" * 4  # 32 bytes placeholder representing no output
 
 class FaultType(Enum):
     SKIP = 0  # Instruction skip
@@ -38,20 +39,20 @@ class Fault:
         if len(self.old_value) > 8 or len(self.new_value) > 8:
             raise ValueError("Old and new values must be at most 8 bytes long.")
         return (
-            self.fault_type.value.to_bytes(2, "little")
-            + self.target.value.to_bytes(2, "little")
+            self.fault_type.value.to_bytes(1, "little")
+            + self.target.value.to_bytes(1, "little")
             + self.old_value.rjust(8, b"\x00")
             + self.new_value.rjust(8, b"\x00")
         )
 
     @staticmethod
     def from_bytes(data: bytes) -> 'Fault':
-        if len(data) != 20:
-            raise ValueError("Fault data must be exactly 20 bytes long.")
-        fault_type = FaultType(int.from_bytes(data[0:2], "little"))
-        target = FaultTarget(int.from_bytes(data[2:4], "little"))
-        old_value = data[4:12]
-        new_value = data[12:20]
+        if len(data) != 18:
+            raise ValueError("Fault data must be exactly 18 bytes long.")
+        fault_type = FaultType(int.from_bytes(data[0:1], "little"))
+        target = FaultTarget(int.from_bytes(data[1:2], "little"))
+        old_value = data[2:10]
+        new_value = data[10:18]
         return Fault(fault_type, target, old_value, new_value)
 
 
@@ -87,23 +88,26 @@ class ExecutedInstruction:
 class SimulationResult:
     executed_instruction: ExecutedInstruction
     fault: Fault
-    output: bytes
+    errored: bool
+    output: bytes | None
 
-    def __init__(self, executed_instruction: ExecutedInstruction, fault: Fault, output: bytes):
+    def __init__(self, executed_instruction: ExecutedInstruction, fault: Fault, errored: bool, output: bytes | None):
         self.executed_instruction = executed_instruction
         self.fault = fault
+        self.errored = errored
         self.output = output
 
     def to_bytes(self) -> bytes:
-        # Padding so that the record is of constant size (64 bytes),
-        # so no delimiters are needed. We also check that
-        # the fields are not longer than the expected size.
-        if len(self.output) > 32:
-            raise ValueError("One of the fields is too long for the expected size.")
+        # If there was no output we save the special value NO_OUTPUT
+        # so that the record is still 64 bytes long.
+        output = self.output if self.output is not None else NO_OUTPUT
+        if len(output) != 32:
+            raise ValueError("The output has to be 32 bytes long.")
         return (
             self.executed_instruction.to_bytes()
             + self.fault.to_bytes()
-            + self.output.rjust(32, b"\x00")
+            + self.errored.to_bytes(2, "little")
+            + output
         )
     
     @staticmethod
@@ -111,6 +115,7 @@ class SimulationResult:
         if len(data) != 64:
             raise ValueError("SimulationResult data must be exactly 64 bytes long.")
         executed_instruction = ExecutedInstruction.from_bytes(data[0:12])
-        fault = Fault.from_bytes(data[12:32])
-        output = data[32:64]
-        return SimulationResult(executed_instruction, fault, output)
+        fault = Fault.from_bytes(data[12:30])
+        errored = bool.from_bytes(data[30:32])
+        output = None if data[32:64] == NO_OUTPUT else data[32:64]
+        return SimulationResult(executed_instruction, fault, errored, output)

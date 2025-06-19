@@ -59,7 +59,17 @@ def process_output(file_path: str, output_path: str) -> None:
         address = find_in_entry(entry, r'Address: 0x([a-f0-9]+?)\.')
         hit = find_in_entry(entry, r'Hit: (\d+).')
         instruction = find_in_entry(entry, r'Instruction: (\d+).')
-        output = find_in_entry(entry, r'Output.+?: ([a-f0-9]+?)\s', can_fail=True)  # If the execution errored there is no output
+
+        errored = find_in_entry(entry, r'Errored:', can_fail=True) != ""
+
+        # If the execution errored there might be no output
+        output_str = find_in_entry(entry, r'Output.+?: ([a-f0-9]+?)\s', can_fail=True)
+        if output_str:
+            output = bytes.fromhex(output_str.strip())
+        else:
+            output = NO_OUTPUT
+
+
         executed_instruction = ExecutedInstruction(
             address=bytes.fromhex(f"{address.strip():0>8}"),
             hit=int(hit),
@@ -69,7 +79,8 @@ def process_output(file_path: str, output_path: str) -> None:
         result = SimulationResult(
             executed_instruction=executed_instruction,
             fault=fault,
-            output=bytes.fromhex(output)
+            errored=errored,
+            output=output
         )
         output_file.write(result.to_bytes())
 

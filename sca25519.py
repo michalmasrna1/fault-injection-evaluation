@@ -11,7 +11,7 @@ from pyecsca.ec.formula import LadderFormula, ScalingFormula
 from pyecsca.ec.mult import LadderMultiplier
 from pyecsca.ec.params import get_params
 from pyecsca.ec.point import Point
-from results import SimulationResult
+from results import *
 
 EXECUTABLE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -46,7 +46,16 @@ def parse_output(output_dir: str) -> Iterable[SimulationResult]:
             with open(os.path.join(output_dir, filename), "rb") as output_file:
                 # Read 64 byte chunks, for each call SimulationResult.from_bytes()
                while chunk := output_file.read(64):
-                   yield SimulationResult.from_bytes(chunk)
+                    result = SimulationResult.from_bytes(chunk)
+
+                    # TODO: Decide on how exactly to handle errors.
+                    # It is possible that we do not want to see them when evaluating predictable outputs,
+                    # but do want to see them when evaluating safe error.
+                    if result.errored or result.output == NO_OUTPUT:
+                       # There was no output, we skip the result
+                       continue
+
+                    yield result    
 
 
 def parse_known_outputs(known_outputs_path: str) -> dict[bytes, int]:
@@ -194,6 +203,8 @@ def generate_faulted_results(original_key: bytes) -> Iterable[tuple[bytes, bytes
 def check_key_shortening(parsed_output: list[SimulationResult], key: bytes):
     results_sim: dict[bytes, dict[bytes, set[int]]] = {}
     for result_sim in parsed_output:
+        if result_sim.output is None:
+            continue
         if result_sim.output not in results_sim:
             results_sim[result_sim.output] = {}
         if result_sim.executed_instruction.address not in results_sim[result_sim.output]:
