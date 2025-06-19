@@ -18,9 +18,14 @@ class FaultTarget(Enum):
     R6 = 6
     R7 = 7
     R8 = 8
-    D0 = 10
-    PC = 20
-    IP = 30
+    SB = 9
+    SL = 10
+    FP = 11
+    IP = 12
+    SP = 13
+    LR = 14
+    PC = 15
+    IR = 20
 
 
 class Fault:
@@ -34,6 +39,29 @@ class Fault:
         self.target = target
         self.old_value = old_value
         self.new_value = new_value
+
+
+    def __str__(self) -> str:
+        def format_instruction(instruction: bytes) -> str:
+            instruction_hex = instruction.hex()
+            if instruction_hex.startswith("000000000000"):
+                non_zero_part = instruction_hex[12:]
+            if instruction_hex.startswith("00000000"):
+                non_zero_part = instruction_hex[8:]
+            else:
+                non_zero_part = instruction_hex
+            
+            return " ".join(non_zero_part[i:i+2] for i in range(0, len(non_zero_part), 2))
+             
+
+        if self.fault_type == FaultType.SKIP:
+            return f"Skipped instruction"
+        elif self.fault_type == FaultType.FLIP:
+            return f"Flipped instruction bit ({format_instruction(self.old_value)} -> {format_instruction(self.new_value)})"
+        elif self.fault_type == FaultType.ZERO:
+            return f"Zeroed register {self.target.name}"
+        else:
+            raise ValueError(f"Unknown fault type: {self.fault_type}")
 
     def to_bytes(self) -> bytes:
         if len(self.old_value) > 8 or len(self.new_value) > 8:

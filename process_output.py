@@ -31,14 +31,14 @@ def process_output(file_path: str, output_path: str) -> None:
 
         if target_str == "InstructionPointer":
             fault_type = FaultType.SKIP
-            target = FaultTarget.IP
+            target = FaultTarget.PC
             old_value = find_in_entry(entry, r'Original IP\s*?:\s*?0x([a-f0-9]+?)\s')
             new_value = find_in_entry(entry, r'Updated IP\s*?:\s*?0x([a-f0-9]+?)\s')
         elif target_str == "Instruction":
             fault_type = FaultType.FLIP
-            target = FaultTarget.PC
-            old_value = find_in_entry(entry, r'Original Instruction\s*?:\s*?([a-f0-9]+?)  ')
-            new_value = find_in_entry(entry, r'Updated Instruction\s*?:\s*?([a-f0-9]+?)  ')
+            target = FaultTarget.IR
+            old_value = find_in_entry(entry, r'Original instruction\s*?:\s*?(([a-f0-9]{2} ){2,4})\s')
+            new_value = find_in_entry(entry, r'Updated instruction\s*?:\s*?(([a-f0-9]{2} ){2,4})\s')
         elif target_str == "Register":
             fault_type = FaultType.ZERO
             register_number = find_in_entry(entry, r'Reg#: (.+?)\.')
@@ -47,8 +47,8 @@ def process_output(file_path: str, output_path: str) -> None:
             new_value = find_in_entry(entry, r'Updated\s*?:\s*?0x([a-f0-9]+?)\s')
         else:
             raise ValueError(f"Invalid entry, unknown target: {target_str}")
-        old_value = bytes.fromhex(f"{old_value.strip():0>8}")
-        new_value = bytes.fromhex(f"{new_value.strip():0>8}")
+        old_value = bytes.fromhex(f"{old_value.replace(' ', ''):0>8}")
+        new_value = bytes.fromhex(f"{new_value.replace(' ', ''):0>8}")
         fault = Fault(
             fault_type=fault_type,
             target=target,
@@ -60,7 +60,9 @@ def process_output(file_path: str, output_path: str) -> None:
         hit = find_in_entry(entry, r'Hit: (\d+).')
         instruction = find_in_entry(entry, r'Instruction: (\d+).')
 
-        errored = find_in_entry(entry, r'Errored:', can_fail=True) != ""
+        # errored = find_in_entry(entry, r'(Errored:)', can_fail=True) != ""
+        errored = find_in_entry(entry, r'(Errored:)', can_fail=True) != "" or \
+            find_in_entry(entry, r'(Run result: fault errored program)', can_fail=True) != ""
 
         # If the execution errored there might be no output
         output_str = find_in_entry(entry, r'Output.+?: ([a-f0-9]+?)\s', can_fail=True)

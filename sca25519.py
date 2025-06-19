@@ -69,6 +69,11 @@ def parse_known_outputs(known_outputs_path: str) -> dict[bytes, int]:
     return known_outputs
 
 
+def print_simulation_results(results: set[SimulationResult]):
+    sorted_results = sorted(results, key=lambda r: (r.executed_instruction.instruction, r.executed_instruction.hit))
+    for result in sorted_results:
+        print(f"Address {result.executed_instruction.address.hex()} on hit {result.executed_instruction.hit} ({result.executed_instruction.instruction}) - {result.fault}")
+
 
 def generate_computational_loop_abort_keys(key: bytes) -> Iterable[tuple[bytes, int]]:
     """
@@ -201,17 +206,15 @@ def generate_faulted_results(original_key: bytes) -> Iterable[tuple[bytes, bytes
 
 
 def check_key_shortening(parsed_output: list[SimulationResult], key: bytes):
-    results_sim: dict[bytes, dict[bytes, set[int]]] = {}
+    results_sim: dict[bytes, set[SimulationResult]] = {}
     for result_sim in parsed_output:
         if result_sim.output is None:
             continue
         if result_sim.output not in results_sim:
-            results_sim[result_sim.output] = {}
-        if result_sim.executed_instruction.address not in results_sim[result_sim.output]:
-            results_sim[result_sim.output][result_sim.executed_instruction.address] = set()
-        results_sim[result_sim.output][result_sim.executed_instruction.address].add(result_sim.executed_instruction.hit)
+            results_sim[result_sim.output] = set()
+        results_sim[result_sim.output].add(result_sim)
 
-    seen_effective_keys: dict[bytes, tuple[int, dict[bytes, set[int]]]] = {}
+    seen_effective_keys: dict[bytes, tuple[int, set[SimulationResult]]] = {}
     for faulted_key, result, entropy in generate_faulted_results(key):
         if result in results_sim:
             if faulted_key in seen_effective_keys:
@@ -224,31 +227,33 @@ def check_key_shortening(parsed_output: list[SimulationResult], key: bytes):
 
     # Order by the entropy of the faulted key.
     # Smaller entropy means easier to guess faulted key - a bigger problem.
-    for faulted_key, (entropy, addresses) in sorted(seen_effective_keys.items(), key=lambda item: item[1][0]):
+    for faulted_key, (entropy, results) in sorted(seen_effective_keys.items(), key=lambda item: item[1][0]):
         print(f"Faulted key - {faulted_key.hex()} ({entropy}).")
-        for address, hits in addresses.items():
-            print(f"Address {address.hex()} on hits {', '.join(map(str, sorted(hits)))}")
+        print_simulation_results(results)
         print()
 
 
 def check_known_outputs(parsed_output: list[SimulationResult], known_outputs: dict[bytes, int]):
-    seen_known_outputs: dict[tuple[bytes, int], dict[bytes, set[int]]] = {}
+    seen_known_outputs: dict[bytes, tuple[int, set[SimulationResult]]] = {}
     for result_sim in parsed_output:
         output = result_sim.output
         if output in known_outputs:
             entropy = known_outputs[output]
-            if (output, entropy) not in seen_known_outputs:
-                seen_known_outputs[(output, entropy)] = {result_sim.executed_instruction.address: set([result_sim.executed_instruction.hit])}
+            if output not in seen_known_outputs:
+                seen_known_outputs[output] = (entropy, {result_sim})
             else:
-                if result_sim.executed_instruction.address in seen_known_outputs[(output, entropy)]:
-                    seen_known_outputs[(output, entropy)][result_sim.executed_instruction.address].add(result_sim.executed_instruction.hit)
+                if entropy < seen_known_outputs[output][0]:
+                    # The same known output might have been generated with different entropies.
+                    # We care about the smallest one.
+                    seen_known_outputs[output] = (entropy, {result_sim})
                 else:
-                    seen_known_outputs[(output, entropy)][result_sim.executed_instruction.address] = set([result_sim.executed_instruction.hit])
+                    seen_known_outputs[output][1].add(result_sim)
 
-    for (output, entropy), addresses in sorted(seen_known_outputs.items(), key=lambda item: item[0][1]):
+    for output, (entropy, results) in sorted(seen_known_outputs.items(), key=lambda item: item[1][0]):
         print(f"Known output - {output.hex()} ({entropy}).")
-        for address, hits in addresses.items():
-            print(f"Address {address.hex()} on hits {', '.join(map(str, sorted(hits)))}")
+        print_simulation_results(results)
+        print()
+        
 
 
 def generate_known_outputs(key: bytes, known_outputs_path: str):
