@@ -247,6 +247,9 @@ def generate_known_outputs(key: bytes, known_outputs_path: str):
         os.makedirs(os.path.dirname(known_outputs_path), exist_ok=True)
 
     with open(known_outputs_path, "w") as known_outputs_file:
+        # Result representing the neutral element - probably generated
+        # by providing a point in the order-8 subgroup.
+        known_outputs_file.write(f"{(0).to_bytes(32, 'little').hex()},{0}\n")
 
         for computational_loop_abort_key, entropy in generate_computational_loop_abort_keys(key):
             known_outputs_file.write(f"{computational_loop_abort_key.hex()},{entropy}\n")
