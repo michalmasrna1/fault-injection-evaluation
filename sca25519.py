@@ -191,9 +191,9 @@ def generate_faulted_results(original_key: bytes) -> Iterable[tuple[bytes, bytes
         f.write(json.dumps(key_result_dict))
 
 
-def check_key_shortening(output_dir: str, key: bytes):
+def check_key_shortening(parsed_output: list[SimulationResult], key: bytes):
     results_sim: dict[bytes, dict[bytes, set[int]]] = {}
-    for result_sim in parse_output(output_dir):
+    for result_sim in parsed_output:
         if result_sim.output not in results_sim:
             results_sim[result_sim.output] = {}
         if result_sim.executed_instruction.address not in results_sim[result_sim.output]:
@@ -220,11 +220,9 @@ def check_key_shortening(output_dir: str, key: bytes):
         print()
 
 
-def check_known_outputs(output_dir: str, known_outputs: dict[bytes, int]):
+def check_known_outputs(parsed_output: list[SimulationResult], known_outputs: dict[bytes, int]):
     seen_known_outputs: dict[tuple[bytes, int], dict[bytes, set[int]]] = {}
-    # TODO: parse the output only once when checking predictable outputs
-    # - you are also parsing the output in check_key_shortening
-    for result_sim in parse_output(output_dir):
+    for result_sim in parsed_output:
         output = result_sim.output
         if output in known_outputs:
             entropy = known_outputs[output]
@@ -256,9 +254,10 @@ def generate_known_outputs(key: bytes, known_outputs_path: str):
 
 
 def check_predictable_outputs(output_dir: str, key: bytes, known_outputs_path: str):
-    check_key_shortening(output_dir, key)
+    parsed_output = list(parse_output(output_dir))  # Need to cast to a list to be able to iterate multiple times
+    check_key_shortening(parsed_output, key)
     known_outputs = parse_known_outputs(known_outputs_path)
-    check_known_outputs(output_dir, known_outputs)
+    check_known_outputs(parsed_output, known_outputs)
 
 
 def check_safe_error(output_dir_1: str, output_dir_2: str, key_1: bytes, key_2: bytes):
