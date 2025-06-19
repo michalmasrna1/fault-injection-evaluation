@@ -2,7 +2,7 @@ import argparse
 import json
 import os
 from itertools import combinations
-from typing import Iterable, Literal
+from typing import Iterable
 
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import x25519
@@ -49,13 +49,23 @@ def parse_output(output_dir: str) -> Iterable[SimulationResult]:
                    yield SimulationResult.from_bytes(chunk)
 
 
-def parse_known_outputs(known_outputs_path: str) -> set[bytes]:
+def parse_known_outputs(known_outputs_path: str) -> dict[bytes, int]:
+    known_outputs: dict[bytes, int] = {}
+
     with open(known_outputs_path, "r") as f:
-        known_outputs = [bytes.fromhex(line) for line in f.read().splitlines()]
-    return set(known_outputs)
+        for line in f.read().splitlines():
+            output_str, entropy_str = line.split(",")
+            known_outputs[bytes.fromhex(output_str)] = int(entropy_str)
+
+    return known_outputs
 
 
-def generate_computational_loop_abort_keys(key: bytes) -> Iterable[bytes]:
+
+def generate_computational_loop_abort_keys(key: bytes) -> Iterable[tuple[bytes, int]]:
+    """
+    Returns tuples of (faulted_result, entropy), where the entropy
+    represents how many bits were used from the original key.
+    """
     curve25519 = get_params("other", "Curve25519", "xz", infty=False)
     ladd = curve25519.curve.coordinate_model.formulas["ladd-1987-m-3"]
     scl = curve25519.curve.coordinate_model.formulas["scale"]
@@ -91,18 +101,22 @@ def generate_computational_loop_abort_keys(key: bytes) -> Iterable[bytes]:
             else:
                 raise ValueError(f"Unexpected result length: {len(action.result)}")
             assert isinstance(result_point, Point) # result_point is not None
-            yield int(str(result_point.coords["X"])).to_bytes(32, byteorder="little")
+            yield int(str(result_point.coords["X"])).to_bytes(32, byteorder="little"), bit_no
 
 
-def generate_faulted_keys(original_key: bytes) -> Iterable[bytes]:
-    fault_masks: list[bytes] = []
+def generate_faulted_keys(original_key: bytes) -> Iterable[tuple[bytes, int]]:
+    """
+    Returns tuples of (faulted_key, entropy), where the entropy
+    represents how many bits were used from the original key.
+    """
+    # Set because we only care about unique masks.
+    fault_masks: set[bytes] = set()
     # Keep every of the 1, 4, 8 and 16 bytes blocks.
     for block in [8, 32, 64, 128]:
         unshifted_mask: int = 2**block - 1
-        fault_masks.extend([(unshifted_mask << (i * block)).to_bytes(32, 'big') for i in range(256 // block)])
+        fault_masks.update((unshifted_mask << (i * block)).to_bytes(32, 'little') for i in range(256 // block))
 
     # Any number of bits from the start + any number of bits from the end
-    # There is some overlap with the first loop, but we do not care
     for bits_from_start in range(0, 256):
         # Leave a space of at least one faulted bit, otherwise you use the full key
         for bits_from_end in range(0, 256 - bits_from_start):
@@ -110,35 +124,32 @@ def generate_faulted_keys(original_key: bytes) -> Iterable[bytes]:
                 continue
             start_of_mask = ((1 << 256) - 1) ^ (1 << 256 - bits_from_start) - 1
             end_of_mask = (1 << bits_from_end) - 1
-            fault_masks.append((start_of_mask | end_of_mask).to_bytes(32, 'big'))
-            fault_masks.append((start_of_mask | end_of_mask).to_bytes(32, 'little'))
+            fault_masks.add((start_of_mask | end_of_mask).to_bytes(32, 'big'))
+            fault_masks.add((start_of_mask | end_of_mask).to_bytes(32, 'little'))
 
     for mask in fault_masks:
+        num_bits = bin(int.from_bytes(mask, byteorder='little')).count('1')
         faulted_key_bytes = bytes(a & b for a, b in zip(original_key, mask))
-        yield faulted_key_bytes
+        yield faulted_key_bytes, num_bits
 
     # The original key shifted any number of positions to either left or right,
     # the remaining bits set to either 0 or 1
     for bits_shifted in range(1, 256):
-        endian: Literal['big'] | Literal['little']
-        for endian in ['big', 'little']:
-            # for endian in ['little']:
-            # The shifts with big are not really what we want as the keys are interpreted as low endian
-            # but we keep them just in case \_()_/
-            shifted_left_fill_0 = (int.from_bytes(original_key, byteorder=endian) << bits_shifted) & ((1 << 256) - 1)
-            shifted_right_fill_0 = int.from_bytes(original_key, byteorder=endian) >> bits_shifted
-            shifted_left_fill_1 = shifted_left_fill_0 | ((1 << bits_shifted) - 1)
-            shifted_right_fill_1 = shifted_right_fill_0 | (((1 << bits_shifted) - 1) << (256 - bits_shifted))
-            yield from (x.to_bytes(32, endian) for x in (
-                shifted_left_fill_0,
-                shifted_right_fill_0,
-                shifted_left_fill_1,
-                shifted_right_fill_1
-            ))
+        shifted_left_fill_0 = (int.from_bytes(original_key, byteorder='little') << bits_shifted) & ((1 << 256) - 1)
+        shifted_right_fill_0 = int.from_bytes(original_key, byteorder='little') >> bits_shifted
+        shifted_left_fill_1 = shifted_left_fill_0 | ((1 << bits_shifted) - 1)
+        shifted_right_fill_1 = shifted_right_fill_0 | (((1 << bits_shifted) - 1) << (256 - bits_shifted))
+        yield from ((x.to_bytes(32, 'little'), 256 - bits_shifted) for x in (
+            shifted_left_fill_0,
+            shifted_right_fill_0,
+            shifted_left_fill_1,
+            shifted_right_fill_1
+        ))
 
     for i in range(1 << 8):
-        yield i.to_bytes(32, 'big')
-        yield i.to_bytes(32, 'little')
+        num_bits = bin(i).count('1')
+        yield i.to_bytes(32, 'big'), num_bits
+        yield i.to_bytes(32, 'little'), num_bits
 
     # Only highest and lowest byte non-empty
     for upper_num_bits in range(0, 8):
@@ -150,23 +161,32 @@ def generate_faulted_keys(original_key: bytes) -> Iterable[bytes]:
                         faulted_key |= 1 << bit
                     for bit in lower_bits:
                         faulted_key |= 1 << (bit + 248)
-                    yield faulted_key.to_bytes(32, 'big')  # endianity doesn't really matter here
+                    yield faulted_key.to_bytes(32, 'little'), upper_num_bits + lower_num_bits
 
 
-def generate_faulted_results(original_key: bytes) -> Iterable[tuple[bytes, bytes]]:
+def generate_faulted_results(original_key: bytes) -> Iterable[tuple[bytes, bytes, int]]:
     key_result_dict: dict[str, str] = {}
     faulted_results_path = os.path.join(EXECUTABLE_DIR, "faulted_results.json")
     if os.path.exists(faulted_results_path):
         with open(faulted_results_path) as f:
             key_result_dict = json.loads(f.read())
-    for faulted_key in generate_faulted_keys(original_key):
+
+    for faulted_key, entropy in generate_faulted_keys(original_key):
         clamped_key = clamp(faulted_key)
+        
+        if clamped_key == original_key:
+            # Skip "faulted" keys equal to the original key for clearer output.
+            continue
+
         if clamped_key.hex() in key_result_dict:
             resulting_public_key = bytes.fromhex(key_result_dict[clamped_key.hex()])
         else:
             resulting_public_key = get_public_key_bytes_from_private_bytes(clamped_key)
             key_result_dict[clamped_key.hex()] = resulting_public_key.hex()
-        yield clamped_key, resulting_public_key
+
+        yield clamped_key, resulting_public_key, entropy
+
+    # Save the precomputed multiplication results so that they not need to be computed again.
     with open(faulted_results_path, 'w') as f:
         f.write(json.dumps(key_result_dict))
 
@@ -180,44 +200,44 @@ def check_key_shortening(output_dir: str, key: bytes):
             results_sim[result_sim.output][result_sim.executed_instruction.address] = set()
         results_sim[result_sim.output][result_sim.executed_instruction.address].add(result_sim.executed_instruction.hit)
 
-    seen_effective_keys: dict[bytes, dict[bytes, set[int]]] = {}
-    for faulted_key, result in generate_faulted_results(key):
+    seen_effective_keys: dict[bytes, tuple[int, dict[bytes, set[int]]]] = {}
+    for faulted_key, result, entropy in generate_faulted_results(key):
         if result in results_sim:
             if faulted_key in seen_effective_keys:
-                continue
-            seen_effective_keys[faulted_key] = results_sim[result]
+                if entropy < seen_effective_keys[faulted_key][0]:
+                    # The same key might have been generated with different entropies.
+                    # We care about the smallest one.
+                    seen_effective_keys[faulted_key] = (entropy, seen_effective_keys[faulted_key][1])
+            else:
+                seen_effective_keys[faulted_key] = (entropy, results_sim[result])
 
-    # Order by how many bits are removed from the untouched key
-    # TODO: The sort does not work correctly with the shifted keys
-    for faulted_key, addresses in sorted(
-        seen_effective_keys.items(),
-        key=lambda item: bin(int.from_bytes(item[0], byteorder='big') ^
-                             int.from_bytes(key, byteorder='big')).count('1'),
-        reverse=True
-    ):
-        print(f"Faulted key - {faulted_key.hex()}.")
+    # Order by the entropy of the faulted key.
+    # Smaller entropy means easier to guess faulted key - a bigger problem.
+    for faulted_key, (entropy, addresses) in sorted(seen_effective_keys.items(), key=lambda item: item[1][0]):
+        print(f"Faulted key - {faulted_key.hex()} ({entropy}).")
         for address, hits in addresses.items():
             print(f"Address {address.hex()} on hits {', '.join(map(str, sorted(hits)))}")
         print()
 
 
-def check_known_outputs(output_dir: str, known_outputs: set[bytes]):
-    seen_known_outputs: dict[bytes, dict[bytes, set[int]]] = {}
+def check_known_outputs(output_dir: str, known_outputs: dict[bytes, int]):
+    seen_known_outputs: dict[tuple[bytes, int], dict[bytes, set[int]]] = {}
     # TODO: parse the output only once when checking predictable outputs
     # - you are also parsing the output in check_key_shortening
     for result_sim in parse_output(output_dir):
         output = result_sim.output
         if output in known_outputs:
-            if output not in seen_known_outputs:
-                seen_known_outputs[output] = {result_sim.executed_instruction.address: set([result_sim.executed_instruction.hit])}
+            entropy = known_outputs[output]
+            if (output, entropy) not in seen_known_outputs:
+                seen_known_outputs[(output, entropy)] = {result_sim.executed_instruction.address: set([result_sim.executed_instruction.hit])}
             else:
-                if result_sim.executed_instruction.address in seen_known_outputs[output]:
-                    seen_known_outputs[output][result_sim.executed_instruction.address].add(result_sim.executed_instruction.hit)
+                if result_sim.executed_instruction.address in seen_known_outputs[(output, entropy)]:
+                    seen_known_outputs[(output, entropy)][result_sim.executed_instruction.address].add(result_sim.executed_instruction.hit)
                 else:
-                    seen_known_outputs[output][result_sim.executed_instruction.address] = set([result_sim.executed_instruction.hit])
+                    seen_known_outputs[(output, entropy)][result_sim.executed_instruction.address] = set([result_sim.executed_instruction.hit])
 
-    for output, addresses in seen_known_outputs.items():
-        print(f"Known output discovered - {output.hex()}")
+    for (output, entropy), addresses in sorted(seen_known_outputs.items(), key=lambda item: item[0][1]):
+        print(f"Known output - {output.hex()} ({entropy}).")
         for address, hits in addresses.items():
             print(f"Address {address.hex()} on hits {', '.join(map(str, sorted(hits)))}")
 
@@ -225,9 +245,11 @@ def check_known_outputs(output_dir: str, known_outputs: set[bytes]):
 def generate_known_outputs(key: bytes, known_outputs_path: str):
     if not os.path.exists(known_outputs_path):
         os.makedirs(os.path.dirname(known_outputs_path), exist_ok=True)
+
     with open(known_outputs_path, "w") as known_outputs_file:
-        for computational_loop_abort_key in generate_computational_loop_abort_keys(key):
-            known_outputs_file.write(computational_loop_abort_key.hex() + "\n")
+
+        for computational_loop_abort_key, entropy in generate_computational_loop_abort_keys(key):
+            known_outputs_file.write(f"{computational_loop_abort_key.hex()},{entropy}\n")
 
 
 def check_predictable_outputs(output_dir: str, key: bytes, known_outputs_path: str):
