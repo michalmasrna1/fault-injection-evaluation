@@ -35,8 +35,8 @@ def get_public_key_bytes_from_private_bytes(private_bytes: bytes) -> bytes:
     private_key = x25519.X25519PrivateKey.from_private_bytes(private_bytes)
     public_key = private_key.public_key()
     public_key_bytes = public_key.public_bytes(
-        encoding=serialization.Encoding(serialization.Encoding.Raw),
-        format=serialization.PublicFormat(serialization.PublicFormat.Raw))
+        encoding=serialization.Encoding.Raw,
+        format=serialization.PublicFormat.Raw)
     return public_key_bytes
 
 
