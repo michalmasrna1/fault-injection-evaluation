@@ -76,16 +76,16 @@ class Library(ABC):
             print()
 
     def check_predictable_outputs(self, output_dir: str, key: bytes, known_outputs_path: str):
-        parsed_output = list(read_processed_outputs(output_dir))  # Need to cast to a list to be able to iterate multiple times
+        # Need to cast to a list to be able to iterate multiple times
+        parsed_output = list(read_processed_outputs(output_dir))
         self.check_key_shortening(parsed_output, key)
         known_outputs = parse_known_outputs(known_outputs_path)
         self.check_known_outputs(parsed_output, known_outputs)
 
-    # Probably a common method of the libraries
     def check_safe_error(self, output_dir_1: str, output_dir_2: str, key_1: bytes, key_2: bytes):
         results_sim_1 = list(read_processed_outputs(output_dir_1))
         results_sim_2 = list(read_processed_outputs(output_dir_2))
-        
+
         # Any value definitely larger than the total number of instructions
         results_sim_1_ordered: list[SimulationResult | None] = [None for _ in range(1_000_000)]
         results_sim_2_ordered: list[SimulationResult | None] = [None for _ in range(1_000_000)]
@@ -109,7 +109,8 @@ class Library(ABC):
             if (result_sim_1.output == correct_result_1) ^ (result_sim_2.output == correct_result_2):
                 if result_sim_1.executed_instruction.address not in potentially_prone_addresses:
                     potentially_prone_addresses[result_sim_1.executed_instruction.address] = set()
-                potentially_prone_addresses[result_sim_1.executed_instruction.address].add(result_sim_1.executed_instruction.hit)
+                potentially_prone_addresses[result_sim_1.executed_instruction.address].add(
+                    result_sim_1.executed_instruction.hit)
 
         print("Addresses potentially prone to safe error attack:")
         for address, hits in sorted(potentially_prone_addresses.items()):

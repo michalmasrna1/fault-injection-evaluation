@@ -3,7 +3,8 @@ import re
 import sys
 from multiprocessing import Process
 
-from result import *
+from result import (NO_OUTPUT, ExecutedInstruction, Fault, FaultTarget,
+                    FaultType, SimulationResult)
 
 
 def find_in_entry(entry: str, pattern: str, can_fail: bool = False) -> str:

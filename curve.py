@@ -24,24 +24,23 @@ class Curve(ABC):
         is clamping the key before using it with curve25519.
         """
         return key
-    
+
     @abstractmethod
     def generate_known_outputs(self) -> Iterable[tuple[bytes, int]]:
         """
         Generate known outputs specific for the curve, which are not
         dependent on the key or implementation details.
         """
-        pass
 
     def generate_faulted_results(self, original_key: bytes) -> Iterable[tuple[bytes, bytes, int]]:
         key_result_dict: dict[str, str] = {}
         if os.path.exists(self.precomputed_results_path):
-            with open(self.precomputed_results_path) as f:
+            with open(self.precomputed_results_path, encoding='utf-8') as f:
                 key_result_dict = json.loads(f.read())
 
         for faulted_key, entropy in generate_faulted_keys(original_key):
             preprocessed_key = self.preprocess_key(faulted_key)
-            
+
             if preprocessed_key == original_key:
                 # Skip "faulted" keys equal to the original key for clearer output.
                 continue
@@ -57,8 +56,8 @@ class Curve(ABC):
         # Save the precomputed multiplication results so that they not need to be computed again.
         if not os.path.exists(os.path.dirname(self.precomputed_results_path)):
             os.makedirs(os.path.dirname(self.precomputed_results_path), exist_ok=True)
-            
-        with open(self.precomputed_results_path, 'w') as f:
+
+        with open(self.precomputed_results_path, 'w', encoding='utf-8') as f:
             f.write(json.dumps(key_result_dict))
 
 

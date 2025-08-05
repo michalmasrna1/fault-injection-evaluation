@@ -3,7 +3,6 @@ import os
 from typing import Iterable
 
 from libraries.sca25519 import Sca25519Unprotected
-from result import *
 
 EXECUTABLE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -13,7 +12,7 @@ def save_known_outputs(known_outputs: Iterable[tuple[bytes, int]], path: str):
     if not os.path.exists(path):
         os.makedirs(os.path.dirname(path), exist_ok=True)
 
-    with open(path, "w") as known_outputs_file:
+    with open(path, "w", encoding="utf-8") as known_outputs_file:
         for computational_loop_abort_key, entropy in known_outputs:
             known_outputs_file.write(f"{computational_loop_abort_key.hex()},{entropy}\n")
 

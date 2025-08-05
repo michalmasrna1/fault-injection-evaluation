@@ -57,12 +57,12 @@ class Fault:
                 non_zero_part = instruction_hex[8:]
             else:
                 non_zero_part = instruction_hex
-            
+
             return " ".join(non_zero_part[i:i+2] for i in range(0, len(non_zero_part), 2))
-             
+
 
         if self.fault_type == FaultType.SKIP:
-            return f"Skipped instruction"
+            return "Skipped instruction"
         elif self.fault_type == FaultType.FLIP:
             return f"Flipped instruction bit ({format_instruction(self.old_value)} -> {format_instruction(self.new_value)})"
         elif self.fault_type == FaultType.ZERO:
@@ -147,7 +147,7 @@ class SimulationResult:
             + self.errored.to_bytes(2, "little")
             + output
         )
-    
+
     @staticmethod
     def from_bytes(data: bytes) -> 'SimulationResult':
         if len(data) != 64:
@@ -157,14 +157,14 @@ class SimulationResult:
         errored = bool.from_bytes(data[30:32])
         output = None if data[32:64] == NO_OUTPUT else data[32:64]
         return SimulationResult(executed_instruction, fault, errored, output)
-    
+
 
 def print_sorted_simulation_results(results: set[SimulationResult]):
     """
     Print a set of simulation results in a sorted order.
     """
     sorted_results = sorted(results, key=lambda r: (r.executed_instruction.instruction, r.executed_instruction.hit))
-    
+
     for result in sorted_results:
         print(result)
 
@@ -174,15 +174,15 @@ def read_processed_outputs(output_dir: str) -> Iterable[SimulationResult]:
         if filename.endswith(".bin"):
             with open(os.path.join(output_dir, filename), "rb") as output_file:
                 # Read 64 byte chunks, for each call SimulationResult.from_bytes()
-               while chunk := output_file.read(64):
+                while chunk := output_file.read(64):
                     result = SimulationResult.from_bytes(chunk)
 
                     # TODO: Decide on how exactly to handle errors.
                     # It is possible that we do not want to see them when evaluating predictable outputs,
                     # but do want to see them when evaluating safe error.
                     if result.errored or result.output == NO_OUTPUT:
-                       # There was no output, we skip the result
-                       continue
+                        # There was no output, we skip the result
+                        continue
 
                     yield result
 
@@ -191,10 +191,9 @@ def read_processed_outputs(output_dir: str) -> Iterable[SimulationResult]:
 def parse_known_outputs(known_outputs_path: str) -> dict[bytes, int]:
     known_outputs: dict[bytes, int] = {}
 
-    with open(known_outputs_path, "r") as f:
+    with open(known_outputs_path, "r", encoding="utf-8") as f:
         for line in f.read().splitlines():
             output_str, entropy_str = line.split(",")
             known_outputs[bytes.fromhex(output_str)] = int(entropy_str)
 
     return known_outputs
-        

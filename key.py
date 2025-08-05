@@ -69,7 +69,6 @@ class MaskGenerator(ABC):
         The entropy of the mask is always the number of 1s,
         so it does not have to be calculated here.
         """
-        pass
 
 class BlockMaskGenerator(MaskGenerator):
     def __init__(self, block_size_bits: int, key_size_bits: int):
@@ -103,8 +102,8 @@ class BeginningEndMaskGenerator(MaskGenerator):
                     continue
                 start_of_mask = ((1 << self.key_size_bits) - 1) ^ (1 << self.key_size_bits - bits_from_start) - 1
                 end_of_mask = (1 << bits_from_end) - 1
-                yield ((start_of_mask | end_of_mask).to_bytes(32, 'big'))
-                yield ((start_of_mask | end_of_mask).to_bytes(32, 'little'))
+                yield (start_of_mask | end_of_mask).to_bytes(32, 'big')
+                yield (start_of_mask | end_of_mask).to_bytes(32, 'little')
 
 
 # Which classes of faulted keys we want might be dependant on the library,
@@ -135,4 +134,3 @@ def generate_faulted_keys(original_key: bytes) -> Iterable[tuple[bytes, int]]:
     yield from SmallNumberKeyGenerator().generate()
 
     yield from HighestLowestByteKeyGenerator().generate()
-
