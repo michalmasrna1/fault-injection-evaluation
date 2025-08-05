@@ -3,7 +3,7 @@ import re
 import sys
 from multiprocessing import Process
 
-from results import *
+from result import *
 
 
 def find_in_entry(entry: str, pattern: str, can_fail: bool = False) -> str:
