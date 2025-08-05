@@ -185,3 +185,16 @@ def read_processed_outputs(output_dir: str) -> Iterable[SimulationResult]:
                        continue
 
                     yield result
+
+
+# Also should probably be defined in some common IO file
+def parse_known_outputs(known_outputs_path: str) -> dict[bytes, int]:
+    known_outputs: dict[bytes, int] = {}
+
+    with open(known_outputs_path, "r") as f:
+        for line in f.read().splitlines():
+            output_str, entropy_str = line.split(",")
+            known_outputs[bytes.fromhex(output_str)] = int(entropy_str)
+
+    return known_outputs
+        
