@@ -40,24 +40,7 @@ def get_public_key_bytes_from_private_bytes(private_bytes: bytes) -> bytes:
     return public_key_bytes
 
 
-def parse_output(output_dir: str) -> Iterable[SimulationResult]:
-    for filename in os.listdir(output_dir):
-        if filename.endswith(".bin"):
-            with open(os.path.join(output_dir, filename), "rb") as output_file:
-                # Read 64 byte chunks, for each call SimulationResult.from_bytes()
-               while chunk := output_file.read(64):
-                    result = SimulationResult.from_bytes(chunk)
-
-                    # TODO: Decide on how exactly to handle errors.
-                    # It is possible that we do not want to see them when evaluating predictable outputs,
-                    # but do want to see them when evaluating safe error.
-                    if result.errored or result.output == NO_OUTPUT:
-                       # There was no output, we skip the result
-                       continue
-
-                    yield result    
-
-
+# Also should probably be defined in some common IO file
 def parse_known_outputs(known_outputs_path: str) -> dict[bytes, int]:
     known_outputs: dict[bytes, int] = {}
 
@@ -70,6 +53,7 @@ def parse_known_outputs(known_outputs_path: str) -> dict[bytes, int]:
 
 
 # This is a method of a library - we need to know both the curve
+# and the implementation details
     """
     Returns tuples of (faulted_result, entropy), where the entropy
     represents how many bits were used from the original key.
@@ -264,15 +248,15 @@ def generate_known_outputs(key: bytes, known_outputs_path: str):
 
 
 def check_predictable_outputs(output_dir: str, key: bytes, known_outputs_path: str):
-    parsed_output = list(parse_output(output_dir))  # Need to cast to a list to be able to iterate multiple times
+    parsed_output = list(read_processed_outputs(output_dir))  # Need to cast to a list to be able to iterate multiple times
     check_key_shortening(parsed_output, key)
     known_outputs = parse_known_outputs(known_outputs_path)
     check_known_outputs(parsed_output, known_outputs)
 
 
 def check_safe_error(output_dir_1: str, output_dir_2: str, key_1: bytes, key_2: bytes):
-    results_sim_1 = list(parse_output(output_dir_1))
-    results_sim_2 = list(parse_output(output_dir_2))
+    results_sim_1 = list(read_processed_outputs(output_dir_1))
+    results_sim_2 = list(read_processed_outputs(output_dir_2))
     print(f"Number of fault results: {len(results_sim_1)}, {len(results_sim_2)}")
     print()
     # Any value definitely larger than the total number of instructions

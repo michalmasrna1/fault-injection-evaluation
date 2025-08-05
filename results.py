@@ -1,4 +1,5 @@
 from enum import Enum
+from typing import Iterable
 
 NO_OUTPUT = b"nooutput" * 4  # 32 bytes placeholder representing no output
 
@@ -161,3 +162,20 @@ def print_sorted_simulation_results(results: set[SimulationResult]):
     for result in sorted_results:
         print(result)
 
+
+def read_processed_outputs(output_dir: str) -> Iterable[SimulationResult]:
+    for filename in os.listdir(output_dir):
+        if filename.endswith(".bin"):
+            with open(os.path.join(output_dir, filename), "rb") as output_file:
+                # Read 64 byte chunks, for each call SimulationResult.from_bytes()
+               while chunk := output_file.read(64):
+                    result = SimulationResult.from_bytes(chunk)
+
+                    # TODO: Decide on how exactly to handle errors.
+                    # It is possible that we do not want to see them when evaluating predictable outputs,
+                    # but do want to see them when evaluating safe error.
+                    if result.errored or result.output == NO_OUTPUT:
+                       # There was no output, we skip the result
+                       continue
+
+                    yield result
