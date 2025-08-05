@@ -43,9 +43,11 @@ def main():
     if args.command == "save-known-outputs":
         key_bytes = bytes.fromhex(args.key)
         save_known_outputs(library.generate_known_outputs(key_bytes), args.known_outputs_path)
+
     if args.command == "check-predictable":
         key_bytes = bytes.fromhex(args.key)
         library.check_predictable_outputs(args.output_dir, key_bytes, args.known_outputs_path)
+
     elif args.command == "check-safe-error":
         key_1_bytes = bytes.fromhex(args.key_1)
         key_2_bytes = bytes.fromhex(args.key_2)

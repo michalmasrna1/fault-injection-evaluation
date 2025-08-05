@@ -23,7 +23,9 @@ class Library(ABC):
         yield from self.curve.generate_known_outputs()
         yield from self.generate_computational_loop_abort_results(key)
 
-    # TODO: I believe printing should be moved back to the evaluate.py file.
+    # Not very pretty that the prints are happening inside the library's methods,
+    # but differentiating between a known output and a faulted key is cumbersome
+    # outside the Library object.
     def check_known_outputs(self, parsed_output: list[SimulationResult], known_outputs: dict[bytes, int]):
         seen_known_outputs: dict[bytes, tuple[int, set[SimulationResult]]] = {}
         for result_sim in parsed_output:
@@ -83,8 +85,7 @@ class Library(ABC):
     def check_safe_error(self, output_dir_1: str, output_dir_2: str, key_1: bytes, key_2: bytes):
         results_sim_1 = list(read_processed_outputs(output_dir_1))
         results_sim_2 = list(read_processed_outputs(output_dir_2))
-        print(f"Number of fault results: {len(results_sim_1)}, {len(results_sim_2)}")
-        print()
+        
         # Any value definitely larger than the total number of instructions
         results_sim_1_ordered: list[SimulationResult | None] = [None for _ in range(1_000_000)]
         results_sim_2_ordered: list[SimulationResult | None] = [None for _ in range(1_000_000)]
