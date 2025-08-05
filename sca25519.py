@@ -16,13 +16,7 @@ from results import *
 EXECUTABLE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-def swap_endian(key: bytes) -> bytes:
-    # Swap the endianness of the key
-    swapped_key = int.from_bytes(key, byteorder='big')
-    swapped_key = swapped_key.to_bytes(32, byteorder='little')
-    return swapped_key
-
-
+# This is a method of the curve25519
 def clamp(key: bytes) -> bytes:
     key_int = int.from_bytes(key, byteorder='little')
     key_int &= ~(1 << 255)  # highest bit is 0
