@@ -69,13 +69,7 @@ def parse_known_outputs(known_outputs_path: str) -> dict[bytes, int]:
     return known_outputs
 
 
-def print_simulation_results(results: set[SimulationResult]):
-    sorted_results = sorted(results, key=lambda r: (r.executed_instruction.instruction, r.executed_instruction.hit))
-    for result in sorted_results:
-        print(f"Address {result.executed_instruction.address.hex()} on hit {result.executed_instruction.hit} ({result.executed_instruction.instruction}) - {result.fault}")
-
-
-def generate_computational_loop_abort_keys(key: bytes) -> Iterable[tuple[bytes, int]]:
+# This is a method of a library - we need to know both the curve
     """
     Returns tuples of (faulted_result, entropy), where the entropy
     represents how many bits were used from the original key.
@@ -229,7 +223,7 @@ def check_key_shortening(parsed_output: list[SimulationResult], key: bytes):
     # Smaller entropy means easier to guess faulted key - a bigger problem.
     for faulted_key, (entropy, results) in sorted(seen_effective_keys.items(), key=lambda item: item[1][0]):
         print(f"Faulted key - {faulted_key.hex()} ({entropy}).")
-        print_simulation_results(results)
+        print_sorted_simulation_results(results)
         print()
 
 
@@ -251,7 +245,7 @@ def check_known_outputs(parsed_output: list[SimulationResult], known_outputs: di
 
     for output, (entropy, results) in sorted(seen_known_outputs.items(), key=lambda item: item[1][0]):
         print(f"Known output - {output.hex()} ({entropy}).")
-        print_simulation_results(results)
+        print_sorted_simulation_results(results)
         print()
         
 

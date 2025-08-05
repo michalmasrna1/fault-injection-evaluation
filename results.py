@@ -125,6 +125,9 @@ class SimulationResult:
         self.errored = errored
         self.output = output
 
+    def __str__(self) -> str:
+        return f"Address {self.executed_instruction.address.hex()} on hit {self.executed_instruction.hit} ({self.executed_instruction.instruction}) - {self.fault}"
+
     def to_bytes(self) -> bytes:
         # If there was no output we save the special value NO_OUTPUT
         # so that the record is still 64 bytes long.
@@ -147,3 +150,14 @@ class SimulationResult:
         errored = bool.from_bytes(data[30:32])
         output = None if data[32:64] == NO_OUTPUT else data[32:64]
         return SimulationResult(executed_instruction, fault, errored, output)
+    
+
+def print_sorted_simulation_results(results: set[SimulationResult]):
+    """
+    Print a set of simulation results in a sorted order.
+    """
+    sorted_results = sorted(results, key=lambda r: (r.executed_instruction.instruction, r.executed_instruction.hit))
+    
+    for result in sorted_results:
+        print(result)
+
