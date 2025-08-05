@@ -48,6 +48,7 @@ def parse_known_outputs(known_outputs_path: str) -> dict[bytes, int]:
 
 # This is a method of a library - we need to know both the curve
 # and the implementation details
+def generate_computational_loop_abort_results(key: bytes) -> Iterable[tuple[bytes, int]]:
     """
     Returns tuples of (faulted_result, entropy), where the entropy
     represents how many bits were used from the original key.
@@ -237,7 +238,7 @@ def generate_known_outputs(key: bytes, known_outputs_path: str):
         # by providing a point in the order-8 subgroup.
         known_outputs_file.write(f"{(0).to_bytes(32, 'little').hex()},{0}\n")
 
-        for computational_loop_abort_key, entropy in generate_computational_loop_abort_keys(key):
+        for computational_loop_abort_key, entropy in generate_computational_loop_abort_results(key):
             known_outputs_file.write(f"{computational_loop_abort_key.hex()},{entropy}\n")
 
 
