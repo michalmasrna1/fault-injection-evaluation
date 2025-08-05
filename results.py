@@ -1,3 +1,9 @@
+"""
+Even though the thesis does not evaluate against the register zeroing fault,
+it remains implemented, should anyone want to use it.
+"""
+
+import os
 from enum import Enum
 from typing import Iterable
 
