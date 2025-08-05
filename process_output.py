@@ -15,10 +15,10 @@ def find_in_entry(entry: str, pattern: str, can_fail: bool = False) -> str:
     return match.group(1)
 
 
-def process_output(file_path: str, output_path: str) -> None:
-    with open(file_path, encoding="utf-8") as output_file:
-        output = output_file.read()
-    output_file = open(output_path, "wb")
+def process_output(original_path: str, destination_path: str, clean: bool) -> None:
+    with open(original_path, encoding="utf-8") as original_file:
+        output = original_file.read()
+    destination_file = open(destination_path, "wb")
 
     entries = output.split("#####")
     for entry in entries:
@@ -84,9 +84,14 @@ def process_output(file_path: str, output_path: str) -> None:
             errored=errored,
             output=output
         )
-        output_file.write(result.to_bytes())
+        destination_file.write(result.to_bytes())
 
-    output_file.close()
+    destination_file.close()
+
+    if clean:
+        # Moved here so that the file is not deleted
+        # if an exception has been raised.
+        os.remove(original_path)
 
 
 def process_outputs(output_dir: str, clean: bool = False) -> None:
@@ -95,21 +100,14 @@ def process_outputs(output_dir: str, clean: bool = False) -> None:
     for file_name in os.listdir(output_dir):
         if not file_name.endswith(".txt"):
             continue
-        file_path = os.path.join(output_dir, file_name)
-        output_path = os.path.join(output_dir, file_name.replace(".txt", ".bin"))
-        process = Process(target=process_output, args=(file_path, output_path))
+        original_path = os.path.join(output_dir, file_name)
+        destination_path = os.path.join(output_dir, file_name.replace(".txt", ".bin"))
+        process = Process(target=process_output, args=(original_path, destination_path, clean))
         processes.append(process)
         process.start()
 
     for process in processes:
         process.join()
-
-    # Maybe we do not want to clean if the processing errored,
-    # so perhaps the deletion should be moved inside the process_output function.
-    if clean:
-        for file_name in os.listdir(output_dir):
-            if file_name.endswith(".txt"):
-                os.remove(os.path.join(output_dir, file_name))
 
 
 def main():
