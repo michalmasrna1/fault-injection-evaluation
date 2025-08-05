@@ -1,4 +1,4 @@
-from library import Library
+from .library import Library
 
 
 class MicroECC(Library):

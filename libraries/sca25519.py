@@ -2,12 +2,13 @@ from abc import ABC
 from typing import Iterable
 
 from curve import Curve25519
-from library import Library
 from pyecsca.ec.context import DefaultContext, Node, ResultAction, local
 from pyecsca.ec.formula import LadderFormula, ScalingFormula
 from pyecsca.ec.mult import LadderMultiplier
 from pyecsca.ec.params import get_params
 from pyecsca.ec.point import Point
+
+from .library import Library
 
 
 class Sca25519(Library, ABC):
