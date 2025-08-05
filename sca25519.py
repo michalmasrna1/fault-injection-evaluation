@@ -1,11 +1,8 @@
 import argparse
-import json
 import os
-from itertools import combinations
 from typing import Iterable
 
-from cryptography.hazmat.primitives import serialization
-from cryptography.hazmat.primitives.asymmetric import x25519
+from curve import *
 from pyecsca.ec.context import DefaultContext, Node, ResultAction, local
 from pyecsca.ec.formula import LadderFormula, ScalingFormula
 from pyecsca.ec.mult import LadderMultiplier
@@ -14,24 +11,6 @@ from pyecsca.ec.point import Point
 from result import *
 
 EXECUTABLE_DIR = os.path.dirname(os.path.abspath(__file__))
-
-
-# This is a method of the curve25519
-def clamp(key: bytes) -> bytes:
-    key_int = int.from_bytes(key, byteorder='little')
-    key_int &= ~(1 << 255)  # highest bit is 0
-    key_int |= (1 << 254)  # second highest bit is 1
-    key_int &= ~7  # lowest three bits are 0
-    return key_int.to_bytes(32, 'little')
-
-
-def get_public_key_bytes_from_private_bytes(private_bytes: bytes) -> bytes:
-    private_key = x25519.X25519PrivateKey.from_private_bytes(private_bytes)
-    public_key = private_key.public_key()
-    public_key_bytes = public_key.public_bytes(
-        encoding=serialization.Encoding.Raw,
-        format=serialization.PublicFormat.Raw)
-    return public_key_bytes
 
 
 # Also should probably be defined in some common IO file
@@ -91,94 +70,8 @@ def generate_computational_loop_abort_results(key: bytes) -> Iterable[tuple[byte
             yield int(str(result_point.coords["X"])).to_bytes(32, byteorder="little"), bit_no
 
 
-def generate_faulted_keys(original_key: bytes) -> Iterable[tuple[bytes, int]]:
-    """
-    Returns tuples of (faulted_key, entropy), where the entropy
-    represents how many bits were used from the original key.
-    """
-    # Set because we only care about unique masks.
-    fault_masks: set[bytes] = set()
-    # Keep every of the 1, 4, 8 and 16 bytes blocks.
-    for block in [8, 32, 64, 128]:
-        unshifted_mask: int = 2**block - 1
-        fault_masks.update((unshifted_mask << (i * block)).to_bytes(32, 'little') for i in range(256 // block))
-
-    # Any number of bits from the start + any number of bits from the end
-    for bits_from_start in range(0, 256):
-        # Leave a space of at least one faulted bit, otherwise you use the full key
-        for bits_from_end in range(0, 256 - bits_from_start):
-            if bits_from_start + bits_from_end == 0:
-                continue
-            start_of_mask = ((1 << 256) - 1) ^ (1 << 256 - bits_from_start) - 1
-            end_of_mask = (1 << bits_from_end) - 1
-            fault_masks.add((start_of_mask | end_of_mask).to_bytes(32, 'big'))
-            fault_masks.add((start_of_mask | end_of_mask).to_bytes(32, 'little'))
-
-    for mask in fault_masks:
-        num_bits = bin(int.from_bytes(mask, byteorder='little')).count('1')
-        faulted_key_bytes = bytes(a & b for a, b in zip(original_key, mask))
-        yield faulted_key_bytes, num_bits
-
-    # The original key shifted any number of positions to either left or right,
-    # the remaining bits set to either 0 or 1
-    for bits_shifted in range(1, 256):
-        shifted_left_fill_0 = (int.from_bytes(original_key, byteorder='little') << bits_shifted) & ((1 << 256) - 1)
-        shifted_right_fill_0 = int.from_bytes(original_key, byteorder='little') >> bits_shifted
-        shifted_left_fill_1 = shifted_left_fill_0 | ((1 << bits_shifted) - 1)
-        shifted_right_fill_1 = shifted_right_fill_0 | (((1 << bits_shifted) - 1) << (256 - bits_shifted))
-        yield from ((x.to_bytes(32, 'little'), 256 - bits_shifted) for x in (
-            shifted_left_fill_0,
-            shifted_right_fill_0,
-            shifted_left_fill_1,
-            shifted_right_fill_1
-        ))
-
-    for i in range(1 << 8):
-        num_bits = bin(i).count('1')
-        yield i.to_bytes(32, 'big'), num_bits
-        yield i.to_bytes(32, 'little'), num_bits
-
-    # Only highest and lowest byte non-empty
-    for upper_num_bits in range(0, 8):
-        for upper_bits in combinations(range(8), upper_num_bits):
-            for lower_num_bits in range(0, 8):
-                for lower_bits in combinations(range(8), lower_num_bits):
-                    faulted_key = 0
-                    for bit in upper_bits:
-                        faulted_key |= 1 << bit
-                    for bit in lower_bits:
-                        faulted_key |= 1 << (bit + 248)
-                    yield faulted_key.to_bytes(32, 'little'), upper_num_bits + lower_num_bits
-
-
-def generate_faulted_results(original_key: bytes) -> Iterable[tuple[bytes, bytes, int]]:
-    key_result_dict: dict[str, str] = {}
-    faulted_results_path = os.path.join(EXECUTABLE_DIR, "faulted_results.json")
-    if os.path.exists(faulted_results_path):
-        with open(faulted_results_path) as f:
-            key_result_dict = json.loads(f.read())
-
-    for faulted_key, entropy in generate_faulted_keys(original_key):
-        clamped_key = clamp(faulted_key)
-        
-        if clamped_key == original_key:
-            # Skip "faulted" keys equal to the original key for clearer output.
-            continue
-
-        if clamped_key.hex() in key_result_dict:
-            resulting_public_key = bytes.fromhex(key_result_dict[clamped_key.hex()])
-        else:
-            resulting_public_key = get_public_key_bytes_from_private_bytes(clamped_key)
-            key_result_dict[clamped_key.hex()] = resulting_public_key.hex()
-
-        yield clamped_key, resulting_public_key, entropy
-
-    # Save the precomputed multiplication results so that they not need to be computed again.
-    with open(faulted_results_path, 'w') as f:
-        f.write(json.dumps(key_result_dict))
-
-
-def check_key_shortening(parsed_output: list[SimulationResult], key: bytes):
+# Probably a common method of the libraries
+def check_key_shortening(parsed_output: list[SimulationResult], key: bytes, curve: Curve):
     results_sim: dict[bytes, set[SimulationResult]] = {}
     for result_sim in parsed_output:
         if result_sim.output is None:
@@ -188,7 +81,7 @@ def check_key_shortening(parsed_output: list[SimulationResult], key: bytes):
         results_sim[result_sim.output].add(result_sim)
 
     seen_effective_keys: dict[bytes, tuple[int, set[SimulationResult]]] = {}
-    for faulted_key, result, entropy in generate_faulted_results(key):
+    for faulted_key, result, entropy in curve.generate_faulted_results(key):
         if result in results_sim:
             if faulted_key in seen_effective_keys:
                 if entropy < seen_effective_keys[faulted_key][0]:
@@ -206,6 +99,7 @@ def check_key_shortening(parsed_output: list[SimulationResult], key: bytes):
         print()
 
 
+# A common method of the libraries
 def check_known_outputs(parsed_output: list[SimulationResult], known_outputs: dict[bytes, int]):
     seen_known_outputs: dict[bytes, tuple[int, set[SimulationResult]]] = {}
     for result_sim in parsed_output:
@@ -228,28 +122,28 @@ def check_known_outputs(parsed_output: list[SimulationResult], known_outputs: di
         print()
         
 
-
+# A method of the library
 def generate_known_outputs(key: bytes, known_outputs_path: str):
     if not os.path.exists(known_outputs_path):
         os.makedirs(os.path.dirname(known_outputs_path), exist_ok=True)
 
     with open(known_outputs_path, "w") as known_outputs_file:
-        # Result representing the neutral element - probably generated
-        # by providing a point in the order-8 subgroup.
-        known_outputs_file.write(f"{(0).to_bytes(32, 'little').hex()},{0}\n")
+        # TODO: call curve.generate_known_outputs()
 
         for computational_loop_abort_key, entropy in generate_computational_loop_abort_results(key):
             known_outputs_file.write(f"{computational_loop_abort_key.hex()},{entropy}\n")
 
 
-def check_predictable_outputs(output_dir: str, key: bytes, known_outputs_path: str):
+# Probably a common method of the libraries
+def check_predictable_outputs(output_dir: str, key: bytes, known_outputs_path: str, curve: Curve):
     parsed_output = list(read_processed_outputs(output_dir))  # Need to cast to a list to be able to iterate multiple times
-    check_key_shortening(parsed_output, key)
+    check_key_shortening(parsed_output, key, curve)
     known_outputs = parse_known_outputs(known_outputs_path)
     check_known_outputs(parsed_output, known_outputs)
 
 
-def check_safe_error(output_dir_1: str, output_dir_2: str, key_1: bytes, key_2: bytes):
+# Probably a common method of the libraries
+def check_safe_error(output_dir_1: str, output_dir_2: str, key_1: bytes, key_2: bytes, curve: Curve):
     results_sim_1 = list(read_processed_outputs(output_dir_1))
     results_sim_2 = list(read_processed_outputs(output_dir_2))
     print(f"Number of fault results: {len(results_sim_1)}, {len(results_sim_2)}")
@@ -262,8 +156,8 @@ def check_safe_error(output_dir_1: str, output_dir_2: str, key_1: bytes, key_2: 
     for result_sim_2_tmp in results_sim_2:
         results_sim_2_ordered[result_sim_2_tmp.executed_instruction.instruction] = result_sim_2_tmp
     
-    correct_result_1 = get_public_key_bytes_from_private_bytes(key_1)
-    correct_result_2 = get_public_key_bytes_from_private_bytes(key_2)
+    correct_result_1 = curve.public_key_bytes_from_private_bytes(key_1)
+    correct_result_2 = curve.public_key_bytes_from_private_bytes(key_2)
 
     potentially_prone_addresses: dict[bytes, set[int]] = {}
     for result_sim_1, result_sim_2 in zip(
@@ -305,16 +199,17 @@ def main():
     parser_check_safe_error.add_argument("key_2", type=str)
 
     args = parser.parse_args()
+    curve = Curve25519("faulted_results.json")
     if args.command == "generate-known-outputs":
         key_bytes = bytes.fromhex(args.key)
         generate_known_outputs(key_bytes, args.known_outputs_path)
     if args.command == "check-predictable":
         key_bytes = bytes.fromhex(args.key)
-        check_predictable_outputs(args.output_dir, key_bytes, args.known_outputs_path)
+        check_predictable_outputs(args.output_dir, key_bytes, args.known_outputs_path, curve)
     elif args.command == "check-safe-error":
         key_1_bytes = bytes.fromhex(args.key_1)
         key_2_bytes = bytes.fromhex(args.key_2)
-        check_safe_error(args.output_dir_1, args.output_dir_2, key_1_bytes, key_2_bytes)
+        check_safe_error(args.output_dir_1, args.output_dir_2, key_1_bytes, key_2_bytes, curve)
 
 
 if __name__ == "__main__":
