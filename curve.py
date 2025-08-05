@@ -9,10 +9,10 @@ from key import generate_faulted_keys
 
 
 class Curve(ABC):
-    faulted_results_path: str
+    precomputed_results_path: str
 
-    def __init__(self, faulted_results_path: str):
-        self.faulted_results_path = faulted_results_path
+    def __init__(self, precomputed_results_path: str):
+        self.precomputed_results_path = precomputed_results_path
 
     @abstractmethod
     def public_key_bytes_from_private_bytes(self, private_bytes: bytes) -> bytes:
@@ -35,8 +35,8 @@ class Curve(ABC):
 
     def generate_faulted_results(self, original_key: bytes) -> Iterable[tuple[bytes, bytes, int]]:
         key_result_dict: dict[str, str] = {}
-        if os.path.exists(self.faulted_results_path):
-            with open(self.faulted_results_path) as f:
+        if os.path.exists(self.precomputed_results_path):
+            with open(self.precomputed_results_path) as f:
                 key_result_dict = json.loads(f.read())
 
         for faulted_key, entropy in generate_faulted_keys(original_key):
@@ -55,10 +55,10 @@ class Curve(ABC):
             yield preprocessed_key, resulting_public_key, entropy
 
         # Save the precomputed multiplication results so that they not need to be computed again.
-        if not os.path.exists(os.path.dirname(self.faulted_results_path)):
-            os.makedirs(os.path.dirname(self.faulted_results_path), exist_ok=True)
+        if not os.path.exists(os.path.dirname(self.precomputed_results_path)):
+            os.makedirs(os.path.dirname(self.precomputed_results_path), exist_ok=True)
             
-        with open(self.faulted_results_path, 'w') as f:
+        with open(self.precomputed_results_path, 'w') as f:
             f.write(json.dumps(key_result_dict))
 
 
