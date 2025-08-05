@@ -104,6 +104,8 @@ def process_outputs(output_dir: str, clean: bool = False) -> None:
     for process in processes:
         process.join()
 
+    # Maybe we do not want to clean if the processing errored,
+    # so perhaps the deletion should be moved inside the process_output function.
     if clean:
         for file_name in os.listdir(output_dir):
             if file_name.endswith(".txt"):
