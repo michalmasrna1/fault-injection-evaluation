@@ -43,7 +43,7 @@ def process_output(original_path: str, destination_path: str, clean: bool) -> No
         elif target_str == "Register":
             fault_type = FaultType.ZERO
             register_number = find_in_entry(entry, r'Reg#: (.+?)\.')
-            target = eval(f"FaultTarget.{register_number}")
+            target = eval(f"FaultTarget.{register_number}")  # pylint: disable=W0123 (eval-used)
             old_value = find_in_entry(entry, r'Original register\s*?:\s*?0x([a-f0-9]+?)\s')
             new_value = find_in_entry(entry, r'Updated\s*?:\s*?0x([a-f0-9]+?)\s')
         else:

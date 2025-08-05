@@ -109,7 +109,7 @@ class ExecutedInstruction:
             + self.address.rjust(4, b"\x00")
             + self.hit.to_bytes(4, "little")
         )
-    
+
     @staticmethod
     def from_bytes(data: bytes) -> 'ExecutedInstruction':
         if len(data) != 12:
