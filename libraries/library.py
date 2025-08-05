@@ -23,7 +23,7 @@ class Library(ABC):
         yield from self.curve.generate_known_outputs()
         yield from self.generate_computational_loop_abort_results(key)
 
-    # TODO: I believe printing should be moved back to the sca25519.py file.
+    # TODO: I believe printing should be moved back to the evaluate.py file.
     def check_known_outputs(self, parsed_output: list[SimulationResult], known_outputs: dict[bytes, int]):
         seen_known_outputs: dict[bytes, tuple[int, set[SimulationResult]]] = {}
         for result_sim in parsed_output:
