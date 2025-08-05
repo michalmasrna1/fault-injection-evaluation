@@ -55,6 +55,9 @@ class Curve(ABC):
             yield preprocessed_key, resulting_public_key, entropy
 
         # Save the precomputed multiplication results so that they not need to be computed again.
+        if not os.path.exists(os.path.dirname(self.faulted_results_path)):
+            os.makedirs(os.path.dirname(self.faulted_results_path), exist_ok=True)
+            
         with open(self.faulted_results_path, 'w') as f:
             f.write(json.dumps(key_result_dict))
 

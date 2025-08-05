@@ -1,3 +1,4 @@
+import os
 from abc import ABC
 from typing import Iterable
 
@@ -10,10 +11,14 @@ from pyecsca.ec.point import Point
 
 from .library import Library
 
+FAULTED_RESULTS_DIR = "faulted_results"
+
+
 
 class Sca25519(Library, ABC):
     def __init__(self):
-        super().__init__(Curve25519(faulted_results_path="faulted_results.json"))
+        faulted_results_path = os.path.join(FAULTED_RESULTS_DIR, "curve25519.json")
+        super().__init__(Curve25519(faulted_results_path))
 
 
     def generate_computational_loop_abort_results(self, key: bytes) -> Iterable[tuple[bytes, int]]:
