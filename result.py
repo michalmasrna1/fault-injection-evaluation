@@ -204,6 +204,8 @@ def parse_known_outputs(known_outputs_path: str) -> dict[bytes, int]:
 
 
 def load_ordered_sim_results(output_dir: str, skip_errors: bool) -> list[SimulationResult | None]:
+    # TODO: This function does not account for the fact that there can be multiple faults
+    # per executed instruction.
     results_ordered: list[SimulationResult | None] = []
     for result_sim in read_processed_outputs(output_dir, skip_errors=skip_errors):
         instruction_number = result_sim.executed_instruction.instruction
