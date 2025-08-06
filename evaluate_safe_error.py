@@ -131,7 +131,7 @@ def main():
     total_instructions = int(re.findall(r"Total instructions in faulting range:\s+(\d+)", result.stdout)[0])
     print(f"Total number of instructions: {total_instructions}")
 
-    prone_instructions = [True for _ in range(2200)] + [False for _ in range(total_instructions - 2200)]
+    prone_instructions = [True for _ in range(total_instructions)]
     previous_prone_instructions = prone_instructions.copy()
 
     for original_key in [
@@ -174,11 +174,6 @@ def main():
             if previous_prone_instructions[instruction_index]:
                 # The instruction was prone and remains prone.
                 prone_instructions[instruction_index] = True
-
-        if not prone_instructions[2198] and previous_prone_instructions[2198]:
-            # The instruction 2198 was prone, but is not prone anymore.
-            print("Instruction 2198 is not prone anymore, stopping the simulation.")
-            break
 
 
 main()
