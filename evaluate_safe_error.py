@@ -162,7 +162,7 @@ def main():
         simulate_faults(complementary_key)
 
         print(f"Executing evaluate.py on key pair {original_key.hex()}, {complementary_key.hex()}.")
-        result = subprocess.run(["python", "../fault-injection-evaluation/evaluate.py", "check-safe-error",
+        result = subprocess.run(["python3", "../fault-injection-evaluation/evaluate.py", "check-safe-error",
                                  output_dir_from_key(original_key), output_dir_from_key(complementary_key),
                                  original_key.hex(), complementary_key.hex(),],
                                 check=False, capture_output=True, text=True)
