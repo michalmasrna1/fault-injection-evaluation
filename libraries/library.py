@@ -8,6 +8,7 @@ from result import (SimulationResult, load_ordered_sim_results,
 
 PredictableOutputs = dict[bytes, tuple[int, set[SimulationResult]]]
 
+
 class Library(ABC):
     """
     A class representing an evaluated library.

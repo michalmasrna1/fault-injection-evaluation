@@ -8,6 +8,7 @@ class LowEntropyKeyGenerator(ABC):
     def generate(self) -> Iterable[tuple[bytes, int]]:
         pass
 
+
 class SmallNumberKeyGenerator(LowEntropyKeyGenerator):
     def generate(self) -> Iterable[tuple[bytes, int]]:
         """
@@ -35,6 +36,7 @@ class HighestLowestByteKeyGenerator(LowEntropyKeyGenerator):
                             faulted_key |= 1 << (bit + 248)
                         yield faulted_key.to_bytes(32, 'little'), upper_num_bits + lower_num_bits
 
+
 class FaultedKeyGenerator(ABC):
     @abstractmethod
     def generate(self, original_key: bytes) -> Iterable[tuple[bytes, int]]:
@@ -59,16 +61,18 @@ class ShiftedKeyGenerator(FaultedKeyGenerator):
                 shifted_right_fill_1
             ))
 
+
 class MaskGenerator(ABC):
     @abstractmethod
     def generate(self) -> Iterable[bytes]:
         """
         Generate masks that can be applied to the original key.
-        The original key will retain the bits corresponding to 
+        The original key will retain the bits corresponding to
         the bits of the mask set to 1.
         The entropy of the mask is always the number of 1s,
         so it does not have to be calculated here.
         """
+
 
 class BlockMaskGenerator(MaskGenerator):
     def __init__(self, block_size_bits: int, key_size_bits: int):
@@ -88,6 +92,7 @@ class BlockMaskGenerator(MaskGenerator):
         unshifted_mask: int = 2**self.block_size_bits - 1
         for i in range(self.key_size_bits // self.block_size_bits):
             yield (unshifted_mask << (i * self.block_size_bits)).to_bytes(32, 'little')
+
 
 class BeginningEndMaskGenerator(MaskGenerator):
     def __init__(self, key_size_bits: int):

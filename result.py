@@ -9,6 +9,7 @@ from typing import Iterable
 
 NO_OUTPUT = b"nooutput" * 4  # 32 bytes placeholder representing no output
 
+
 class FaultType(Enum):
     SKIP = 0  # Instruction skip
     FLIP = 1  # Instruction bit flip
@@ -47,7 +48,6 @@ class Fault:
         self.old_value = old_value
         self.new_value = new_value
 
-
     def __str__(self) -> str:
         def format_instr(instruction: bytes) -> str:
             instruction_hex = instruction.hex()
@@ -58,8 +58,7 @@ class Fault:
             else:
                 non_zero_part = instruction_hex
 
-            return " ".join(non_zero_part[i:i+2] for i in range(0, len(non_zero_part), 2))
-
+            return " ".join(non_zero_part[i:i + 2] for i in range(0, len(non_zero_part), 2))
 
         if self.fault_type == FaultType.SKIP:
             return "Skipped instruction"
@@ -153,8 +152,8 @@ class SimulationResult:
         if len(output) != 32:
             raise ValueError("The output has to be 32 bytes long.")
         return (
-            self.executed_instruction.to_bytes() # 12 bytes
-            + self.fault.to_bytes() # 18 bytes
+            self.executed_instruction.to_bytes()  # 12 bytes
+            + self.fault.to_bytes()  # 18 bytes
             + self.errored.to_bytes(2, "little")
             + output
         )

@@ -7,7 +7,6 @@ from libraries.sca25519 import Sca25519Unprotected
 EXECUTABLE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-
 def save_known_outputs(known_outputs: Iterable[tuple[bytes, int]], path: str):
     if not os.path.exists(path):
         os.makedirs(os.path.dirname(path), exist_ok=True)

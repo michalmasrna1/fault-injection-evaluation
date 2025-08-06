@@ -49,6 +49,7 @@ def fault_from_entry(entry: str) -> Fault:
         new_value=new_value
     )
 
+
 def executed_instruction_from_entry(entry: str) -> ExecutedInstruction:
     address = find_in_entry(entry, r'Address: 0x([a-f0-9]+?)\.')
     hit = find_in_entry(entry, r'Hit: (\d+).')
@@ -59,6 +60,7 @@ def executed_instruction_from_entry(entry: str) -> ExecutedInstruction:
         hit=int(hit),
         instruction=int(instruction)
     )
+
 
 def simulation_result_from_entry(entry: str) -> SimulationResult:
     fault = fault_from_entry(entry)

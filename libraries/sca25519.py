@@ -14,12 +14,10 @@ from .library import Library
 PRECOMPUTED_RESULTS_DIR = "precomputed_results"
 
 
-
 class Sca25519(Library, ABC):
     def __init__(self):
         precomputed_results_path = os.path.join(PRECOMPUTED_RESULTS_DIR, "curve25519.json")
         super().__init__(Curve25519(precomputed_results_path))
-
 
     def generate_computational_loop_abort_results(self, key: bytes) -> Iterable[tuple[bytes, int]]:
         """
@@ -63,15 +61,17 @@ class Sca25519(Library, ABC):
                     result_point = action.result[0]
                 else:
                     raise ValueError(f"Unexpected result length: {len(action.result)}")
-                assert isinstance(result_point, Point) # result_point is not None
+                assert isinstance(result_point, Point)  # result_point is not None
                 yield int(str(result_point.coords["X"])).to_bytes(32, byteorder="little"), bit_no
 
 
 class Sca25519Unprotected(Sca25519):
     pass
 
+
 class Sca25519Ephemeral(Sca25519):
     pass
+
 
 class Sca25519Static(Sca25519):
     pass
