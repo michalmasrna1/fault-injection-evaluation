@@ -101,7 +101,7 @@ class Library(ABC):
         correct_output_1 = self.curve.public_key_bytes_from_private_bytes(key_1)
         correct_output_2 = self.curve.public_key_bytes_from_private_bytes(key_2)
 
-        potentially_prone_addresses: dict[bytes, set[int]] = {}
+        potentially_prone_addresses: dict[bytes, set[tuple[int, int]]] = {}
         for result_sim_1, result_sim_2 in zip(
                 results_sim_1_ordered, results_sim_2_ordered):
             if result_sim_1 is None or result_sim_2 is None:
@@ -115,8 +115,9 @@ class Library(ABC):
                 inst = result_sim_1.executed_instruction
                 if inst.address not in potentially_prone_addresses:
                     potentially_prone_addresses[inst.address] = set()
-                potentially_prone_addresses[inst.address].add(inst.hit)
+                potentially_prone_addresses[inst.address].add((inst.hit, inst.instruction))
 
         print("Addresses potentially prone to safe error attack:")
-        for address, hits in sorted(potentially_prone_addresses.items()):
-            print(f"{address.hex()} on hits ({', '.join(map(str, sorted(hits)))})")
+        for address, hit_instruction_pairs in sorted(potentially_prone_addresses.items()):
+            sorted_pairs = sorted(hit_instruction_pairs, key=lambda pair: pair[1])
+            print(f"{address.hex()} on hits {', '.join([f'{hit} ({inst})' for hit, inst in sorted_pairs])}")
