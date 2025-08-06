@@ -2,8 +2,9 @@ from abc import ABC, abstractmethod
 from typing import Iterable
 
 from curve import Curve
-from result import (SimulationResult, parse_known_outputs,
-                    print_sorted_simulation_results, read_processed_outputs)
+from result import (SimulationResult, load_ordered_sim_results,
+                    parse_known_outputs, print_sorted_simulation_results,
+                    read_processed_outputs)
 
 PredictableOutputs = dict[bytes, tuple[int, set[SimulationResult]]]
 
@@ -75,30 +76,30 @@ class Library(ABC):
 
     def check_predictable_outputs(self, output_dir: str, key: bytes, known_outputs_path: str):
         # Need to cast to a list to be able to iterate multiple times
-        parsed_output = list(read_processed_outputs(output_dir))
+        parsed_output = list(read_processed_outputs(output_dir, skip_errors=True))
         self.check_key_shortening(parsed_output, key)
         known_outputs = parse_known_outputs(known_outputs_path)
         self.check_known_outputs(parsed_output, known_outputs)
 
-    def load_ordered_sim_results(self, output_dir: str) -> list[SimulationResult | None]:
-        results_ordered: list[SimulationResult | None] = []
-        for result_sim in read_processed_outputs(output_dir):
-            instruction_number = result_sim.executed_instruction.instruction
-
-            # Ensure the list is large enough
-            if len(results_ordered) <= instruction_number:
-                results_ordered.extend([None for _ in range(instruction_number - len(results_ordered) + 1)])
-
-            results_ordered[instruction_number] = result_sim
-
-        return results_ordered
+    def safe_error_leak(self, result_1: SimulationResult,
+                        correct_output_1: bytes,
+                        result_2: SimulationResult,
+                        correct_output_2: bytes) -> bool:
+        """
+        Check if the two results leak in context of safe error.
+        This means that one of them errored and the other did not or
+        one of them contains the correct result and the other does not.
+        """
+        # Different outputs include one of them being empty (having the value of NO_OUTPUT).
+        return (result_1.output == correct_output_1) ^ (result_2.output == correct_output_2) or \
+               (result_1.errored != result_2.errored)
 
     def check_safe_error(self, output_dir_1: str, output_dir_2: str, key_1: bytes, key_2: bytes):
-        results_sim_1_ordered = self.load_ordered_sim_results(output_dir_1)
-        results_sim_2_ordered = self.load_ordered_sim_results(output_dir_2)
+        results_sim_1_ordered = load_ordered_sim_results(output_dir_1, skip_errors=False)
+        results_sim_2_ordered = load_ordered_sim_results(output_dir_2, skip_errors=False)
 
-        correct_result_1 = self.curve.public_key_bytes_from_private_bytes(key_1)
-        correct_result_2 = self.curve.public_key_bytes_from_private_bytes(key_2)
+        correct_output_1 = self.curve.public_key_bytes_from_private_bytes(key_1)
+        correct_output_2 = self.curve.public_key_bytes_from_private_bytes(key_2)
 
         potentially_prone_addresses: dict[bytes, set[int]] = {}
         for result_sim_1, result_sim_2 in zip(
@@ -108,11 +109,13 @@ class Library(ABC):
 
             assert result_sim_1.executed_instruction == result_sim_2.executed_instruction
 
-            if (result_sim_1.output == correct_result_1) ^ (result_sim_2.output == correct_result_2):
-                if result_sim_1.executed_instruction.address not in potentially_prone_addresses:
-                    potentially_prone_addresses[result_sim_1.executed_instruction.address] = set()
-                potentially_prone_addresses[result_sim_1.executed_instruction.address].add(
-                    result_sim_1.executed_instruction.hit)
+            if self.safe_error_leak(result_sim_1, correct_output_1, result_sim_2, correct_output_2):
+                # Does not matter which executed instruction we use, we have already
+                # asserted that they are the same.
+                inst = result_sim_1.executed_instruction
+                if inst.address not in potentially_prone_addresses:
+                    potentially_prone_addresses[inst.address] = set()
+                potentially_prone_addresses[inst.address].add(inst.hit)
 
         print("Addresses potentially prone to safe error attack:")
         for address, hits in sorted(potentially_prone_addresses.items()):

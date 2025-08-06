@@ -178,7 +178,7 @@ def print_sorted_simulation_results(results: set[SimulationResult]):
         print(result)
 
 
-def read_processed_outputs(output_dir: str) -> Iterable[SimulationResult]:
+def read_processed_outputs(output_dir: str, skip_errors: bool) -> Iterable[SimulationResult]:
     for filename in os.listdir(output_dir):
         if filename.endswith(".bin"):
             with open(os.path.join(output_dir, filename), "rb") as output_file:
@@ -186,10 +186,7 @@ def read_processed_outputs(output_dir: str) -> Iterable[SimulationResult]:
                 while chunk := output_file.read(64):
                     result = SimulationResult.from_bytes(chunk)
 
-                    # TODO: Decide on how exactly to handle errors.
-                    # It is possible that we do not want to see them when evaluating predictable outputs,
-                    # but do want to see them when evaluating safe error.
-                    if result.errored or result.output == NO_OUTPUT:
+                    if skip_errors and (result.errored or result.output == NO_OUTPUT):
                         # There was no output, we skip the result
                         continue
 
@@ -205,3 +202,17 @@ def parse_known_outputs(known_outputs_path: str) -> dict[bytes, int]:
             known_outputs[bytes.fromhex(output_str)] = int(entropy_str)
 
     return known_outputs
+
+
+def load_ordered_sim_results(output_dir: str, skip_errors: bool) -> list[SimulationResult | None]:
+    results_ordered: list[SimulationResult | None] = []
+    for result_sim in read_processed_outputs(output_dir, skip_errors=skip_errors):
+        instruction_number = result_sim.executed_instruction.instruction
+
+        # Ensure the list is large enough
+        if len(results_ordered) <= instruction_number:
+            results_ordered.extend([None for _ in range(instruction_number - len(results_ordered) + 1)])
+
+        results_ordered[instruction_number] = result_sim
+
+    return results_ordered
