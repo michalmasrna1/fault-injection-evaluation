@@ -87,7 +87,7 @@ def process_output(original_path: str, destination_path: str, clean: bool) -> No
     with open(original_path, encoding="utf-8") as original_file:
         output = original_file.read()
 
-    with open(destination_path, "wb", encoding="utf-8") as destination_file:
+    with open(destination_path, "wb") as destination_file:
         entries = output.split("#####")
         for entry in entries:
             if not entry.strip():
