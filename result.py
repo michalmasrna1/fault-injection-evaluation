@@ -63,12 +63,14 @@ class Fault:
 
         if self.fault_type == FaultType.SKIP:
             return "Skipped instruction"
-        elif self.fault_type == FaultType.FLIP:
+
+        if self.fault_type == FaultType.FLIP:
             return f"Flipped instruction bit ({format_instruction(self.old_value)} -> {format_instruction(self.new_value)})"
-        elif self.fault_type == FaultType.ZERO:
+
+        if self.fault_type == FaultType.ZERO:
             return f"Zeroed register {self.target.name}"
-        else:
-            raise ValueError(f"Unknown fault type: {self.fault_type}")
+
+        raise ValueError(f"Unknown fault type: {self.fault_type}")
 
     def to_bytes(self) -> bytes:
         if len(self.old_value) > 8 or len(self.new_value) > 8:
@@ -133,7 +135,8 @@ class SimulationResult:
         self.output = output
 
     def __str__(self) -> str:
-        return f"Address {self.executed_instruction.address.hex()} on hit {self.executed_instruction.hit} ({self.executed_instruction.instruction}) - {self.fault}"
+        inst = self.executed_instruction
+        return f"Address {inst.address.hex()} on hit {inst.hit} ({inst.instruction}) - {self.fault}"
 
     def to_bytes(self) -> bytes:
         # If there was no output we save the special value NO_OUTPUT
@@ -163,9 +166,7 @@ def print_sorted_simulation_results(results: set[SimulationResult]):
     """
     Print a set of simulation results in a sorted order.
     """
-    sorted_results = sorted(results, key=lambda r: (r.executed_instruction.instruction, r.executed_instruction.hit))
-
-    for result in sorted_results:
+    for result in sorted(results, key=lambda r: r.executed_instruction.instruction):
         print(result)
 
 
@@ -187,7 +188,6 @@ def read_processed_outputs(output_dir: str) -> Iterable[SimulationResult]:
                     yield result
 
 
-# Also should probably be defined in some common IO file
 def parse_known_outputs(known_outputs_path: str) -> dict[bytes, int]:
     known_outputs: dict[bytes, int] = {}
 
