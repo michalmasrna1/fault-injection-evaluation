@@ -100,9 +100,8 @@ class Library(ABC):
                 results_sim_1_ordered, results_sim_2_ordered):
             if result_sim_1 is None or result_sim_2 is None:
                 continue
-            assert result_sim_1.executed_instruction.address == result_sim_2.executed_instruction.address
-            assert result_sim_1.executed_instruction.hit == result_sim_2.executed_instruction.hit
-            assert result_sim_1.executed_instruction.instruction == result_sim_2.executed_instruction.instruction
+
+            assert result_sim_1.executed_instruction == result_sim_2.executed_instruction
 
             if (result_sim_1.output == correct_result_1) ^ (result_sim_2.output == correct_result_2):
                 if result_sim_1.executed_instruction.address not in potentially_prone_addresses:

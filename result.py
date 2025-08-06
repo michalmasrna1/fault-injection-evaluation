@@ -103,6 +103,14 @@ class ExecutedInstruction:
         self.address = address
         self.hit = hit
 
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, ExecutedInstruction):
+            return False
+
+        return (self.instruction == other.instruction and
+                self.address == other.address and
+                self.hit == other.hit)
+
     def to_bytes(self) -> bytes:
         if len(self.address) > 4 or self.hit > 2**32 or self.instruction > 2**32:
             raise ValueError("One of the fields is too long for the expected size.")
