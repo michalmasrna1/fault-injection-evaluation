@@ -80,17 +80,22 @@ class Library(ABC):
         known_outputs = parse_known_outputs(known_outputs_path)
         self.check_known_outputs(parsed_output, known_outputs)
 
-    def check_safe_error(self, output_dir_1: str, output_dir_2: str, key_1: bytes, key_2: bytes):
-        results_sim_1 = list(read_processed_outputs(output_dir_1))
-        results_sim_2 = list(read_processed_outputs(output_dir_2))
+    def load_ordered_sim_results(self, output_dir: str) -> list[SimulationResult | None]:
+        results_ordered: list[SimulationResult | None] = []
+        for result_sim in read_processed_outputs(output_dir):
+            instruction_number = result_sim.executed_instruction.instruction
 
-        # Any value definitely larger than the total number of instructions
-        results_sim_1_ordered: list[SimulationResult | None] = [None for _ in range(1_000_000)]
-        results_sim_2_ordered: list[SimulationResult | None] = [None for _ in range(1_000_000)]
-        for result_sim_1_tmp in results_sim_1:
-            results_sim_1_ordered[result_sim_1_tmp.executed_instruction.instruction] = result_sim_1_tmp
-        for result_sim_2_tmp in results_sim_2:
-            results_sim_2_ordered[result_sim_2_tmp.executed_instruction.instruction] = result_sim_2_tmp
+            # Ensure the list is large enough
+            if len(results_ordered) <= instruction_number:
+                results_ordered.extend([None for _ in range(instruction_number - len(results_ordered) + 1)])
+
+            results_ordered[instruction_number] = result_sim
+
+        return results_ordered
+
+    def check_safe_error(self, output_dir_1: str, output_dir_2: str, key_1: bytes, key_2: bytes):
+        results_sim_1_ordered = self.load_ordered_sim_results(output_dir_1)
+        results_sim_2_ordered = self.load_ordered_sim_results(output_dir_2)
 
         correct_result_1 = self.curve.public_key_bytes_from_private_bytes(key_1)
         correct_result_2 = self.curve.public_key_bytes_from_private_bytes(key_2)
