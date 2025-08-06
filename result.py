@@ -49,7 +49,7 @@ class Fault:
 
 
     def __str__(self) -> str:
-        def format_instruction(instruction: bytes) -> str:
+        def format_instr(instruction: bytes) -> str:
             instruction_hex = instruction.hex()
             if instruction_hex.startswith("000000000000"):
                 non_zero_part = instruction_hex[12:]
@@ -65,7 +65,7 @@ class Fault:
             return "Skipped instruction"
 
         if self.fault_type == FaultType.FLIP:
-            return f"Flipped instruction bit ({format_instruction(self.old_value)} -> {format_instruction(self.new_value)})"
+            return f"Flipped instruction bit ({format_instr(self.old_value)} -> {format_instr(self.new_value)})"
 
         if self.fault_type == FaultType.ZERO:
             return f"Zeroed register {self.target.name}"
