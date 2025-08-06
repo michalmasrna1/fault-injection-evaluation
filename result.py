@@ -153,8 +153,8 @@ class SimulationResult:
         if len(output) != 32:
             raise ValueError("The output has to be 32 bytes long.")
         return (
-            self.executed_instruction.to_bytes()
-            + self.fault.to_bytes()
+            self.executed_instruction.to_bytes() # 12 bytes
+            + self.fault.to_bytes() # 18 bytes
             + self.errored.to_bytes(2, "little")
             + output
         )
