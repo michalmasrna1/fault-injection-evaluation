@@ -211,17 +211,22 @@ def parse_known_outputs(known_outputs_path: str) -> dict[bytes, int]:
     return known_outputs
 
 
-def load_ordered_sim_results(output_dir: str, skip_errors: bool) -> list[SimulationResult | None]:
-    # TODO: This function does not account for the fact that there can be multiple faults
-    # per executed instruction.
-    results_ordered: list[SimulationResult | None] = []
+def load_ordered_sim_results(
+        output_dir: str, skip_errors: bool) -> list[dict[tuple[FaultType, FaultTarget], SimulationResult]]:
+    results_ordered: list[dict[tuple[FaultType, FaultTarget], SimulationResult]] = []
+
     for result_sim in read_processed_outputs(output_dir, skip_errors=skip_errors):
         instruction_number = result_sim.executed_instruction.instruction
 
         # Ensure the list is large enough
         if len(results_ordered) <= instruction_number:
-            results_ordered.extend([None for _ in range(instruction_number - len(results_ordered) + 1)])
+            results_ordered.extend([{} for _ in range(instruction_number - len(results_ordered) + 1)])
 
-        results_ordered[instruction_number] = result_sim
+        fault = result_sim.fault
+
+        # We should not fault the same instruction in the same way more than once.
+        assert (fault.fault_type, fault.target) not in results_ordered[instruction_number]
+
+        results_ordered[instruction_number][(fault.fault_type, fault.target)] = result_sim
 
     return results_ordered

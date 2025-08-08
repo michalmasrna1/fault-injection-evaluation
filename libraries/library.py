@@ -102,23 +102,26 @@ class Library(ABC):
         correct_output_1 = self.curve.public_key_bytes_from_private_bytes(key_1)
         correct_output_2 = self.curve.public_key_bytes_from_private_bytes(key_2)
 
-        potentially_prone_addresses: dict[bytes, set[tuple[int, int]]] = {}
-        for result_sim_1, result_sim_2 in zip(
-                results_sim_1_ordered, results_sim_2_ordered):
-            if result_sim_1 is None or result_sim_2 is None:
-                continue
+        # No need to store the address explicitly, it is a part of the SimulationResult.
+        potentially_prone_addresses: set[SimulationResult] = set()
+        for fault_dict_1, fault_dict_2 in zip(results_sim_1_ordered, results_sim_2_ordered):
+            for (fault_type, fault_target) in fault_dict_1.keys():
+                if (fault_type, fault_target) not in fault_dict_2:
+                    # The second result does not have the same fault.
+                    continue
 
-            assert result_sim_1.executed_instruction == result_sim_2.executed_instruction
+                result_sim_1 = fault_dict_1[(fault_type, fault_target)]
+                result_sim_2 = fault_dict_2[(fault_type, fault_target)]
 
-            if self.safe_error_leak(result_sim_1, correct_output_1, result_sim_2, correct_output_2):
-                # Does not matter which executed instruction we use, we have already
-                # asserted that they are the same.
-                inst = result_sim_1.executed_instruction
-                if inst.address not in potentially_prone_addresses:
-                    potentially_prone_addresses[inst.address] = set()
-                potentially_prone_addresses[inst.address].add((inst.hit, inst.instruction))
+                assert result_sim_1.executed_instruction == result_sim_2.executed_instruction
+                assert result_sim_1.fault.fault_type == result_sim_2.fault.fault_type
+                assert result_sim_1.fault.target == result_sim_2.fault.target
+
+                if self.safe_error_leak(result_sim_1, correct_output_1, result_sim_2, correct_output_2):
+                    # Does not matter which result we use, we have already asserted
+                    # that the important fields are the same in both.
+                    potentially_prone_addresses.add(result_sim_1)
 
         print("Addresses potentially prone to safe error attack:")
-        for address, hit_instruction_pairs in sorted(potentially_prone_addresses.items()):
-            sorted_pairs = sorted(hit_instruction_pairs, key=lambda pair: pair[1])
-            print(f"{address.hex()} on hits {', '.join([f'{hit} ({inst})' for hit, inst in sorted_pairs])}")
+        for result in sorted(potentially_prone_addresses, key=lambda r: r.executed_instruction.instruction):
+            print(result)
