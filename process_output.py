@@ -22,7 +22,13 @@ def fault_from_entry(entry: str) -> Fault:
     target_str = find_in_entry(entry, r'Faulting Target: (.+?)\.')
 
     if target_str == "InstructionPointer":
-        fault_type = FaultType.SKIP
+        skipped_instruction = find_in_entry(entry, r'Number of skipped instructions: (\d+).')
+        if skipped_instruction == "1":
+            fault_type = FaultType.SKIP1
+        elif skipped_instruction == "2":
+            fault_type = FaultType.SKIP2
+        elif skipped_instruction == "3":
+            fault_type = FaultType.SKIP3
         target = FaultTarget.PC
         old_value = find_in_entry(entry, r'Original IP\s*?:\s*?0x([a-f0-9]+?)\s')
         new_value = find_in_entry(entry, r'Updated IP\s*?:\s*?0x([a-f0-9]+?)\s')

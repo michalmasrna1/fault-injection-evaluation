@@ -11,9 +11,11 @@ NO_OUTPUT = b"nooutput" * 4  # 32 bytes placeholder representing no output
 
 
 class FaultType(Enum):
-    SKIP = 0  # Instruction skip
-    FLIP = 1  # Instruction bit flip
-    ZERO = 2  # Register zeroing
+    ZERO = 0  # Register zeroing
+    SKIP1 = 1  # Single instruction skip
+    SKIP2 = 2  # Skip two consecutive instructions
+    SKIP3 = 3  # Skip three consecutive instructions
+    FLIP = 9  # Instruction bit flip
 
 
 class FaultTarget(Enum):
@@ -60,8 +62,14 @@ class Fault:
 
             return " ".join(non_zero_part[i:i + 2] for i in range(0, len(non_zero_part), 2))
 
-        if self.fault_type == FaultType.SKIP:
-            return "Skipped instruction"
+        if self.fault_type == FaultType.SKIP1:
+            return "Skipped 1 instruction"
+
+        if self.fault_type == FaultType.SKIP2:
+            return "Skipped 2 instructions"
+
+        if self.fault_type == FaultType.SKIP3:
+            return "Skipped 3 instructions"
 
         if self.fault_type == FaultType.FLIP:
             return f"Flipped instruction bit ({format_instr(self.old_value)} -> {format_instr(self.new_value)})"
