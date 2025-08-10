@@ -5,7 +5,7 @@ from typing import Iterable
 
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ec, x25519
-from key import generate_faulted_keys
+from key.key import generate_faulted_keys
 
 PRECOMPUTED_RESULTS_DIR = "precomputed_results"
 
