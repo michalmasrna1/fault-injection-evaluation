@@ -16,8 +16,9 @@ class Library(ABC):
     on a particular curve.
     """
 
-    def __init__(self, curve: Curve):
+    def __init__(self, curve: Curve, name: str):
         self.curve = curve
+        self.name = name
 
     @abstractmethod
     def generate_computational_loop_abort_results(self, key: bytes) -> Iterable[tuple[bytes, int]]:
