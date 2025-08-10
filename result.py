@@ -39,6 +39,13 @@ class FaultTarget(Enum):
 
 
 class Fault:
+    # TODO: This needs to change. There need to be something like "value" or "mask", which will hold
+    # the value of the fault. Skips should be merged into a single type and the number of skipped
+    # instructions should be stored in the value field. For bit flips, the value should be the
+    # bit mask of the flipped bits. The register zero can be turned into register overwrite and
+    # the value could hold the new value of the register.
+    # However, new_value still cannot be removed, as it cannot be reconstructed from the old_value
+    # and the value field for consecutive instructions skips.
     fault_type: FaultType
     target: FaultTarget  # the faulted register, IP for instruction skips, PC for instruction bit flips
     old_value: bytes  # The old value of the faulted register
@@ -85,8 +92,8 @@ class Fault:
         return (
             self.fault_type.value.to_bytes(1, "little")
             + self.target.value.to_bytes(1, "little")
-            + self.old_value.rjust(8, b"\x00")
-            + self.new_value.rjust(8, b"\x00")
+            + self.old_value.rjust(8, b"\x00")  # Can be 4 bytes
+            + self.new_value.rjust(8, b"\x00")  # Can be 4 bytes
         )
 
     @staticmethod
