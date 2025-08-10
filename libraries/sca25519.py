@@ -1,7 +1,7 @@
 from abc import ABC
 from typing import Iterable
 
-from curve import Curve, Curve25519
+from curves.curve import Curve25519
 from pyecsca.ec.context import DefaultContext, Node, ResultAction, local
 from pyecsca.ec.formula import LadderFormula, ScalingFormula
 from pyecsca.ec.mult import LadderMultiplier

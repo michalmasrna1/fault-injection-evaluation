@@ -1,4 +1,4 @@
-from curve import SECP256K1, SECP256R1, Curve
+from curves.curve import SECP256K1, SECP256R1, Curve
 
 from .library import Library
 
