@@ -4,8 +4,10 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-cryptography = "*"
 pyecsca = {git = "git+https://github.com/J08nY/pyecsca"}
+cryptography = "*"
+setuptools = "*"
+fault-injection-evaluation = {file = ".", editable = true}
 
 [dev-packages]
 
