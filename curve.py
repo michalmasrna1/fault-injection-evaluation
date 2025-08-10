@@ -7,12 +7,18 @@ from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ec, x25519
 from key import generate_faulted_keys
 
+PRECOMPUTED_RESULTS_DIR = "precomputed_results"
+
 
 class Curve(ABC):
-    precomputed_results_path: str
+    name: str
 
-    def __init__(self, precomputed_results_path: str):
-        self.precomputed_results_path = precomputed_results_path
+    def __init__(self, name: str):
+        self.name = name
+
+    @property
+    def precomputed_results_path(self) -> str:
+        return os.path.join(PRECOMPUTED_RESULTS_DIR, f"{self.name}.json")
 
     @abstractmethod
     def public_key_bytes_from_private_bytes(self, private_bytes: bytes) -> bytes:
@@ -62,6 +68,9 @@ class Curve(ABC):
 
 
 class Curve25519(Curve):
+    def __init__(self):
+        super().__init__("Curve25519")
+
     def public_key_bytes_from_private_bytes(self, private_bytes: bytes) -> bytes:
         private_key = x25519.X25519PrivateKey.from_private_bytes(private_bytes)
         public_key = private_key.public_key()
@@ -87,6 +96,9 @@ class Curve25519(Curve):
 
 
 class SECP256K1(Curve):
+    def __init__(self):
+        super().__init__("secp256k1")
+
     def public_key_bytes_from_private_bytes(self, private_bytes: bytes) -> bytes:
 
         private_key = ec.derive_private_key(int.from_bytes(private_bytes, 'big'), ec.SECP256K1())
@@ -101,6 +113,9 @@ class SECP256K1(Curve):
 
 
 class SECP256R1(Curve):
+    def __init__(self):
+        super().__init__("secp256r1")
+
     def public_key_bytes_from_private_bytes(self, private_bytes: bytes) -> bytes:
 
         private_key = ec.derive_private_key(int.from_bytes(private_bytes, 'big'), ec.SECP256R1())

@@ -1,8 +1,7 @@
-import os
 from abc import ABC
 from typing import Iterable
 
-from curve import Curve25519
+from curve import Curve, Curve25519
 from pyecsca.ec.context import DefaultContext, Node, ResultAction, local
 from pyecsca.ec.formula import LadderFormula, ScalingFormula
 from pyecsca.ec.mult import LadderMultiplier
@@ -11,13 +10,10 @@ from pyecsca.ec.point import Point
 
 from .library import Library
 
-PRECOMPUTED_RESULTS_DIR = "precomputed_results"
-
 
 class Sca25519(Library, ABC):
     def __init__(self, version_name: str):
-        precomputed_results_path = os.path.join(PRECOMPUTED_RESULTS_DIR, "curve25519.json")
-        super().__init__(Curve25519(precomputed_results_path), f"sca25519-{version_name}")
+        super().__init__(Curve25519(), f"sca25519-{version_name}")
 
     def generate_computational_loop_abort_results(self, key: bytes) -> Iterable[tuple[bytes, int]]:
         """
@@ -27,7 +23,7 @@ class Sca25519(Library, ABC):
         Yields tuples of (faulted_result, entropy), where the entropy
         represents how many bits were used from the original key.
         """
-        curve25519 = get_params("other", "Curve25519", "xz", infty=False)
+        curve25519 = get_params("other", "Curve25519", "xz", False)
         ladd = curve25519.curve.coordinate_model.formulas["ladd-1987-m-3"]
         scl = curve25519.curve.coordinate_model.formulas["scale"]
         assert isinstance(ladd, LadderFormula)
