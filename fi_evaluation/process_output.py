@@ -98,8 +98,9 @@ def process_output(original_path: str, destination_path: str, clean: bool) -> No
     with open(destination_path, "wb") as destination_file:
         entries = output.split("#####")
         for entry in entries:
-            if not entry.strip():
-                # Skip empty entries (the initial new lines)
+            if not entry.strip() or find_in_entry(entry, r'(Run result: reached end address no fault occurred.)', ""):
+                # Skip empty entries (the initial new lines) and entries where no fault occurred.
+                # I do not know when entries without fault occur, but there is nothings else to do.
                 continue
 
             result = simulation_result_from_entry(entry)
