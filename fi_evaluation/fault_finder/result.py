@@ -38,7 +38,7 @@ class FaultTarget(Enum):
 
 class Fault:
     fault_type: FaultType
-    target: FaultTarget  # the faulted register, IP for instruction skips, PC for instruction bit flips
+    target: FaultTarget  # the faulted register, IR for instruction skips, PC for instruction bit flips
     mask: bytes  # The number of skipped instructions or the bit mask of affected bits
     old_value: bytes  # The old value of the faulted register
     new_value: bytes  # The new value of the faulted register
