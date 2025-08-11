@@ -15,12 +15,11 @@ class Curve(ABC):
     def __init__(self, name: str):
         self.name = name
 
-    @property
-    def precomputed_results_path(self) -> str:
-        return os.path.join(PRECOMPUTED_RESULTS_DIR, f"{self.name}.json")
+    def precomputed_results_path(self, public_key: bytes) -> str:
+        return os.path.join(PRECOMPUTED_RESULTS_DIR, self.name, f"{public_key.hex()}.json")
 
     @abstractmethod
-    def public_key_bytes_from_private_bytes(self, private_bytes: bytes) -> bytes:
+    def shared_secret(self, public_key_bytes: bytes, private_key_bytes: bytes) -> bytes:
         pass
 
     def preprocess_key(self, key: bytes) -> bytes:
@@ -34,33 +33,38 @@ class Curve(ABC):
     def generate_known_outputs(self) -> Iterable[tuple[bytes, int]]:
         """
         Generate known outputs specific for the curve, which are not
-        dependent on the key or implementation details.
+        dependent on the keys or implementation details.
         """
 
-    def generate_faulted_results(self, original_key: bytes) -> Iterable[tuple[bytes, bytes, int]]:
+    def generate_faulted_results(self, public_key: bytes,
+                                 original_private_key: bytes) -> Iterable[tuple[bytes, bytes, int]]:
         key_result_dict: dict[str, str] = {}
-        if os.path.exists(self.precomputed_results_path):
-            with open(self.precomputed_results_path, encoding='utf-8') as f:
+        if os.path.exists(self.precomputed_results_path(public_key)):
+            with open(self.precomputed_results_path(public_key), encoding='utf-8') as f:
                 key_result_dict = json.loads(f.read())
 
-        for faulted_key, entropy in generate_faulted_keys(original_key):
+        for faulted_key, entropy in generate_faulted_keys(original_private_key):
             preprocessed_key = self.preprocess_key(faulted_key)
 
-            if preprocessed_key == original_key:
+            if preprocessed_key == original_private_key:
                 # Skip "faulted" keys equal to the original key for clearer output.
                 continue
 
             if preprocessed_key.hex() in key_result_dict:
-                resulting_public_key = bytes.fromhex(key_result_dict[preprocessed_key.hex()])
+                shared_secret = bytes.fromhex(key_result_dict[preprocessed_key.hex()])
             else:
-                resulting_public_key = self.public_key_bytes_from_private_bytes(preprocessed_key)
-                key_result_dict[preprocessed_key.hex()] = resulting_public_key.hex()
+                try:
+                    shared_secret = self.shared_secret(public_key, preprocessed_key)
+                except ValueError:
+                    # The key is invalid for the given curve (e. g. all 0), we skip it.
+                    continue
+                key_result_dict[preprocessed_key.hex()] = shared_secret.hex()
 
-            yield preprocessed_key, resulting_public_key, entropy
+            yield preprocessed_key, shared_secret, entropy
 
         # Save the precomputed multiplication results so that they not need to be computed again.
-        if not os.path.exists(os.path.dirname(self.precomputed_results_path)):
-            os.makedirs(os.path.dirname(self.precomputed_results_path), exist_ok=True)
+        if not os.path.exists(os.path.dirname(self.precomputed_results_path(public_key))):
+            os.makedirs(os.path.dirname(self.precomputed_results_path(public_key)), exist_ok=True)
 
-        with open(self.precomputed_results_path, 'w', encoding='utf-8') as f:
+        with open(self.precomputed_results_path(public_key), 'w', encoding='utf-8') as f:
             f.write(json.dumps(key_result_dict))

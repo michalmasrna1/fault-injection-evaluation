@@ -1,6 +1,5 @@
 from typing import Iterable
 
-from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import x25519
 from fi_evaluation.curve import Curve
 
@@ -16,13 +15,11 @@ class Curve25519(Curve):
     def small_subgroup_point() -> bytes:
         return Curve25519._small_subgroup_point_int.to_bytes(32, 'little')
 
-    def public_key_bytes_from_private_bytes(self, private_bytes: bytes) -> bytes:
-        private_key = x25519.X25519PrivateKey.from_private_bytes(private_bytes)
-        public_key = private_key.public_key()
-        public_key_bytes = public_key.public_bytes(
-            encoding=serialization.Encoding.Raw,
-            format=serialization.PublicFormat.Raw)
-        return public_key_bytes
+    def shared_secret(self, public_key_bytes: bytes, private_key_bytes: bytes) -> bytes:
+        private_key = x25519.X25519PrivateKey.from_private_bytes(private_key_bytes)
+        public_key = x25519.X25519PublicKey.from_public_bytes(public_key_bytes)
+        shared_secret_bytes = private_key.exchange(public_key)
+        return shared_secret_bytes
 
     def clamp(self, key: bytes) -> bytes:
         key_int = int.from_bytes(key, byteorder='little')

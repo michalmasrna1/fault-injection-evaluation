@@ -11,7 +11,8 @@ class SweetB(Library):
             raise ValueError("The Sweet-B library only supports SECP256K1 and SECP256R1 curves.")
         super().__init__(curve, "sweet-b")
 
-    def generate_computational_loop_abort_results(self, key: bytes) -> Iterable[tuple[bytes, int]]:
+    def generate_computational_loop_abort_results(
+            self, public_key: bytes, private_key: bytes) -> Iterable[tuple[bytes, int]]:
         """
         Yields tuples of (faulted_result, entropy), where the entropy
         represents how many bits were used from the original key.
