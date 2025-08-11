@@ -78,25 +78,25 @@ class Fault:
         return int.from_bytes(self.mask)
 
     def to_bytes(self) -> bytes:
-        if len(self.old_value) > 8 or len(self.new_value) > 8:
-            raise ValueError("Old and new values must be at most 8 bytes long.")
+        if len(self.mask) > 4 or len(self.old_value) > 4 or len(self.new_value) > 4:
+            raise ValueError("Mask, old value and new value must be at most 4 bytes long.")
         return (
-            self.fault_type.value.to_bytes(1, "little")
-            + self.target.value.to_bytes(1, "little")
-            + self.mask.rjust(8, b"\x00")
+            self.fault_type.value.to_bytes(2, "little")
+            + self.target.value.to_bytes(2, "little")
+            + self.mask.rjust(4, b"\x00")
             + self.old_value.rjust(4, b"\x00")
             + self.new_value.rjust(4, b"\x00")
         )
 
     @staticmethod
     def from_bytes(data: bytes) -> 'Fault':
-        if len(data) != 18:
-            raise ValueError("Fault data must be exactly 18 bytes long.")
-        fault_type = FaultType(int.from_bytes(data[0:1], "little"))
-        target = FaultTarget(int.from_bytes(data[1:2], "little"))
-        mask = data[2:10]
-        old_value = data[10:14]
-        new_value = data[14:18]
+        if len(data) != 16:
+            raise ValueError("Fault data must be exactly 16 bytes long.")
+        fault_type = FaultType(int.from_bytes(data[0:2], "little"))
+        target = FaultTarget(int.from_bytes(data[2:4], "little"))
+        mask = data[4:8]
+        old_value = data[8:12]
+        new_value = data[12:16]
         return Fault(fault_type, target, mask, old_value, new_value)
 
 
@@ -161,8 +161,8 @@ class SimulationResult:
             raise ValueError("The output has to be 32 bytes long.")
         return (
             self.executed_instruction.to_bytes()  # 12 bytes
-            + self.fault.to_bytes()  # 18 bytes
-            + self.errored.to_bytes(2, "little")
+            + self.fault.to_bytes()  # 16 bytes
+            + self.errored.to_bytes(4, "little")
             + output
         )
 
@@ -171,8 +171,8 @@ class SimulationResult:
         if len(data) != 64:
             raise ValueError("SimulationResult data must be exactly 64 bytes long.")
         executed_instruction = ExecutedInstruction.from_bytes(data[0:12])
-        fault = Fault.from_bytes(data[12:30])
-        errored = bool.from_bytes(data[30:32])
+        fault = Fault.from_bytes(data[12:28])
+        errored = bool.from_bytes(data[28:32])
         output = None if data[32:64] == NO_OUTPUT else data[32:64]
         return SimulationResult(executed_instruction, fault, errored, output)
 

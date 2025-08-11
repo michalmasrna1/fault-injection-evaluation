@@ -25,27 +25,28 @@ def fault_from_entry(entry: str) -> Fault:
     if target_str == "InstructionPointer":
         fault_type = FaultType.SKIP
         target = FaultTarget.PC
-        skipped_instruction = find_in_entry(entry, r'Number of skipped instructions: (\d+).')
-        mask = int(skipped_instruction).to_bytes(8, 'little')
-        old_value = find_in_entry(entry, r'Original IP\s*?:\s*?0x([a-f0-9]+?)\s')
-        new_value = find_in_entry(entry, r'Updated IP\s*?:\s*?0x([a-f0-9]+?)\s')
+        skipped_instructions = int(find_in_entry(entry, r'Number of skipped instructions: (\d+).', default="1"))
+        mask_str = skipped_instructions.to_bytes(4, 'big').hex()
+        old_value_str = find_in_entry(entry, r'Original IP\s*?:\s*?0x([a-f0-9]+?)\s')
+        new_value_str = find_in_entry(entry, r'Updated IP\s*?:\s*?0x([a-f0-9]+?)\s')
     elif target_str == "Instruction":
         fault_type = FaultType.FLIP
         target = FaultTarget.IR
-        mask = bytes.fromhex(find_in_entry(entry, r'Mask: ([a-f0-9]+?).'))
-        old_value = find_in_entry(entry, r'Original instruction\s*?:\s*?(([a-f0-9]{2} ){2,4})\s')
-        new_value = find_in_entry(entry, r'Updated instruction\s*?:\s*?(([a-f0-9]{2} ){2,4})\s')
+        mask_str = find_in_entry(entry, r'Mask: 0x([a-f0-9]+?)\.')
+        old_value_str = find_in_entry(entry, r'Original instruction\s*?:\s*?(([a-f0-9]{2} ){2,4})\s')
+        new_value_str = find_in_entry(entry, r'Updated instruction\s*?:\s*?(([a-f0-9]{2} ){2,4})\s')
     elif target_str == "Register":
         fault_type = FaultType.ZERO
         register_number = find_in_entry(entry, r'Reg#: (.+?)\.')
         target = eval(f"FaultTarget.{register_number}")  # pylint: disable=W0123 (eval-used)
-        mask = b'\xff\xff\xff\xff\xff\xff\xff\xff'  # All bits are affected
-        old_value = find_in_entry(entry, r'Original register\s*?:\s*?0x([a-f0-9]+?)\s')
-        new_value = find_in_entry(entry, r'Updated\s*?:\s*?0x([a-f0-9]+?)\s')
+        mask_str = "ffffffff"  # All bits are affected
+        old_value_str = find_in_entry(entry, r'Original register\s*?:\s*?0x([a-f0-9]+?)\s')
+        new_value_str = find_in_entry(entry, r'Updated\s*?:\s*?0x([a-f0-9]+?)\s')
     else:
         raise ValueError(f"Invalid entry, unknown target: {target_str}")
-    old_value = bytes.fromhex(f"{old_value.replace(' ', ''):0>8}")
-    new_value = bytes.fromhex(f"{new_value.replace(' ', ''):0>8}")
+    mask = bytes.fromhex(f"{mask_str[-8:]:0>8}")
+    old_value = bytes.fromhex(f"{old_value_str[-8:].replace(' ', ''):0>8}")
+    new_value = bytes.fromhex(f"{new_value_str[-8:].replace(' ', ''):0>8}")
 
     return Fault(
         fault_type=fault_type,
