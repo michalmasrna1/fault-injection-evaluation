@@ -207,6 +207,7 @@ def read_processed_outputs(output_dir: str, skip_errors: bool) -> Iterable[Simul
                     yield result
 
 
+# TODO: This likely does not belong to this file.
 def parse_known_outputs(known_outputs_path: str) -> dict[bytes, int]:
     known_outputs: dict[bytes, int] = {}
 
