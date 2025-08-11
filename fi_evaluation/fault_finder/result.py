@@ -81,8 +81,8 @@ class Fault:
         if len(self.mask) > 4 or len(self.old_value) > 4 or len(self.new_value) > 4:
             raise ValueError("Mask, old value and new value must be at most 4 bytes long.")
         return (
-            self.fault_type.value.to_bytes(2, "little")
-            + self.target.value.to_bytes(2, "little")
+            self.fault_type.value.to_bytes(2, "big")
+            + self.target.value.to_bytes(2, "big")
             + self.mask.rjust(4, b"\x00")
             + self.old_value.rjust(4, b"\x00")
             + self.new_value.rjust(4, b"\x00")
@@ -92,8 +92,8 @@ class Fault:
     def from_bytes(data: bytes) -> 'Fault':
         if len(data) != 16:
             raise ValueError("Fault data must be exactly 16 bytes long.")
-        fault_type = FaultType(int.from_bytes(data[0:2], "little"))
-        target = FaultTarget(int.from_bytes(data[2:4], "little"))
+        fault_type = FaultType(int.from_bytes(data[0:2], "big"))
+        target = FaultTarget(int.from_bytes(data[2:4], "big"))
         mask = data[4:8]
         old_value = data[8:12]
         new_value = data[12:16]
@@ -122,18 +122,18 @@ class ExecutedInstruction:
         if len(self.address) > 4 or self.hit > 2**32 or self.instruction > 2**32:
             raise ValueError("One of the fields is too long for the expected size.")
         return (
-            self.instruction.to_bytes(4, "little")
+            self.instruction.to_bytes(4, "big")
             + self.address.rjust(4, b"\x00")
-            + self.hit.to_bytes(4, "little")
+            + self.hit.to_bytes(4, "big")
         )
 
     @staticmethod
     def from_bytes(data: bytes) -> 'ExecutedInstruction':
         if len(data) != 12:
             raise ValueError("ExecutedInstruction data must be exactly 12 bytes long.")
-        instruction = int.from_bytes(data[0:4], "little")
+        instruction = int.from_bytes(data[0:4], "big")
         address = data[4:8]
-        hit = int.from_bytes(data[8:12], "little")
+        hit = int.from_bytes(data[8:12], "big")
         return ExecutedInstruction(instruction, address, hit)
 
 
@@ -162,7 +162,7 @@ class SimulationResult:
         return (
             self.executed_instruction.to_bytes()  # 12 bytes
             + self.fault.to_bytes()  # 16 bytes
-            + self.errored.to_bytes(4, "little")
+            + self.errored.to_bytes(4, "big")
             + output
         )
 
