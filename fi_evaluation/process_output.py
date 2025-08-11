@@ -8,11 +8,11 @@ from fi_evaluation.fault_finder.result import (NO_OUTPUT, ExecutedInstruction,
                                                SimulationResult)
 
 
-def find_in_entry(entry: str, pattern: str, can_fail: bool = False) -> str:
+def find_in_entry(entry: str, pattern: str, default: str | None = None) -> str:
     match = re.search(pattern, entry)
     if not match:
-        if can_fail:
-            return ""
+        if default is not None:
+            return default
         raise ValueError(f"Invalid entry, no match for pattern '{pattern}': {entry}")
     return match.group(1)
 
@@ -72,12 +72,11 @@ def simulation_result_from_entry(entry: str) -> SimulationResult:
     fault = fault_from_entry(entry)
     executed_instruction = executed_instruction_from_entry(entry)
 
-    # errored = find_in_entry(entry, r'(Errored:)', can_fail=True) != ""
-    errored = find_in_entry(entry, r'(Errored:)', can_fail=True) != "" or \
-        find_in_entry(entry, r'(Run result: fault errored program)', can_fail=True) != ""
+    errored = find_in_entry(entry, r'(Errored:)', default="") != "" or \
+        find_in_entry(entry, r'(Run result: fault errored program)', default="") != ""
 
     # If the execution errored there might be no output
-    output_str = find_in_entry(entry, r'Output.+?: ([a-f0-9]+?)\s', can_fail=True)
+    output_str = find_in_entry(entry, r'Output.+?: ([a-f0-9]+?)\s', default="")
     if output_str:
         output = bytes.fromhex(output_str.strip())
     else:
