@@ -16,10 +16,11 @@ class Library(ABC):
     It should represent a specific implementation of ECDH
     on a particular curve.
     """
+    curve: Curve
+    name: str
 
-    def __init__(self, curve: Curve, name: str):
+    def __init__(self, curve: Curve):
         self.curve = curve
-        self.name = name
 
     @abstractmethod
     def generate_computational_loop_abort_results(

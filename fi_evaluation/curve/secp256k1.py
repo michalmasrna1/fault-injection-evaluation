@@ -5,8 +5,7 @@ from fi_evaluation.curve import Curve
 
 
 class SECP256K1(Curve):
-    def __init__(self):
-        super().__init__("secp256k1")
+    name = "secp256k1"
 
     def shared_secret(self, public_key_bytes: bytes, private_key_bytes: bytes) -> bytes:
         try:

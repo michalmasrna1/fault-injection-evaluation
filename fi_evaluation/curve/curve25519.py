@@ -7,9 +7,7 @@ from fi_evaluation.curve import Curve
 class Curve25519(Curve):
     # One of the special points from https://cr.yp.to/ecdh.html
     _small_subgroup_point_int = 325606250916557431795983626356110631294008115727848805560023387167927233504
-
-    def __init__(self):
-        super().__init__("Curve25519")
+    name = "curve25519"
 
     @staticmethod
     def small_subgroup_point() -> bytes:

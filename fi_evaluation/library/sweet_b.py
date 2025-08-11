@@ -6,10 +6,13 @@ from pyecsca.ec.params import get_params
 
 
 class SweetB(Library):
+    curve: Curve
+    name = "sweet-b"
+
     def __init__(self, curve: Curve):
         if not isinstance(curve, (SECP256K1, SECP256R1)):
             raise ValueError("The Sweet-B library only supports SECP256K1 and SECP256R1 curves.")
-        super().__init__(curve, "sweet-b")
+        super().__init__(curve)
 
     def generate_computational_loop_abort_results(
             self, public_key: bytes, private_key: bytes) -> Iterable[tuple[bytes, int]]:

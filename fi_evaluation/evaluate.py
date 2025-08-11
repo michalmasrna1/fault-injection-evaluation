@@ -1,7 +1,7 @@
 import argparse
 import os
 
-from fi_evaluation.library import Sca25519Unprotected
+from fi_evaluation.library import library_from_name
 
 EXECUTABLE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -12,19 +12,23 @@ def main():
     subparsers.required = True
 
     parser_check_predictable = subparsers.add_parser("check-predictable")
+    parser_check_predictable.add_argument("library_name", type=str)
+    parser_check_predictable.add_argument("curve_name", type=str)
     parser_check_predictable.add_argument("output_dir", type=str)
     parser_check_predictable.add_argument("public_key", type=str)
     parser_check_predictable.add_argument("private_key", type=str)
 
     parser_check_safe_error = subparsers.add_parser("check-safe-error")
+    parser_check_safe_error.add_argument("library_name", type=str)
+    parser_check_safe_error.add_argument("curve_name", type=str)
     parser_check_safe_error.add_argument("output_dir_1", type=str)
     parser_check_safe_error.add_argument("output_dir_2", type=str)
     parser_check_safe_error.add_argument("public_key", type=str)
     parser_check_safe_error.add_argument("private_key_1", type=str)
     parser_check_safe_error.add_argument("private_key_2", type=str)
 
-    library = Sca25519Unprotected()  # TODO: This should probably be parsed from the arguments.
     args = parser.parse_args()
+    library = library_from_name(args.library_name, args.curve_name)
 
     if args.command == "check-predictable":
         public_key_bytes = bytes.fromhex(args.public_key)
@@ -32,13 +36,13 @@ def main():
         library.check_predictable_outputs(args.output_dir, public_key_bytes, private_key_bytes)
 
     elif args.command == "check-safe-error":
-        public_key = bytes.fromhex(args.public_key)
+        public_key_bytes = bytes.fromhex(args.public_key)
         private_key_1_bytes = bytes.fromhex(args.private_key_1)
         private_key_2_bytes = bytes.fromhex(args.private_key_2)
         library.check_safe_error(
             args.output_dir_1,
             args.output_dir_2,
-            public_key,
+            public_key_bytes,
             private_key_1_bytes,
             private_key_2_bytes)
 

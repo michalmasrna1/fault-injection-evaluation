@@ -1,7 +1,7 @@
 from abc import ABC
 from typing import Iterable
 
-from fi_evaluation.curve import Curve25519
+from fi_evaluation.curve import Curve, Curve25519
 from fi_evaluation.library import Library
 from pyecsca.ec.context import DefaultContext, Node, ResultAction, local
 from pyecsca.ec.formula import LadderFormula, ScalingFormula
@@ -11,8 +11,11 @@ from pyecsca.ec.point import Point
 
 
 class Sca25519(Library, ABC):
-    def __init__(self, version_name: str):
-        super().__init__(Curve25519(), f"sca25519-{version_name}")
+    curve: Curve
+    name: str
+
+    def __init__(self, curve: Curve25519 = Curve25519()):
+        super().__init__(curve)
 
     def generate_computational_loop_abort_results(
             self, public_key: bytes, private_key: bytes) -> Iterable[tuple[bytes, int]]:
@@ -64,15 +67,12 @@ class Sca25519(Library, ABC):
 
 
 class Sca25519Unprotected(Sca25519):
-    def __init__(self):
-        super().__init__("unprotected")
+    name = "sca25519-unprotected"
 
 
 class Sca25519Ephemeral(Sca25519):
-    def __init__(self):
-        super().__init__("ephemeral")
+    name = "sca25519-ephemeral"
 
 
 class Sca25519Static(Sca25519):
-    def __init__(self):
-        super().__init__("static")
+    name = "sca25519-static"
