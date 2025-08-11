@@ -207,18 +207,6 @@ def read_processed_outputs(output_dir: str, skip_errors: bool) -> Iterable[Simul
                     yield result
 
 
-# TODO: This likely does not belong to this file.
-def parse_known_outputs(known_outputs_path: str) -> dict[bytes, int]:
-    known_outputs: dict[bytes, int] = {}
-
-    with open(known_outputs_path, encoding="utf-8") as f:
-        for line in f.read().splitlines():
-            output_str, entropy_str = line.split(",")
-            known_outputs[bytes.fromhex(output_str)] = int(entropy_str)
-
-    return known_outputs
-
-
 def load_ordered_sim_results(
         output_dir: str, skip_errors: bool) -> list[dict[tuple[FaultType, FaultTarget], SimulationResult]]:
     results_ordered: list[dict[tuple[FaultType, FaultTarget], SimulationResult]] = []

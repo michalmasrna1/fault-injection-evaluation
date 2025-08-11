@@ -78,12 +78,12 @@ class Library(ABC):
 
         self.print_predictable_outputs(seen_effective_keys, "Faulted key")
 
-    def check_predictable_outputs(self, output_dir: str, key: bytes, known_outputs_path: str):
+    def check_predictable_outputs(self, output_dir: str, key: bytes):
         # Need to cast to a list to be able to iterate multiple times
         parsed_output = list(read_processed_outputs(output_dir, skip_errors=True))
         self.check_key_shortening(parsed_output, key)
-        known_outputs = parse_known_outputs(known_outputs_path)
-        self.check_known_outputs(parsed_output, known_outputs)
+        known_outputs = self.generate_known_outputs(key)
+        self.check_known_outputs(parsed_output, dict(known_outputs))
 
     def safe_error_leak(self, result_1: SimulationResult,
                         correct_output_1: bytes,
