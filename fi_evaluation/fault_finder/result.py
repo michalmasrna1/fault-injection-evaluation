@@ -12,10 +12,8 @@ NO_OUTPUT = b"nooutput" * 4  # 32 bytes placeholder representing no output
 
 class FaultType(Enum):
     ZERO = 0  # Register zeroing
-    SKIP1 = 1  # Single instruction skip
-    SKIP2 = 2  # Skip two consecutive instructions
-    SKIP3 = 3  # Skip three consecutive instructions
-    FLIP = 9  # Instruction bit flip
+    SKIP = 1  # Instruction skip
+    FLIP = 2  # Instruction bit flip
 
 
 class FaultTarget(Enum):
@@ -39,21 +37,16 @@ class FaultTarget(Enum):
 
 
 class Fault:
-    # TODO: This needs to change. There need to be something like "value" or "mask", which will hold
-    # the value of the fault. Skips should be merged into a single type and the number of skipped
-    # instructions should be stored in the value field. For bit flips, the value should be the
-    # bit mask of the flipped bits. The register zero can be turned into register overwrite and
-    # the value could hold the new value of the register.
-    # However, new_value still cannot be removed, as it cannot be reconstructed from the old_value
-    # and the value field for consecutive instructions skips.
     fault_type: FaultType
     target: FaultTarget  # the faulted register, IP for instruction skips, PC for instruction bit flips
+    mask: bytes  # The number of skipped instructions or the bit mask of affected bits
     old_value: bytes  # The old value of the faulted register
     new_value: bytes  # The new value of the faulted register
 
-    def __init__(self, fault_type: FaultType, target: FaultTarget, old_value: bytes, new_value: bytes):
+    def __init__(self, fault_type: FaultType, target: FaultTarget, mask: bytes, old_value: bytes, new_value: bytes):
         self.fault_type = fault_type
         self.target = target
+        self.mask = mask
         self.old_value = old_value
         self.new_value = new_value
 
@@ -69,14 +62,8 @@ class Fault:
 
             return " ".join(non_zero_part[i:i + 2] for i in range(0, len(non_zero_part), 2))
 
-        if self.fault_type == FaultType.SKIP1:
-            return "Skipped 1 instruction"
-
-        if self.fault_type == FaultType.SKIP2:
-            return "Skipped 2 instructions"
-
-        if self.fault_type == FaultType.SKIP3:
-            return "Skipped 3 instructions"
+        if self.fault_type == FaultType.SKIP:
+            return f"Skipped {self.mask_int} instruction{'s' if self.mask_int > 1 else ''}"
 
         if self.fault_type == FaultType.FLIP:
             return f"Flipped instruction bit ({format_instr(self.old_value)} -> {format_instr(self.new_value)})"
@@ -86,14 +73,19 @@ class Fault:
 
         raise ValueError(f"Unknown fault type: {self.fault_type}")
 
+    @property
+    def mask_int(self) -> int:
+        return int.from_bytes(self.mask)
+
     def to_bytes(self) -> bytes:
         if len(self.old_value) > 8 or len(self.new_value) > 8:
             raise ValueError("Old and new values must be at most 8 bytes long.")
         return (
             self.fault_type.value.to_bytes(1, "little")
             + self.target.value.to_bytes(1, "little")
-            + self.old_value.rjust(8, b"\x00")  # Can be 4 bytes
-            + self.new_value.rjust(8, b"\x00")  # Can be 4 bytes
+            + self.mask.rjust(8, b"\x00")
+            + self.old_value.rjust(4, b"\x00")
+            + self.new_value.rjust(4, b"\x00")
         )
 
     @staticmethod
@@ -102,9 +94,10 @@ class Fault:
             raise ValueError("Fault data must be exactly 18 bytes long.")
         fault_type = FaultType(int.from_bytes(data[0:1], "little"))
         target = FaultTarget(int.from_bytes(data[1:2], "little"))
-        old_value = data[2:10]
-        new_value = data[10:18]
-        return Fault(fault_type, target, old_value, new_value)
+        mask = data[2:10]
+        old_value = data[10:14]
+        new_value = data[14:18]
+        return Fault(fault_type, target, mask, old_value, new_value)
 
 
 class ExecutedInstruction:
