@@ -14,7 +14,6 @@ def main():
     parser_check_predictable = subparsers.add_parser("check-predictable")
     parser_check_predictable.add_argument("output_dir", type=str)
     parser_check_predictable.add_argument("key", type=str)
-    parser_check_predictable.add_argument("known_outputs_path", type=str)
 
     parser_check_safe_error = subparsers.add_parser("check-safe-error")
     parser_check_safe_error.add_argument("output_dir_1", type=str)
