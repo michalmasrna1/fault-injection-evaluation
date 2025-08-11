@@ -4,7 +4,6 @@ from typing import Iterable
 from fi_evaluation.curve import Curve
 from fi_evaluation.fault_finder.result import (SimulationResult,
                                                load_ordered_sim_results,
-                                               parse_known_outputs,
                                                print_sorted_simulation_results,
                                                read_processed_outputs)
 
