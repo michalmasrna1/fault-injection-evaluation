@@ -2,7 +2,7 @@ from typing import Iterable
 
 from cryptography.hazmat.primitives import serialization
 from cryptography.hazmat.primitives.asymmetric import ec
-from curve.curve import Curve
+from fi_evaluation.curve import Curve
 
 
 class SECP256R1(Curve):

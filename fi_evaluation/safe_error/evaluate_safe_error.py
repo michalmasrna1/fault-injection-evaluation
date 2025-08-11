@@ -2,10 +2,11 @@ import os
 import re
 import subprocess
 
-from fault_finder.fault_finder import (output_dir_from_key, print_fault_model,
-                                       simulate_faults)
-from fault_finder.result import FaultTarget, FaultType
-from leakage import KeyBits
+from fi_evaluation.fault_finder.fault_finder import (output_dir_from_key,
+                                                     print_fault_model,
+                                                     simulate_faults)
+from fi_evaluation.fault_finder.result import FaultTarget, FaultType
+from fi_evaluation.safe_error.leakage import KeyBits
 
 
 def intervals_from_list(instructions: list[bool]) -> list[tuple[int, int]]:

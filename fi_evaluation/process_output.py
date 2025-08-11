@@ -3,8 +3,9 @@ import re
 import sys
 from multiprocessing import Process
 
-from fault_finder.result import (NO_OUTPUT, ExecutedInstruction, Fault,
-                                 FaultTarget, FaultType, SimulationResult)
+from fi_evaluation.fault_finder.result import (NO_OUTPUT, ExecutedInstruction,
+                                               Fault, FaultTarget, FaultType,
+                                               SimulationResult)
 
 
 def find_in_entry(entry: str, pattern: str, can_fail: bool = False) -> str:

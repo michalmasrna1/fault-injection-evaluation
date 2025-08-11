@@ -2,7 +2,7 @@ import argparse
 import os
 from typing import Iterable
 
-from libraries.sca25519 import Sca25519Unprotected
+from fi_evaluation.library import Sca25519Unprotected
 
 EXECUTABLE_DIR = os.path.dirname(os.path.abspath(__file__))
 

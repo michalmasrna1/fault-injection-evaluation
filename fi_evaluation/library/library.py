@@ -1,11 +1,12 @@
 from abc import ABC, abstractmethod
 from typing import Iterable
 
-from curves.curve import Curve
-from fault_finder.result import (SimulationResult, load_ordered_sim_results,
-                                 parse_known_outputs,
-                                 print_sorted_simulation_results,
-                                 read_processed_outputs)
+from fi_evaluation.curve import Curve
+from fi_evaluation.fault_finder.result import (SimulationResult,
+                                               load_ordered_sim_results,
+                                               parse_known_outputs,
+                                               print_sorted_simulation_results,
+                                               read_processed_outputs)
 
 PredictableOutputs = dict[bytes, tuple[int, set[SimulationResult]]]
 

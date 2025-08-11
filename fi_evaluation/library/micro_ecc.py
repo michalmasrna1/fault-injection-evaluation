@@ -1,6 +1,5 @@
-from curves.curve import SECP256K1, SECP256R1, Curve
-
-from .library import Library
+from fi_evaluation.curve import SECP256K1, SECP256R1, Curve
+from fi_evaluation.library import Library
 
 
 class MicroECC(Library):

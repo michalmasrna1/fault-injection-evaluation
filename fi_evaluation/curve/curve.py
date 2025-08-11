@@ -3,7 +3,7 @@ import os
 from abc import ABC, abstractmethod
 from typing import Iterable
 
-from key.key import generate_faulted_keys
+from fi_evaluation.key import generate_faulted_keys
 
 PRECOMPUTED_RESULTS_DIR = "precomputed_results"
 

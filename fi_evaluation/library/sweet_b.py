@@ -1,7 +1,7 @@
 from typing import Iterable
 
-from curves.curve import SECP256K1, SECP256R1, Curve
-from libraries.library import Library
+from fi_evaluation.curve import SECP256K1, SECP256R1, Curve
+from fi_evaluation.library import Library
 from pyecsca.ec.params import get_params
 
 
