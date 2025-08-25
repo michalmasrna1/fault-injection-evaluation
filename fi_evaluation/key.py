@@ -113,11 +113,9 @@ class BeginningEndMaskGenerator(MaskGenerator):
 
 # Which classes of faulted keys we want might be dependant on the library,
 # but perhaps they can all use all of them by default.
-# This should also be renamed as it generates also low entropy keys
-# not connected to the original key.
-def generate_faulted_keys(original_key: bytes) -> Iterable[tuple[bytes, int]]:
+def generate_low_entropy_keys(original_key: bytes) -> Iterable[tuple[bytes, int]]:
     """
-    Returns tuples of (faulted_key, entropy), where the entropy
+    Returns tuples of (low_entropy_key, entropy), where the entropy
     represents how many bits were used from the original key.
     """
     fault_masks: set[bytes] = set()  # A set because we only care about unique masks.

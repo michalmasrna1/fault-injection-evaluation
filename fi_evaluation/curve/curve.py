@@ -3,7 +3,7 @@ import os
 from abc import ABC, abstractmethod
 from typing import Iterable
 
-from fi_evaluation.key import generate_faulted_keys
+from fi_evaluation.key import generate_low_entropy_keys
 
 root_path = os.path.dirname(os.path.abspath(__package__ or "."))
 PRECOMPUTED_RESULTS_DIR = os.path.join(root_path, "key_exchange_results")
@@ -40,8 +40,8 @@ class Curve(ABC):
             with open(self.precomputed_results_path(public_key), encoding='utf-8') as f:
                 key_result_dict = json.loads(f.read())
 
-        for faulted_key, entropy in generate_faulted_keys(original_private_key):
-            preprocessed_key = self.preprocess_key(faulted_key)
+        for low_entropy_key, entropy in generate_low_entropy_keys(original_private_key):
+            preprocessed_key = self.preprocess_key(low_entropy_key)
 
             if preprocessed_key == original_private_key:
                 # Skip "faulted" keys equal to the original key for clearer output.
