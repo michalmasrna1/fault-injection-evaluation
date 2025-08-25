@@ -77,7 +77,7 @@ def main():
                 fault_type = FaultType.SKIP
                 fault_target = FaultTarget.PC
             elif type_match := re.findall(r'Flipped instruction bit (\d+?)', line):
-                mask = (2 << (int(type_match[0]) - 1)).to_bytes(4, 'big')
+                mask = (1 << (int(type_match[0]) - 1)).to_bytes(4, 'big')
                 fault_type = FaultType.FLIP
                 fault_target = FaultTarget.IR
             else:
