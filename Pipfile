@@ -8,6 +8,7 @@ pyecsca = {git = "git+https://github.com/J08nY/pyecsca"}
 cryptography = "*"
 setuptools = "*"
 fault-injection-evaluation = {file = ".", editable = true}
+ecdsa = "*"
 
 [dev-packages]
 
