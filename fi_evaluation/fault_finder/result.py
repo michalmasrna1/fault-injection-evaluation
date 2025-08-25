@@ -5,6 +5,7 @@ it remains implemented, should anyone want to use it.
 
 import os
 from enum import Enum
+from math import log2
 from typing import Iterable
 
 NO_OUTPUT = b"nooutput" * 4  # 32 bytes placeholder representing no output
@@ -50,6 +51,19 @@ class Fault:
         self.old_value = old_value
         self.new_value = new_value
 
+    # Ignoring old_value and new_value in __eq__ and __hash__ seems dangerous
+    # but for now, it is not used in a context where it would matter.
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Fault):
+            return False
+
+        return (self.fault_type == other.fault_type and
+                self.target == other.target and
+                self.mask == other.mask)
+
+    def __hash__(self) -> int:
+        return hash((self.fault_type, self.target, self.mask))
+
     def __str__(self) -> str:
         def format_instr(instruction: bytes) -> str:
             instruction_hex = instruction.hex()
@@ -66,7 +80,7 @@ class Fault:
             return f"Skipped {self.mask_int} instruction{'s' if self.mask_int > 1 else ''}"
 
         if self.fault_type == FaultType.FLIP:
-            return f"Flipped instruction bit ({format_instr(self.old_value)} -> {format_instr(self.new_value)})"
+            return f"Flipped instruction bit {self.mask_int} ({format_instr(self.old_value)} -> {format_instr(self.new_value)})"
 
         if self.fault_type == FaultType.ZERO:
             return f"Zeroed register {self.target.name}"
@@ -75,6 +89,13 @@ class Fault:
 
     @property
     def mask_int(self) -> int:
+        if self.fault_type == FaultType.SKIP:
+            return int.from_bytes(self.mask)
+        elif self.fault_type == FaultType.FLIP:
+            # The mask represents the flipped bit(s), we want its position
+            log = log2(int.from_bytes(self.mask))
+            assert log.is_integer(), log
+            return int(log)
         return int.from_bytes(self.mask)
 
     def to_bytes(self) -> bytes:
@@ -200,9 +221,8 @@ def read_processed_outputs(output_dir: str, skip_errors: bool) -> Iterable[Simul
                     yield result
 
 
-def load_ordered_sim_results(
-        output_dir: str, skip_errors: bool) -> list[dict[tuple[FaultType, FaultTarget], SimulationResult]]:
-    results_ordered: list[dict[tuple[FaultType, FaultTarget], SimulationResult]] = []
+def load_ordered_sim_results(output_dir: str, skip_errors: bool) -> list[dict[Fault, SimulationResult]]:
+    results_ordered: list[dict[Fault, SimulationResult]] = []
 
     for result_sim in read_processed_outputs(output_dir, skip_errors=skip_errors):
         instruction_number = result_sim.executed_instruction.instruction
@@ -214,8 +234,8 @@ def load_ordered_sim_results(
         fault = result_sim.fault
 
         # We should not fault the same instruction in the same way more than once.
-        assert (fault.fault_type, fault.target) not in results_ordered[instruction_number]
+        assert fault not in results_ordered[instruction_number]
 
-        results_ordered[instruction_number][(fault.fault_type, fault.target)] = result_sim
+        results_ordered[instruction_number][fault] = result_sim
 
     return results_ordered

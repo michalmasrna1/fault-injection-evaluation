@@ -111,13 +111,13 @@ class Library(ABC):
         # No need to store the address explicitly, it is a part of the SimulationResult.
         potentially_prone_addresses: set[SimulationResult] = set()
         for fault_dict_1, fault_dict_2 in zip(results_sim_1_ordered, results_sim_2_ordered):
-            for (fault_type, fault_target) in fault_dict_1.keys():
-                if (fault_type, fault_target) not in fault_dict_2:
+            for fault in fault_dict_1.keys():
+                if fault not in fault_dict_2:
                     # The second result does not have the same fault.
                     continue
 
-                result_sim_1 = fault_dict_1[(fault_type, fault_target)]
-                result_sim_2 = fault_dict_2[(fault_type, fault_target)]
+                result_sim_1 = fault_dict_1[fault]
+                result_sim_2 = fault_dict_2[fault]
 
                 assert result_sim_1.executed_instruction == result_sim_2.executed_instruction
                 assert result_sim_1.fault.fault_type == result_sim_2.fault.fault_type
