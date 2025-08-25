@@ -42,8 +42,10 @@ class Library(ABC):
             print_sorted_simulation_results(results)
             print()
 
-    def check_known_outputs(self, parsed_output: list[SimulationResult], known_outputs: dict[bytes, int]):
+    def check_known_outputs(self, parsed_output: list[SimulationResult], public_key: bytes, private_key: bytes):
+        known_outputs = dict(self.generate_known_outputs(public_key, private_key))
         seen_known_outputs: PredictableOutputs = {}
+
         for result_sim in parsed_output:
             output = result_sim.output
             if output in known_outputs:
@@ -83,8 +85,7 @@ class Library(ABC):
         # Need to cast to a list to be able to iterate multiple times
         parsed_output = list(read_processed_outputs(output_dir, skip_errors=True))
         self.check_key_shortening(parsed_output, public_key, private_key)
-        known_outputs = self.generate_known_outputs(public_key, private_key)
-        self.check_known_outputs(parsed_output, dict(known_outputs))
+        self.check_known_outputs(parsed_output, public_key, private_key)
 
     def safe_error_leak(self, result_1: SimulationResult,
                         correct_output_1: bytes,
