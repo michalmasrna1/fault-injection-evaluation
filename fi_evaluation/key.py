@@ -137,3 +137,29 @@ def generate_low_entropy_keys(original_key: bytes) -> Iterable[tuple[bytes, int]
     yield from SmallNumberKeyGenerator().generate()
 
     yield from HighestLowestByteKeyGenerator().generate()
+
+
+def generate_faulted_outputs(original_output: bytes) -> Iterable[tuple[bytes, int]]:
+    """
+    Returns tuples of (faulted_output, entropy), where the entropy
+    represents how many bits were used from the original output.
+
+    This should represent cases when the output copying loop was manipulated.
+    Not all Generators are used as not all of them make sense as opposed to
+    in generate_low_entropy_keys.
+    """
+    fault_masks: set[bytes] = set()  # A set because we only care about unique masks.
+    output_size_bits = len(original_output) * 8
+
+    for block_size_bits in [8, 32, 64, 128]:
+        mask_generator = BlockMaskGenerator(block_size_bits, output_size_bits)
+        fault_masks.update(mask_generator.generate())
+
+    fault_masks.update(BeginningEndMaskGenerator(output_size_bits).generate())
+
+    for mask in fault_masks:
+        num_bits = bin(int.from_bytes(mask, byteorder='little')).count('1')
+        faulted_output_bytes = bytes(a & b for a, b in zip(original_output, mask))
+        yield faulted_output_bytes, num_bits
+
+    yield from ShiftedKeyGenerator().generate(original_output)

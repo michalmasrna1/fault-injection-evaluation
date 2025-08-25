@@ -1,5 +1,3 @@
-from typing import Iterable
-
 from cryptography.hazmat.primitives.asymmetric import ec
 from fi_evaluation.curve import Curve
 
@@ -20,6 +18,3 @@ class SECP256K1(Curve):
         public_key = ec.EllipticCurvePublicKey.from_encoded_point(ec.SECP256K1(), public_key_bytes)
         shared_secret_bytes = private_key.exchange(ec.ECDH(), public_key)
         return shared_secret_bytes
-
-    def generate_known_outputs(self) -> Iterable[tuple[bytes, int]]:
-        return []

@@ -29,7 +29,9 @@ class Curve25519(Curve):
     def preprocess_key(self, key: bytes) -> bytes:
         return self.clamp(key)
 
-    def generate_known_outputs(self) -> Iterable[tuple[bytes, int]]:
+    def generate_known_outputs(self, public_key: bytes, private_key: bytes) -> Iterable[tuple[bytes, int]]:
+        yield from super().generate_known_outputs(public_key, private_key)
+
         # Result representing the neutral element - probably generated
         # by providing a point in the order-8 subgroup.
         yield (0).to_bytes(32, 'little'), 0
