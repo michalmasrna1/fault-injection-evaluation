@@ -14,7 +14,7 @@ class SmallNumberKeyGenerator(LowEntropyKeyGenerator):
         """
         Generate keys representing small numbers in small and big endian.
         """
-        for i in range(1 << 8):
+        for i in range(1 << 16):
             num_bits = bin(i).count('1')
             yield i.to_bytes(32, 'big'), num_bits
             yield i.to_bytes(32, 'little'), num_bits
