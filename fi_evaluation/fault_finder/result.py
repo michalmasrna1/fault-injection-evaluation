@@ -89,13 +89,21 @@ class Fault:
 
     @property
     def mask_int(self) -> int:
+        """
+        For instruction skip, the number of skipped instructions.
+        For instruction bit flip, the index of the flipped bit (0-based).
+        """
         if self.fault_type == FaultType.SKIP:
             return int.from_bytes(self.mask)
-        elif self.fault_type == FaultType.FLIP:
+
+        if self.fault_type == FaultType.FLIP:
             # The mask represents the flipped bit(s), we want its position
+            # For now, we assume one flipped bit.
             log = log2(int.from_bytes(self.mask))
-            assert log.is_integer(), log
+            if not log.is_integer():
+                raise ValueError(f"Invalid flipped bit mask: {self.mask.hex()}")
             return int(log)
+
         return int.from_bytes(self.mask)
 
     def to_bytes(self) -> bytes:
