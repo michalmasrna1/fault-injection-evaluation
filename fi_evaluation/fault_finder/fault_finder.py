@@ -33,7 +33,7 @@ def fault_model_string(fault: Fault) -> str:
         Op_codes: ALL
             Lifespan: 0
                 Operations: xOR
-                    Masks: {int.from_bytes(fault.mask, 'big')}
+                    Masks: 1<{fault.mask_int}<{fault.mask_int + 1}
 """
     if fault.fault_type == FaultType.ZERO:
         # Not implementing yet as the thesis does not use it
