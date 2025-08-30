@@ -60,7 +60,7 @@ def main():
                                      original_key), output_dir_from_key(complementary_key),
                                  "0900000000000000000000000000000000000000000000000000000000000000",
                                  original_key.hex(), complementary_key.hex()],
-                                check=False, capture_output=True, text=True)
+                                check=True, capture_output=True, text=True)
         if result.returncode != 0:
             print(result.stdout)
             print(result.stderr)
