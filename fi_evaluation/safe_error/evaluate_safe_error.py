@@ -35,13 +35,6 @@ def main():
         bytes.fromhex("cd" * 32),
         bytes.fromhex("ef" * 32),
     ]):
-        print(f"Number of potentially prone instruction-fault pairs: {sum(len(p) for p in prone_instructions)}")
-
-        if index > 0:
-            # Skip the first printing to allow for a compact declaration of "all faults".
-
-            print_fault_model_file(library, prone_instructions)
-
         simulate_faults(library, original_key)
 
         complementary_key = model.complementary_key(original_key)
@@ -63,6 +56,9 @@ def main():
             if index == 0 or fault in previous_prone_instructions[instruction_index]:
                 # The instruction<>fault pair was prone and remains prone.
                 prone_instructions[instruction_index].add(fault)
+
+        print(f"Number of potentially prone instruction-fault pairs: {sum(len(p) for p in prone_instructions)}")
+        print_fault_model_file(library, prone_instructions)
 
 
 main()
