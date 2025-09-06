@@ -2,7 +2,10 @@ import os
 import re
 import subprocess
 
-from fi_evaluation.fault_finder import Fault, FaultType
+from fi_evaluation.fault_finder.result import Fault, FaultType
+from fi_evaluation.library import Library
+
+FAULT_FINDER_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "fault-finder")
 
 
 def replace_in_file(file_path: str, pattern: str, replacement: str) -> None:
@@ -39,11 +42,13 @@ def fault_model_string(fault: Fault) -> str:
     raise ValueError("Unknown fault type")
 
 
-def print_fault_model_file(fault_model_path: str, instruction_fault_pairs: list[set[Fault]]) -> None:
+def print_fault_model_file(library: Library, instruction_fault_pairs: list[set[Fault]]) -> None:
     beginning_str = """######################################################################
 #
 ######################################################################
 """
+
+    fault_model_path = os.path.join("demos", library.name, "faultmodels", f"{library.name}.txt")
     with open(fault_model_path, "w", encoding="utf-8") as f:
         f.write(beginning_str)
         for instruction_number, faults in enumerate(instruction_fault_pairs):
@@ -56,22 +61,36 @@ def print_fault_model_file(fault_model_path: str, instruction_fault_pairs: list[
                 f.write(fault_model_string(fault))
 
 
-def output_dir_from_key(key: bytes) -> str:
-    return f"demos/sca25519-unprotected/outputs/{key.hex()[:2]}"
+def output_dir_from_key(library: Library, key: bytes) -> str:
+    return os.path.join("demos", library.name, "outputs", key.hex()[:2])
 
 
-def simulate_faults(key: bytes) -> None:
-    output_dir = output_dir_from_key(key)
+def execute_golden_run(library: Library) -> subprocess.CompletedProcess[str]:
+    # The jsons are prepared so that they can be executed from inside the fault-finder directory.
+    os.chdir(FAULT_FINDER_DIR)
+    print("Executing the golden run.")
+    golden_run_path = f"demos/{library.name}/jsons/goldenrun_full.json"
+    result = subprocess.run(["./faultfinder", golden_run_path], capture_output=True, text=True, check=False)
+
+    return result
+
+
+def simulate_faults(library: Library, key: bytes) -> None:
+    # The jsons are prepared so that they can be executed from inside the fault-finder directory.
+    os.chdir(FAULT_FINDER_DIR)
+
+    output_dir = output_dir_from_key(library, key)
     os.makedirs(output_dir, exist_ok=True)
-    replace_in_file("demos/sca25519-unprotected/jsons/fault.json",
-                    r'\"output directory name\".*?\"(.*?)\"', output_dir)
-    replace_in_file("demos/sca25519-unprotected/jsons/binary-details.json",
-                    r'\"byte array\".*?\"(.{64})\"\s*\/\/\s*private_key', key.hex())
+
+    fault_json_path = os.path.join("demos", library.name, "jsons", "fault.json")
+    replace_in_file(fault_json_path, r'\"output directory name\".*?\"(.*?)\"', output_dir)
+
+    binary_details_path = os.path.join("demos", library.name, "jsons", "binary-details.json")
+    replace_in_file(binary_details_path, r'\"byte array\".*?\"(.{64})\"\s*\/\/\s*private_key', key.hex())
 
     print(f"Simulating faults for key: {key.hex()}")
-    subprocess.run(["./faultfinder", "demos/sca25519-unprotected/jsons/fault.json"],
-                   capture_output=True, text=True, check=False)
+    subprocess.run(["./faultfinder", fault_json_path], capture_output=True, text=True, check=False)
 
     print("Processing output.")
     subprocess.run(["python3", "../fault-injection-evaluation/fi_evaluation/process_output.py",
-                   output_dir, "--clean"], check=False)
+                    output_dir, "--clean"], check=True)

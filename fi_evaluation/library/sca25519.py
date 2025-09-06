@@ -14,7 +14,7 @@ class Sca25519(Library, ABC):
     curve: Curve
     name: str
 
-    def __init__(self, curve: Curve25519 = Curve25519()):
+    def __init__(self, curve: Curve = Curve25519()):
         super().__init__(curve)
 
     def generate_computational_loop_abort_results(

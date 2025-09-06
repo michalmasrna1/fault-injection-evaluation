@@ -4,7 +4,6 @@ from typing import Iterable
 from fi_evaluation.curve import Curve
 from fi_evaluation.fault_finder.result import (SimulationResult,
                                                load_ordered_sim_results,
-                                               print_sorted_simulation_results,
                                                read_processed_outputs)
 
 PredictableOutputs = dict[bytes, tuple[int, set[SimulationResult]]]
@@ -31,18 +30,8 @@ class Library(ABC):
         yield from self.curve.generate_known_outputs(public_key, private_key)
         yield from self.generate_computational_loop_abort_results(public_key, private_key)
 
-    def print_predictable_outputs(self, predictable_outputs: PredictableOutputs, type_name: str):
-        """
-        Print the predictable outputs sorted by their entropy.
-        A smaller entropy means easier to guess key/output - a bigger problem.
-        type_name represents the type of predictable outputs, e.g. "Known output" or "Faulted key".
-        """
-        for output, (entropy, results) in sorted(predictable_outputs.items(), key=lambda item: item[1][0]):
-            print(f"{type_name} - {output.hex()} ({entropy}).")
-            print_sorted_simulation_results(results)
-            print()
-
-    def check_known_outputs(self, parsed_output: list[SimulationResult], public_key: bytes, private_key: bytes):
+    def check_known_outputs(self, parsed_output: list[SimulationResult],
+                            public_key: bytes, private_key: bytes) -> PredictableOutputs:
         known_outputs = dict(self.generate_known_outputs(public_key, private_key))
         seen_known_outputs: PredictableOutputs = {}
 
@@ -57,9 +46,10 @@ class Library(ABC):
                 else:
                     seen_known_outputs[output][1].add(result_sim)
 
-        self.print_predictable_outputs(seen_known_outputs, "Known output")
+        return seen_known_outputs
 
-    def check_key_shortening(self, parsed_output: list[SimulationResult], public_key: bytes, private_key: bytes):
+    def check_key_shortening(self, parsed_output: list[SimulationResult],
+                             public_key: bytes, private_key: bytes) -> PredictableOutputs:
         results_sim: dict[bytes, set[SimulationResult]] = {}
         for result_sim in parsed_output:
             if result_sim.output is None:
@@ -79,13 +69,14 @@ class Library(ABC):
                 else:
                     seen_effective_keys[faulted_key] = (entropy, results_sim[result])
 
-        self.print_predictable_outputs(seen_effective_keys, "Faulted key")
+        return seen_effective_keys
 
-    def check_predictable_outputs(self, output_dir: str, public_key: bytes, private_key: bytes):
+    def check_predictable_outputs(self, output_dir: str, public_key: bytes, private_key: bytes) -> PredictableOutputs:
         # Need to cast to a list to be able to iterate multiple times
         parsed_output = list(read_processed_outputs(output_dir, skip_errors=True))
-        self.check_key_shortening(parsed_output, public_key, private_key)
-        self.check_known_outputs(parsed_output, public_key, private_key)
+        predictable_outputs = self.check_key_shortening(parsed_output, public_key, private_key)
+        predictable_outputs.update(self.check_known_outputs(parsed_output, public_key, private_key))
+        return predictable_outputs
 
     def safe_error_leak(self, result_1: SimulationResult,
                         correct_output_1: bytes,
@@ -101,7 +92,7 @@ class Library(ABC):
                (result_1.errored != result_2.errored)
 
     def check_safe_error(self, output_dir_1: str, output_dir_2: str, public_key: bytes,
-                         private_key_1: bytes, private_key_2: bytes):
+                         private_key_1: bytes, private_key_2: bytes) -> set[SimulationResult]:
         results_sim_1_ordered = load_ordered_sim_results(output_dir_1, skip_errors=False)
         results_sim_2_ordered = load_ordered_sim_results(output_dir_2, skip_errors=False)
 
@@ -128,6 +119,4 @@ class Library(ABC):
                     # that the important fields are the same in both.
                     potentially_prone_addresses.add(result_sim_1)
 
-        print("Addresses potentially prone to safe error attack:")
-        for result in sorted(potentially_prone_addresses, key=lambda r: r.executed_instruction.instruction):
-            print(result)
+        return potentially_prone_addresses

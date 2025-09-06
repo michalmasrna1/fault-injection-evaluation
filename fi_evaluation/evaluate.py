@@ -1,9 +1,29 @@
 import argparse
 import os
 
-from fi_evaluation.library import library_from_name
+from fi_evaluation.fault_finder import (SimulationResult,
+                                        print_sorted_simulation_results)
+from fi_evaluation.library import PredictableOutputs, library_from_name
 
 EXECUTABLE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+
+def print_predictable_outputs(predictable_outputs: PredictableOutputs, type_name: str):
+    """
+    Print the predictable outputs sorted by their entropy.
+    A smaller entropy means easier to guess key/output - a bigger problem.
+    type_name represents the type of predictable outputs, e.g. "Known output" or "Faulted key".
+    """
+    for output, (entropy, results) in sorted(predictable_outputs.items(), key=lambda item: item[1][0]):
+        print(f"{type_name} - {output.hex()} ({entropy}).")
+        print_sorted_simulation_results(results)
+    print()
+
+
+def print_safe_error_results(potentially_prone_addresses: set[SimulationResult]):
+    print("Addresses potentially prone to safe error attack:")
+    for result in sorted(potentially_prone_addresses, key=lambda r: r.executed_instruction.instruction):
+        print(result)
 
 
 def main():
@@ -39,12 +59,13 @@ def main():
         public_key_bytes = bytes.fromhex(args.public_key)
         private_key_1_bytes = bytes.fromhex(args.private_key_1)
         private_key_2_bytes = bytes.fromhex(args.private_key_2)
-        library.check_safe_error(
+        potentially_prone_addresses = library.check_safe_error(
             args.output_dir_1,
             args.output_dir_2,
             public_key_bytes,
             private_key_1_bytes,
             private_key_2_bytes)
+        print_safe_error_results(potentially_prone_addresses)
 
 
 if __name__ == "__main__":
