@@ -20,16 +20,14 @@ def replace_in_file(file_path: str, pattern: str, replacement: str) -> None:
 
 def fault_model_string(fault: Fault) -> str:
     if fault.fault_type == FaultType.SKIP:
-        return f"""
-    Instruction Pointer:
+        return f"""    Instruction Pointer:
         Op_codes: ALL
             Lifespan: 0
                 Operation: SKIP
                     Masks: {fault.mask_int}
 """
     if fault.fault_type == FaultType.FLIP:
-        return f"""
-    Instruction:
+        return f"""    Instruction:
         Op_codes: ALL
             Lifespan: 0
                 Operations: xOR
