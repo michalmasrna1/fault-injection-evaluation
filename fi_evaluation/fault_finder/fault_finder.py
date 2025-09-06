@@ -55,8 +55,7 @@ def print_fault_model_file(library: Library, instruction_fault_pairs: list[set[F
             if not faults:
                 continue
 
-            # Fault finder indexes from 1
-            f.write(f"Instructions: {instruction_number + 1}-{instruction_number + 1}")
+            f.write(f"Instructions: {instruction_number}-{instruction_number}\n")
             for fault in faults:
                 f.write(fault_model_string(fault))
 
