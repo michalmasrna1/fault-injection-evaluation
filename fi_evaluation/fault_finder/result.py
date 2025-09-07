@@ -1,6 +1,6 @@
 """
 Even though the thesis does not evaluate against the register zeroing fault,
-it remains implemented, should anyone want to use it.
+it remains partially implemented, should anyone want to use it.
 """
 
 import os
