@@ -25,19 +25,23 @@ def main():
     for index, original_key in enumerate([
         bytes.fromhex("11" * 32),  # bb
         bytes.fromhex("22" * 32),  # 88
-        # bytes.fromhex("33" * 32),  # 99
-        # bytes.fromhex("44" * 32),  # ee
-        # bytes.fromhex("55" * 32),  # ff
-        # bytes.fromhex("66" * 32),  # cc
-        # bytes.fromhex("77" * 32),  # dd
-        # bytes.fromhex("01" * 32),
-        # bytes.fromhex("23" * 32),
-        # bytes.fromhex("45" * 32),
-        # bytes.fromhex("67" * 32),
-        # bytes.fromhex("89" * 32),
-        # bytes.fromhex("ab" * 32),
-        # bytes.fromhex("cd" * 32),
-        # bytes.fromhex("ef" * 32),
+        bytes.fromhex("33" * 32),  # 99
+        bytes.fromhex("44" * 32),  # ee
+        bytes.fromhex("55" * 32),  # ff
+        bytes.fromhex("66" * 32),  # cc
+        bytes.fromhex("77" * 32),  # dd
+        bytes.fromhex("01" * 32),
+        bytes.fromhex("23" * 32),
+        bytes.fromhex("45" * 32),
+        bytes.fromhex("67" * 32),
+        bytes.fromhex("89" * 32),
+        bytes.fromhex("ab" * 32),
+        bytes.fromhex("cd" * 32),
+        bytes.fromhex("ef" * 32),
+        bytes.fromhex("048c" * 16),
+        bytes.fromhex("159d" * 16),
+        bytes.fromhex("26ae" * 16),
+        bytes.fromhex("37bf" * 16),
     ]):
         simulate_faults(library, original_key)
 
