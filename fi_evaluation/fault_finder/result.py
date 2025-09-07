@@ -144,7 +144,7 @@ class Fault:
 
 
 class ExecutedInstruction:
-    instruction: int
+    instruction: int  # 1-based, decided by FaultFinder
     address: bytes
     hit: int
 

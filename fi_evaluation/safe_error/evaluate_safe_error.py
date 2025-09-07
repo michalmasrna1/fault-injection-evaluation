@@ -56,14 +56,15 @@ def main():
             output_dir_from_key(library, original_key), output_dir_from_key(library, complementary_key), bytes.fromhex(
                 "0900000000000000000000000000000000000000000000000000000000000000"), original_key, complementary_key
         )
+
         for simulation_result in potentially_prone_instructions:
-            instruction_index = simulation_result.executed_instruction.instruction
+            instruction_index_0_based = simulation_result.executed_instruction.instruction - 1
             fault = simulation_result.fault
 
             # if index is 0, all pairs are assumed to be potentially prone
-            if index == 0 or fault in previous_prone_instructions[instruction_index]:
+            if index == 0 or fault in previous_prone_instructions[instruction_index_0_based]:
                 # The instruction<>fault pair was prone and remains prone.
-                prone_instructions[instruction_index].add(fault)
+                prone_instructions[instruction_index_0_based].add(fault)
 
         print(f"Number of potentially prone instruction-fault pairs: {sum(len(p) for p in prone_instructions)}")
         print_fault_model_file(library, prone_instructions)
