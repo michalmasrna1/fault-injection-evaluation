@@ -22,7 +22,7 @@ def print_predictable_outputs(predictable_outputs: PredictableOutputs, type_name
 
 def print_safe_error_results(potentially_prone_addresses: set[SimulationResult]):
     print("Addresses potentially prone to safe error attack:")
-    for result in sorted(potentially_prone_addresses, key=lambda r: r.executed_instruction.instruction):
+    for result in sorted(potentially_prone_addresses):
         print(result)
 
 

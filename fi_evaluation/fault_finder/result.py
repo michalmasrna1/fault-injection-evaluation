@@ -5,6 +5,7 @@ it remains implemented, should anyone want to use it.
 
 import os
 from enum import Enum
+from functools import total_ordering
 from math import log2
 from typing import Iterable
 
@@ -37,6 +38,7 @@ class FaultTarget(Enum):
     IR = 20
 
 
+@total_ordering
 class Fault:
     fault_type: FaultType
     target: FaultTarget  # the faulted register, IR for instruction skips, PC for instruction bit flips
@@ -60,6 +62,14 @@ class Fault:
         return (self.fault_type == other.fault_type and
                 self.target == other.target and
                 self.mask == other.mask)
+
+    def __lt__(self, other: object) -> bool:
+        if not isinstance(other, Fault):
+            return NotImplemented
+
+        # Abuse the underlying enum integer values for ordering
+        return (self.fault_type.value, self.target.value, self.mask) < (
+            other.fault_type.value, other.target.value, other.mask)
 
     def __hash__(self) -> int:
         return hash((self.fault_type, self.target, self.mask))
@@ -149,6 +159,9 @@ class ExecutedInstruction:
                 self.address == other.address and
                 self.hit == other.hit)
 
+    def __hash__(self) -> int:
+        return hash((self.instruction, self.address, self.hit))
+
     def to_bytes(self) -> bytes:
         if len(self.address) > 4 or self.hit > 2**32 or self.instruction > 2**32:
             raise ValueError("One of the fields is too long for the expected size.")
@@ -168,6 +181,7 @@ class ExecutedInstruction:
         return ExecutedInstruction(instruction, address, hit)
 
 
+@total_ordering
 class SimulationResult:
     executed_instruction: ExecutedInstruction
     fault: Fault
@@ -179,6 +193,23 @@ class SimulationResult:
         self.fault = fault
         self.errored = errored
         self.output = output
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, SimulationResult):
+            return False
+
+        return (self.executed_instruction == other.executed_instruction and
+                self.fault == other.fault and
+                self.errored == other.errored and
+                self.output == other.output)
+
+    def __lt__(self, other: 'SimulationResult') -> bool:
+        if self.executed_instruction.instruction != other.executed_instruction.instruction:
+            return self.executed_instruction.instruction < other.executed_instruction.instruction
+        return self.fault < other.fault
+
+    def __hash__(self) -> int:
+        return hash((self.executed_instruction, self.fault, self.errored, self.output))
 
     def __str__(self) -> str:
         inst = self.executed_instruction
