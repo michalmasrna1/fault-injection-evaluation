@@ -66,20 +66,22 @@ class Fault:
 
     def __str__(self) -> str:
         def format_instr(instruction: bytes) -> str:
+            # Format the instruction to how it would be printed
+            # in the disassembly. Beware that this includes changing
+            # the endianity of 16-bit instruction parts.
+            # More details are explained in process_output.py.
             instruction_hex = instruction.hex()
-            if instruction_hex.startswith("000000000000"):
-                non_zero_part = instruction_hex[12:]
-            if instruction_hex.startswith("00000000"):
-                non_zero_part = instruction_hex[8:]
-            else:
-                non_zero_part = instruction_hex
+            while instruction_hex.startswith("0000"):
+                instruction_hex = instruction_hex[4:]
 
-            return " ".join(non_zero_part[i:i + 2] for i in range(0, len(non_zero_part), 2))
+            chunks_16_bits = [instruction_hex[i:i + 4] for i in range(0, len(instruction_hex), 4)]
+            return " ".join([chunk[2:4] + chunk[0:2] for chunk in chunks_16_bits])
 
         if self.fault_type == FaultType.SKIP:
             return f"Skipped {self.mask_int} instruction{'s' if self.mask_int > 1 else ''}"
 
         if self.fault_type == FaultType.FLIP:
+            # TODO: Ideally, we would also print the disassembled instructions
             return f"Flipped instruction bit {self.mask_int} ({format_instr(self.old_value)} -> {format_instr(self.new_value)})"
 
         if self.fault_type == FaultType.ZERO:
@@ -91,7 +93,7 @@ class Fault:
     def mask_int(self) -> int:
         """
         For instruction skip, the number of skipped instructions.
-        For instruction bit flip, the index of the flipped bit (0-based).
+        For instruction bit flip, the index of the flipped bit (1-based).
         """
         if self.fault_type == FaultType.SKIP:
             return int.from_bytes(self.mask)
@@ -102,7 +104,7 @@ class Fault:
             log = log2(int.from_bytes(self.mask))
             if not log.is_integer():
                 raise ValueError(f"Invalid flipped bit mask: {self.mask.hex()}")
-            return int(log)
+            return int(log) + 1  # 1-based index
 
         return int.from_bytes(self.mask)
 

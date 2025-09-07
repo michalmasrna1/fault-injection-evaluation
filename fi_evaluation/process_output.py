@@ -32,6 +32,52 @@ def fault_from_entry(entry: str) -> Fault:
     elif target_str == "Instruction":
         fault_type = FaultType.FLIP
         target = FaultTarget.IR
+        # Processing the mask and old and new value is a bit confusing.
+        # Let us look at the 32-bit instruction `and r3, r3, #0x7f`.
+        # In the disassembly, it will be written as
+        # f003 037f
+        # This is consistent with how the instruction should be encoded
+        # according to the Armv-7 Architecture Reference Manual, page 200
+        # (https://developer.arm.com/documentation/ddi0403/latest/)
+        # However, the 16-bit chunks are apparently stored in memory in little-endian order,
+        # so in the FaultFinder output, the instruction is printed as
+        # 03 f0 7f 03
+        # The bytes are written in order 2 1 4 3, instead of 1 2 3 4.
+        # In addition, the masks work in a little-endian manner, according to
+        # how the instruction is stored in memory.
+        # This is illustrated by the following mask, old value, new value triplets:
+        # Mask: 0x0000000000000040
+        # Original instruction           :  03 f0 7f 03
+        # Updated instruction            :  43 f0 7f 03
+        # Mask: 0x0000000000002000
+        # Original instruction           :  03 f0 7f 03
+        # Updated instruction            :  03 d0 7f 03
+        # Mask: 0x0000000000020000
+        # Original instruction           :  03 f0 7f 03
+        # Updated instruction            :  03 f0 7d 03
+        # Mask: 0x0000000001000000
+        # Original instruction           :  03 f0 7f 03
+        # Updated instruction            :  03 f0 7f 02
+        #
+        # For a 16-bit instruction, this is slightly less confusing, but
+        # the masks still work in little-endian manner. Let us look at the
+        # instruction `mov r7, r0`. In the disassembly, it is written as
+        # 4607
+        # This is documented in the Armv-7 Architecture Reference Manual, page 293.
+        # In FaultFinder output, it is written as
+        # 07 46
+        # The masks work as follows:
+        # Mask: 0x0000000000000001
+        # Original instruction           :  07 46
+        # Updated instruction            :  06 46
+        # Mask: 0x0000000000000200
+        # Original instruction           :  07 46
+        # Updated instruction            :  07 44
+        #
+        # We want to store the old and new value in the way it is stored in memory,
+        # which is how it is printed.
+        # To avoid confusion when printing the fault model later, we keep the mask as is,
+        # even though it does not correspond well to the actual changed bits.
         mask_str = find_in_entry(entry, r'Mask: 0x([a-f0-9]+?)\.')
         old_value_str = find_in_entry(entry, r'Original instruction\s*?:\s*?(([a-f0-9]{2} ){2,4})\s')
         new_value_str = find_in_entry(entry, r'Updated instruction\s*?:\s*?(([a-f0-9]{2} ){2,4})\s')
@@ -45,8 +91,8 @@ def fault_from_entry(entry: str) -> Fault:
     else:
         raise ValueError(f"Invalid entry, unknown target: {target_str}")
     mask = bytes.fromhex(f"{mask_str[-8:]:0>8}")
-    old_value = bytes.fromhex(f"{old_value_str[-8:].replace(' ', ''):0>8}")
-    new_value = bytes.fromhex(f"{new_value_str[-8:].replace(' ', ''):0>8}")
+    old_value = bytes.fromhex(f"{old_value_str.replace(' ', '')[-8:]:0>8}")
+    new_value = bytes.fromhex(f"{new_value_str.replace(' ', '')[-8:]:0>8}")
 
     return Fault(
         fault_type=fault_type,
