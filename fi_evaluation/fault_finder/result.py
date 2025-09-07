@@ -92,7 +92,8 @@ class Fault:
 
         if self.fault_type == FaultType.FLIP:
             # TODO: Ideally, we would also print the disassembled instructions
-            return f"Flipped instruction bit {self.mask_int} ({format_instr(self.old_value)} -> {format_instr(self.new_value)})"
+            # I believe a 1-based index is more natural for people.
+            return f"Flipped instruction bit {self.mask_int + 1} ({format_instr(self.old_value)} -> {format_instr(self.new_value)})"
 
         if self.fault_type == FaultType.ZERO:
             return f"Zeroed register {self.target.name}"
@@ -103,7 +104,7 @@ class Fault:
     def mask_int(self) -> int:
         """
         For instruction skip, the number of skipped instructions.
-        For instruction bit flip, the index of the flipped bit (1-based).
+        For instruction bit flip, the index of the flipped bit (0-based).
         """
         if self.fault_type == FaultType.SKIP:
             return int.from_bytes(self.mask)
@@ -114,7 +115,8 @@ class Fault:
             log = log2(int.from_bytes(self.mask))
             if not log.is_integer():
                 raise ValueError(f"Invalid flipped bit mask: {self.mask.hex()}")
-            return int(log) + 1  # 1-based index
+            # FaultFinder uses a 0-based index for bits in the fault model file.
+            return int(log)  # 0-based index
 
         return int.from_bytes(self.mask)
 
