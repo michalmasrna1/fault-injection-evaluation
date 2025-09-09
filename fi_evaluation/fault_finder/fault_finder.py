@@ -51,11 +51,11 @@ def print_fault_model_file(library: Library, instruction_fault_pairs: list[set[F
     fault_model_path = os.path.join("demos", library.name, "faultmodels", f"{library.name}.txt")
     with open(fault_model_path, "w", encoding="utf-8") as f:
         f.write(beginning_str)
-        for instruction_number, faults in enumerate(instruction_fault_pairs):
+        for instruction_number_0_based, faults in enumerate(instruction_fault_pairs):
             if not faults:
                 continue
 
-            f.write(f"Instructions: {instruction_number}-{instruction_number}\n")
+            f.write(f"Instructions: {instruction_number_0_based + 1}-{instruction_number_0_based + 1}\n")
             for fault in faults:
                 f.write(fault_model_string(fault))
 
