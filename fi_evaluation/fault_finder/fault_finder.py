@@ -69,6 +69,7 @@ def execute_golden_run(library: Library) -> subprocess.CompletedProcess[str]:
     os.chdir(FAULT_FINDER_DIR)
     print("Executing the golden run.")
     golden_run_path = f"demos/{library.name}/jsons/goldenrun_full.json"
+    # Can't check, returns 1 even on what we consider successful execution.
     result = subprocess.run(["./faultfinder", golden_run_path], capture_output=True, text=True, check=False)
 
     return result
@@ -88,6 +89,7 @@ def simulate_faults(library: Library, key: bytes) -> None:
     replace_in_file(binary_details_path, r'\"byte array\".*?\"(.{64})\"\s*\/\/\s*private_key', key.hex())
 
     print(f"Simulating faults for key: {key.hex()}")
+    # Can't check, returns 1 even on what we consider successful execution.
     subprocess.run(["./faultfinder", fault_json_path], capture_output=True, text=True, check=False)
 
     print("Processing output.")
