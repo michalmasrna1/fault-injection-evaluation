@@ -72,7 +72,7 @@ def main():
     # Print the potentially prone instructions from the last run.
     # As the set of potentially prone instructions should have converged
     # by the end, this should be the final result.
-    print_safe_error_results(potentially_prone_instructions)
+    print_safe_error_results(potentially_prone_instructions, group=True)
 
 
 main()

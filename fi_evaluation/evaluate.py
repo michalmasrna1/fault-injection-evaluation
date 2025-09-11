@@ -1,7 +1,7 @@
 import argparse
 import os
 
-from fi_evaluation.fault_finder import (SimulationResult,
+from fi_evaluation.fault_finder import (Fault, SimulationResult,
                                         print_sorted_simulation_results)
 from fi_evaluation.library import PredictableOutputs, library_from_name
 
@@ -20,10 +20,37 @@ def print_predictable_outputs(predictable_outputs: PredictableOutputs, type_name
     print()
 
 
-def print_safe_error_results(potentially_prone_addresses: set[SimulationResult]):
-    print("Addresses potentially prone to safe error attack:")
-    for result in sorted(potentially_prone_addresses):
-        print(result)
+def print_safe_error_results(potentially_prone_addresses: set[SimulationResult], group: bool = False):
+    if not group:
+        for result in sorted(potentially_prone_addresses):
+            print(result)
+        return
+
+    # First, construct a set of Faults for each address<>hit pair.
+    address_hit_to_faults: dict[tuple[bytes, int], set[Fault]] = {}
+    for result in potentially_prone_addresses:
+        key = (result.executed_instruction.address, result.executed_instruction.hit)
+        if key not in address_hit_to_faults:
+            address_hit_to_faults[key] = set()
+        address_hit_to_faults[key].add(result.fault)
+
+    # for each address, group the hits by the set of faults this address<>hit
+    # pair is prone to.
+    grouped_results: dict[bytes, dict[frozenset[Fault], set[int]]] = {}
+    for (address, hit), faults in address_hit_to_faults.items():
+        if address not in grouped_results:
+            grouped_results[address] = {}
+        if frozenset(faults) not in grouped_results[address]:
+            grouped_results[address][frozenset(faults)] = set()
+        grouped_results[address][frozenset(faults)].add(hit)
+
+    for address, faults_to_hits in sorted(grouped_results.items()):
+        print(f"Address {address.hex()}:")
+        for faults, hits in faults_to_hits.items():
+            print(f"  Hits {", ".join(str(i) for i in sorted(hits))}:")
+            for fault in sorted(faults):
+                print(f"    {fault}")
+        print()
 
 
 def main():
@@ -65,7 +92,7 @@ def main():
             public_key_bytes,
             private_key_1_bytes,
             private_key_2_bytes)
-        print_safe_error_results(potentially_prone_addresses)
+        print_safe_error_results(potentially_prone_addresses, group=True)
 
 
 if __name__ == "__main__":
