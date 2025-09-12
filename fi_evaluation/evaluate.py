@@ -26,6 +26,8 @@ def print_safe_error_results(potentially_prone_addresses: set[SimulationResult],
             print(result)
         return
 
+    # TODO: When printing grouped results, the instruction numbers should probably be also printed.
+
     # First, construct a set of Faults for each address<>hit pair.
     address_hit_to_faults: dict[tuple[bytes, int], set[Fault]] = {}
     for result in potentially_prone_addresses:
