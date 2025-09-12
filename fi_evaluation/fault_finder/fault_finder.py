@@ -61,7 +61,7 @@ def print_fault_model_file(library: Library, instruction_fault_pairs: list[set[F
 
 
 def output_dir_from_key(library: Library, key: bytes) -> str:
-    return os.path.join("demos", library.name, "outputs", key.hex()[:2])
+    return os.path.join("demos", library.name, "outputs", key.hex())
 
 
 def execute_golden_run(library: Library) -> subprocess.CompletedProcess[str]:
