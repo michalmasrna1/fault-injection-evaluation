@@ -1,4 +1,5 @@
 import re
+from random import randbytes
 
 from fi_evaluation.evaluate import print_safe_error_results
 from fi_evaluation.fault_finder import (Fault, SimulationResult,
@@ -8,6 +9,11 @@ from fi_evaluation.fault_finder import (Fault, SimulationResult,
                                         simulate_faults)
 from fi_evaluation.library import library_from_name
 from fi_evaluation.safe_error.leakage import KeyBits
+
+# How many (relative to the total number of iterations) key pairs without change to assume convergence.
+CONVERGENCE_THRESHOLD_RELATIVE = 0.1
+# How many (absolute) key pairs without change at least to assume convergence.
+CONVERGENCE_THRESHOLD_ABSOLUTE = 5
 
 
 def main():
@@ -21,28 +27,15 @@ def main():
     # Defining in advance so that we can print it after the loop.
     potentially_prone_instructions: set[SimulationResult] = set()
     prone_instructions: list[set[Fault]] = [set() for _ in range(total_instructions)]
+    total_iters = 0
+    unchanged_iters = 0
 
-    for index, original_key in enumerate([
-        bytes.fromhex("11" * 32),  # bb
-        bytes.fromhex("22" * 32),  # 88
-        bytes.fromhex("33" * 32),  # 99
-        bytes.fromhex("44" * 32),  # ee
-        bytes.fromhex("55" * 32),  # ff
-        bytes.fromhex("66" * 32),  # cc
-        bytes.fromhex("77" * 32),  # dd
-        bytes.fromhex("01" * 32),
-        bytes.fromhex("23" * 32),
-        bytes.fromhex("45" * 32),
-        bytes.fromhex("67" * 32),
-        bytes.fromhex("89" * 32),
-        bytes.fromhex("ab" * 32),
-        bytes.fromhex("cd" * 32),
-        bytes.fromhex("ef" * 32),
-        bytes.fromhex("048c" * 16),
-        bytes.fromhex("159d" * 16),
-        bytes.fromhex("26ae" * 16),
-        bytes.fromhex("37bf" * 16),
-    ]):
+    while True:
+        total_iters += 1
+        # Safe error leakage should be present for all keys. We also
+        # do not really care about the cryptographic quality of the
+        # random numbers here.
+        original_key = randbytes(32)
         simulate_faults(library, original_key)
 
         complementary_key = model.complementary_key(original_key)
@@ -61,13 +54,21 @@ def main():
             instruction_index_0_based = simulation_result.executed_instruction.instruction - 1
             fault = simulation_result.fault
 
-            # if index is 0, all pairs are assumed to be potentially prone
-            if index == 0 or fault in previous_prone_instructions[instruction_index_0_based]:
+            # on the first iteration, all pairs are assumed to be potentially prone
+            if total_iters == 1 or fault in previous_prone_instructions[instruction_index_0_based]:
                 # The instruction<>fault pair was prone and remains prone.
                 prone_instructions[instruction_index_0_based].add(fault)
 
         print(f"Number of potentially prone instruction-fault pairs: {sum(len(p) for p in prone_instructions)}")
         print_fault_model_file(library, prone_instructions)
+
+        if prone_instructions == previous_prone_instructions:
+            unchanged_iters += 1
+            if unchanged_iters >= CONVERGENCE_THRESHOLD_ABSOLUTE and\
+                    unchanged_iters >= CONVERGENCE_THRESHOLD_RELATIVE * total_iters:
+                break
+        else:
+            unchanged_iters = 0
 
     # Print the potentially prone instructions from the last run.
     # As the set of potentially prone instructions should have converged
