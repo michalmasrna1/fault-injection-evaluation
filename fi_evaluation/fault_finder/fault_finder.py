@@ -37,7 +37,9 @@ def fault_model_string(fault: Fault) -> str:
                     Masks: 1<{fault.mask_int}<{fault.mask_int + 1}
 """
     if fault.fault_type == FaultType.ZERO:
-        # Not implementing yet as the thesis does not use it
+        # Not implementing yet as the thesis does not use it.
+        # For the format, see
+        # https://github.com/michalmasrna1/fault-finder/commit/796928fa6e1b0ec906a216d1592a525b1e96ac28
         raise NotImplementedError("Register clear fault_model_string not implemented.")
     raise ValueError("Unknown fault type")
 
