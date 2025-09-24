@@ -52,7 +52,7 @@ def print_safe_error_results(potentially_prone_addresses: set[SimulationResult],
     for address, faults_to_hits in sorted(grouped_results.items()):
         print(f"Address {address.hex()}:")
         for faults, hits in faults_to_hits.items():
-            print(f"  Hits {", ".join(str(i) for i in sorted(hits))}:")
+            print(f"  Hit{'s' if len(hits) > 1 else ''} {", ".join(str(i) for i in sorted(hits))}:")
             for fault in sorted(faults):
                 print(f"    {fault}")
         print()
