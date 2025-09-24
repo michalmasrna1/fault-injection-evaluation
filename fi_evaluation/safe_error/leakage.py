@@ -51,4 +51,4 @@ def safe_error_model_from_name(name: str) -> SafeErrorModel:
         return KeyBits()
     if name == "neighbouring-bits-xor":
         return NeighbouringBitsXor()
-    raise ValueError(f"Unknown safe error model: {name}")
+    raise ValueError(f"Unknown safe error model: {name}. Known models are:\n- key-bits\n- neighbouring-bits-xor")

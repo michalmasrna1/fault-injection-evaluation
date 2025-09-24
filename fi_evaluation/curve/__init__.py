@@ -8,4 +8,5 @@ def curve_from_name(name: str) -> Curve:
     for curve in (Curve25519, SECP256K1, SECP256R1):
         if curve.name.lower() == name.lower():
             return curve()
-    raise ValueError(f"Unknown curve name: {name}.")
+    raise ValueError(f"Unknown curve name: {name}. Known curve names are:\n- " +
+                     "\n- ".join(curve.name for curve in (Curve25519, SECP256K1, SECP256R1)))

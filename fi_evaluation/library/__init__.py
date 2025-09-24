@@ -11,4 +11,6 @@ def library_from_name(library_name: str, curve_name: str) -> Library:
                     Sca25519Unprotected, SweetB):
         if library.name.lower() == library_name.lower():
             return library(curve=curve_from_name(curve_name))
-    raise ValueError(f"Unknown library name: {library_name}.")
+    raise ValueError(f"Unknown library name: {library_name}. Known library names are:\n- " +
+                     "\n- ".join(lib.name for lib in (MicroECC, Sca25519Ephemeral, Sca25519Static,
+                                                      Sca25519Unprotected, SweetB)))
