@@ -1,3 +1,4 @@
+import argparse
 import re
 from random import randbytes
 
@@ -7,8 +8,8 @@ from fi_evaluation.fault_finder import (Fault, SimulationResult,
                                         output_dir_from_key,
                                         print_fault_model_file,
                                         simulate_faults)
-from fi_evaluation.library import library_from_name
-from fi_evaluation.safe_error.leakage import KeyBits
+from fi_evaluation.library import Library, library_from_name
+from fi_evaluation.safe_error import SafeErrorModel, safe_error_model_from_name
 
 # How many (relative to the total number of iterations) key pairs without change to assume convergence.
 CONVERGENCE_THRESHOLD_RELATIVE = 0.1
@@ -16,8 +17,11 @@ CONVERGENCE_THRESHOLD_RELATIVE = 0.1
 CONVERGENCE_THRESHOLD_ABSOLUTE = 5
 
 
-def main():
-    model = KeyBits()
+def evaluate_safe_error(
+        library: Library,
+        public_key: bytes,
+        safe_error_model: SafeErrorModel
+):
     library = library_from_name("sca25519-unprotected", "curve25519")
 
     result = execute_golden_run(library)
@@ -38,7 +42,7 @@ def main():
         original_key = randbytes(32)
         simulate_faults(library, original_key)
 
-        complementary_key = model.complementary_key(original_key)
+        complementary_key = safe_error_model.complementary_key(original_key)
         simulate_faults(library, complementary_key)
 
         previous_prone_instructions = prone_instructions.copy()
@@ -46,8 +50,8 @@ def main():
 
         print(f"Checking safe error on key pair {original_key.hex()}, {complementary_key.hex()}.")
         potentially_prone_instructions = library.check_safe_error(
-            output_dir_from_key(library, original_key), output_dir_from_key(library, complementary_key), bytes.fromhex(
-                "0900000000000000000000000000000000000000000000000000000000000000"), original_key, complementary_key
+            output_dir_from_key(library, original_key), output_dir_from_key(
+                library, complementary_key), public_key, original_key, complementary_key
         )
 
         for simulation_result in potentially_prone_instructions:
@@ -76,4 +80,21 @@ def main():
     print_safe_error_results(potentially_prone_instructions, group=True)
 
 
-main()
+def main():
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("library_name", type=str)
+    parser.add_argument("curve_name", type=str)
+    parser.add_argument("public_key", type=str)
+    parser.add_argument("safe_error_model", type=str)
+
+    args = parser.parse_args()
+    library = library_from_name(args.library_name, args.curve_name)
+    public_key_bytes = bytes.fromhex(args.public_key)
+    safe_error_model = safe_error_model_from_name(args.safe_error_model)
+
+    evaluate_safe_error(library, public_key_bytes, safe_error_model)
+
+
+if __name__ == "__main__":
+    main()
