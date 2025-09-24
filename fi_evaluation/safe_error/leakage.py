@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 
-class LeakageModel(ABC):
+class SafeErrorModel(ABC):
     @abstractmethod
     def complementary_key(self, original_key: bytes) -> bytes:
         """
@@ -9,7 +9,7 @@ class LeakageModel(ABC):
         """
 
 
-class KeyBits(LeakageModel):
+class KeyBits(SafeErrorModel):
     def complementary_key(self, original_key: bytes) -> bytes:
         """
         Generate a key that has the opposite bits to the original key.
@@ -17,7 +17,7 @@ class KeyBits(LeakageModel):
         return bytes(~b & 0xFF for b in original_key)
 
 
-class NeighbouringBitsXor(LeakageModel):
+class NeighbouringBitsXor(SafeErrorModel):
     def complementary_key(self, original_key: bytes) -> bytes:
         """
         Generate a key for which the XOR of each pair of neighbouring bits
