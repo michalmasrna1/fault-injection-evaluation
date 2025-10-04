@@ -18,7 +18,7 @@ def find_in_entry(entry: str, pattern: str, default: str | None = None) -> str:
 
 
 def fault_from_entry(entry: str) -> Fault:
-    # Look for the fields Faulting Target: and Operation:,
+    # Look for the field Faulting Target:,
     # based on that, extract the relevant fields.
     target_str = find_in_entry(entry, r'Faulting Target: (.+?)\.')
 
@@ -78,10 +78,11 @@ def fault_from_entry(entry: str) -> Fault:
         # which is how it is printed.
         # To avoid confusion when printing the fault model later, we keep the mask as is,
         # even though it does not correspond well to the actual changed bits.
-        mask_str = find_in_entry(entry, r'Mask: 0x([a-f0-9]+?)\.')
+        mask_str = find_in_entry(entry, r'Mask\s*?:\s*?0x([a-f0-9]+?)\s')
         old_value_str = find_in_entry(entry, r'Original instruction\s*?:\s*?(([a-f0-9]{2} ){2,4})\s')
         new_value_str = find_in_entry(entry, r'Updated instruction\s*?:\s*?(([a-f0-9]{2} ){2,4})\s')
     elif target_str == "Register":
+        # Operation: XOR is assumed.
         fault_type = FaultType.ZERO
         register_number = find_in_entry(entry, r'Reg#: (.+?)\.')
         target = eval(f"FaultTarget.{register_number}")  # pylint: disable=W0123 (eval-used)
