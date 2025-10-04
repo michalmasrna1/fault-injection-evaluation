@@ -26,7 +26,7 @@ def evaluate_safe_error(
 
     result = execute_golden_run(library)
     total_instructions = int(re.findall(r"Total instructions in faulting range:\s+(\d+)", result.stdout)[0])
-    print(f"Total number of instructions: {total_instructions}")
+    print(f"Total number of faulted instructions: {total_instructions}")
 
     # Defining in advance so that we can print it after the loop.
     potentially_prone_instructions: set[SimulationResult] = set()
