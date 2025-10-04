@@ -124,7 +124,7 @@ def simulation_result_from_entry(entry: str) -> SimulationResult:
         find_in_entry(entry, r'(Run result: fault errored program)', default="") != ""
 
     # If the execution errored there might be no output
-    output_str = find_in_entry(entry, r'Output.+?: ([a-f0-9]+?)\s', default="")
+    output_str = find_in_entry(entry, r'Output.+?: ([a-f0-9]+?)(\s|$)', default="")
     if output_str:
         output = bytes.fromhex(output_str.strip())
     else:
@@ -143,7 +143,7 @@ def process_output(original_path: str, destination_path: str, clean: bool) -> No
         output = original_file.read()
 
     with open(destination_path, "wb") as destination_file:
-        entries = output.split("#####")
+        entries = re.split(r"\n{3,}", output)
         for entry in entries:
             if not entry.strip() or find_in_entry(entry, r'(Run result: reached end address no fault occurred.)', ""):
                 # Skip empty entries (the initial new lines) and entries where no fault occurred.
