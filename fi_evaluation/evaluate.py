@@ -26,10 +26,14 @@ def print_safe_error_results(potentially_prone_addresses: set[SimulationResult],
             print(result)
         return
 
-    # TODO: When printing grouped results, the instruction numbers should probably be also printed.
-
     # TODO: Consider grouping also on the address level, that is print addresses which
     #       are prone to the same faults on the same hits together.
+
+    # Construct a dict mapping each (address, hit) pair to the instruction number
+    address_hit_to_inst: dict[tuple[bytes, int], int] = {}
+    for result in potentially_prone_addresses:
+        address_hit_to_inst[(result.executed_instruction.address,
+                             result.executed_instruction.hit)] = result.executed_instruction.instruction
 
     # First, construct a set of Faults for each address<>hit pair.
     address_hit_to_faults: dict[tuple[bytes, int], set[Fault]] = {}
@@ -52,7 +56,8 @@ def print_safe_error_results(potentially_prone_addresses: set[SimulationResult],
     for address, faults_to_hits in sorted(grouped_results.items()):
         print(f"Address {address.hex()}:")
         for faults, hits in faults_to_hits.items():
-            print(f"  Hit{'s' if len(hits) > 1 else ''} {", ".join(str(i) for i in sorted(hits))}:")
+            hits_string = ", ".join(f"{i} ({address_hit_to_inst[(address, i)]})" for i in sorted(hits))
+            print(f"  Hit{'s' if len(hits) > 1 else ''} {hits_string}:")
             for fault in sorted(faults):
                 print(f"    {fault}")
         print()
