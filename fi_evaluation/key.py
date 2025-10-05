@@ -9,17 +9,6 @@ class LowEntropyKeyGenerator(ABC):
         pass
 
 
-class SmallNumberKeyGenerator(LowEntropyKeyGenerator):
-    def generate(self) -> Iterable[tuple[bytes, int]]:
-        """
-        Generate keys representing small numbers in small and big endian.
-        """
-        for i in range(1 << 16):
-            num_bits = bin(i).count('1')
-            yield i.to_bytes(32, 'big'), num_bits
-            yield i.to_bytes(32, 'little'), num_bits
-
-
 class HighestLowestByteKeyGenerator(LowEntropyKeyGenerator):
     def generate(self) -> Iterable[tuple[bytes, int]]:
         """
@@ -133,8 +122,6 @@ def generate_low_entropy_keys(original_key: bytes) -> Iterable[tuple[bytes, int]
         yield faulted_key_bytes, num_bits
 
     yield from ShiftedKeyGenerator().generate(original_key)
-
-    yield from SmallNumberKeyGenerator().generate()
 
     yield from HighestLowestByteKeyGenerator().generate()
 
