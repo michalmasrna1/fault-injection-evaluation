@@ -25,11 +25,12 @@ def fault_from_entry(entry: str) -> Fault:
     if target_str == "InstructionPointer":
         fault_type = FaultType.SKIP
         target = FaultTarget.PC
-        skipped_instructions = int(find_in_entry(entry, r'Number of skipped instructions: (\d+).', default="1"))
+        skipped_instructions = int(find_in_entry(entry, r'Number of skipped instructions: (\d+)\.', default="1"))
         mask_str = skipped_instructions.to_bytes(4, 'big').hex()
         old_value_str = find_in_entry(entry, r'Original IP\s*?:\s*?0x([a-f0-9]+?)\s')
         new_value_str = find_in_entry(entry, r'Updated IP\s*?:\s*?0x([a-f0-9]+?)\s')
     elif target_str == "Instruction":
+        # Operation: XOR is assumed.
         fault_type = FaultType.FLIP
         target = FaultTarget.IR
         # Processing the mask and old and new value is a bit confusing.
@@ -82,7 +83,6 @@ def fault_from_entry(entry: str) -> Fault:
         old_value_str = find_in_entry(entry, r'Original instruction\s*?:\s*?(([a-f0-9]{2} ){2,4})\s')
         new_value_str = find_in_entry(entry, r'Updated instruction\s*?:\s*?(([a-f0-9]{2} ){2,4})\s')
     elif target_str == "Register":
-        # Operation: XOR is assumed.
         fault_type = FaultType.ZERO
         register_number = find_in_entry(entry, r'Reg#: (.+?)\.')
         target = eval(f"FaultTarget.{register_number}")  # pylint: disable=W0123 (eval-used)
@@ -106,8 +106,8 @@ def fault_from_entry(entry: str) -> Fault:
 
 def executed_instruction_from_entry(entry: str) -> ExecutedInstruction:
     address = find_in_entry(entry, r'Address: 0x([a-f0-9]+?)\.')
-    hit = find_in_entry(entry, r'Hit: (\d+).')
-    instruction = find_in_entry(entry, r'Instruction: (\d+).')
+    hit = find_in_entry(entry, r'Hit: (\d+)\.')
+    instruction = find_in_entry(entry, r'Instruction: (\d+)\.')
 
     return ExecutedInstruction(
         address=bytes.fromhex(f"{address.strip():0>8}"),
@@ -124,7 +124,7 @@ def simulation_result_from_entry(entry: str) -> SimulationResult:
         find_in_entry(entry, r'(Run result: fault errored program)', default="") != ""
 
     # If the execution errored there might be no output
-    output_str = find_in_entry(entry, r'Output.+?: ([a-f0-9]+?)(\s|$)', default="")
+    output_str = find_in_entry(entry, r'Output.*?: ([a-f0-9]+?)(\s|$)', default="")
     if output_str:
         output = bytes.fromhex(output_str.strip())
     else:
