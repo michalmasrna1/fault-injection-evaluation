@@ -54,6 +54,5 @@ class Curve25519(Curve):
     def generate_known_outputs(self, public_key: bytes, private_key: bytes) -> Iterable[tuple[bytes, int]]:
         yield from super().generate_known_outputs(public_key, private_key)
 
-        # Result representing the neutral element - probably generated
-        # by providing a point in the order-8 subgroup.
-        yield (0).to_bytes(32, 'little'), 0
+        # All small subgroup points have the entropy 0.
+        yield from ((point, 0) for point in self.small_subgroup_points())
