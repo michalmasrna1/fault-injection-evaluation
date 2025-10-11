@@ -2,7 +2,8 @@ import argparse
 import os
 
 from fi_evaluation.fault_finder import (Fault, SimulationResult,
-                                        print_sorted_simulation_results)
+                                        print_sorted_simulation_results,
+                                        simulate_faults_parallel)
 from fi_evaluation.library import PredictableOutputs, library_from_name
 
 EXECUTABLE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -81,6 +82,11 @@ def main():
     parser_check_safe_error.add_argument("private_key_1", type=str)
     parser_check_safe_error.add_argument("private_key_2", type=str)
 
+    parser_simulate_parallel = subparsers.add_parser("simulate-parallel")
+    parser_simulate_parallel.add_argument("library_name", type=str)
+    parser_simulate_parallel.add_argument("curve_name", type=str)
+    parser_simulate_parallel.add_argument("optimal_threads", type=int)
+
     args = parser.parse_args()
     library = library_from_name(args.library_name, args.curve_name)
 
@@ -100,6 +106,11 @@ def main():
             private_key_1_bytes,
             private_key_2_bytes)
         print_safe_error_results(potentially_prone_addresses, group=True)
+
+    # TODO: Not sure if this should be here, this is not really an evaluation
+    # so calling "evaluate.py simulate-parallel" is not really correct.
+    elif args.command == "simulate-parallel":
+        simulate_faults_parallel(library, args.optimal_threads)
 
 
 if __name__ == "__main__":

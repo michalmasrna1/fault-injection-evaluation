@@ -1,6 +1,9 @@
 import os
 import re
 import subprocess
+from datetime import datetime
+from multiprocessing import Pool
+from time import sleep
 
 from fi_evaluation.fault_finder.result import Fault, FaultType
 from fi_evaluation.library import Library
@@ -208,3 +211,125 @@ def simulate_faults(library: Library, key: bytes, clean: bool = True) -> None:
     print(f"Simulating faults for key: {key.hex()}")
     execute_faults(library)
     process_output(library, key, clean)
+
+
+def count_total_work(fault_range: range, total_checkpoints: int) -> int:
+    range_size = len(fault_range)
+    # Assume that the number of checkpoints has been optimized.
+    # This means that their spacing corresponds to the equal amount
+    # of simulated instructions.
+    checkpoint_restore_work = range_size // total_checkpoints
+    total_checkpoints_work = checkpoint_restore_work * range_size
+
+    # How many instructions will have to be simulated from the fault to the end.
+    # It is a sum of numbers from 1 to N, where N is the size of the range.
+    total_after_fault_work = range_size * (range_size + 1) // 2
+    # How many instructions will have to be simulated from the checkpoint to the fault.
+    # Realize that the number of instructions from checkpoint to fault is between
+    # 0 and checkpoint_restore_work, as that is how the number of checkpoints
+    # should have been optimized.
+    total_before_fault_work = (checkpoint_restore_work // 2) * range_size
+    total_instructions_work = total_after_fault_work + total_before_fault_work
+    total_work = total_instructions_work + total_checkpoints_work
+
+    return total_work
+
+
+def split_fault_range(fault_range: range, num_chunks: int, total_checkpoints: int) -> list[range]:
+    """
+    We explicitly define a split function because splitting the range evenly
+    is far from optimal. The faults at the start take much longer to simulate,
+    because faults at the end gain much more speedup from checkpoints.
+
+    We use the total number of checkpoints to estimate how much time it takes
+    to restore a checkpoint (the function assumes the number is already optimized
+    for the fault range size).
+    """
+    range_size = len(fault_range)
+    checkpoint_restore_work = range_size // total_checkpoints
+    total_work = count_total_work(fault_range, total_checkpoints)
+    work_per_chunk = total_work // num_chunks
+
+    current_chunk_start = fault_range.start
+    current_chunk_work = 0
+    chunks: list[range] = []
+
+    # Go through the instructions, accumulate the work, and create a new chunk
+    # whenever the work exceeds the average work per chunk.
+    for inst_num in fault_range:
+        if len(chunks) == num_chunks - 1:
+            # The last chunk has to go to the end.
+            chunks.append(range(current_chunk_start, fault_range.stop))
+            break
+
+        # We do not know where was the last checkpoint so we always use the average.
+        work_before = checkpoint_restore_work // 2
+        work_after = range_size - (inst_num - fault_range.start)
+        inst_work = checkpoint_restore_work + work_before + work_after
+        current_chunk_work += inst_work
+        if current_chunk_work >= work_per_chunk:
+            chunks.append(range(current_chunk_start, inst_num))
+            current_chunk_start = inst_num + 1
+            current_chunk_work = 0
+
+    return chunks
+
+
+def simulate_faults_parallel(library: Library, optimal_threads: int) -> None:
+    """
+    In the entire function we do not care about the small inefficiencies that
+    arise if the optimal threads does not divide the total number of cores,
+    or if the last chunk is smaller/bigger than the others.
+    """
+    # Assume 1 core if the number of cores cannot be determined.
+    total_cores = os.cpu_count() or 1
+
+    if not 1 <= optimal_threads <= total_cores:
+        raise ValueError(f"optimal_threads must be between 1 and the number of available cores ({total_cores}).")
+
+    num_chunks = total_cores // optimal_threads
+
+    total_checkpoints = get_number_of_checkpoints(library)
+    fault_range = get_fault_range(library)
+    # If total_checkpoints is larger than the number of faulted instructions,
+    # assume 1 instruction per checkpoint. This never happens "in production".
+    inst_per_checkpoint = len(fault_range) // total_checkpoints or 1
+
+    chunks = split_fault_range(fault_range, num_chunks, total_checkpoints)
+
+    # Assume the public and private keys are already set in the jsons.
+    key = get_private_key(library)
+    # Number of threads only need to be set once.
+    set_num_threads(library, optimal_threads)
+
+    #
+    # Spawn the parallel processes.
+    #
+    with Pool(num_chunks) as pool:
+        for chunk_num, chunk_range in enumerate(chunks):
+            # Different chunks might have different lengths so the number of checkpoints differs.
+            # Avoid setting it to 0, FaultFinder will fail. "In production", this never happens.
+            num_checkpoints = len(chunk_range) // inst_per_checkpoint or 1
+            set_num_checkpoints(library, num_checkpoints)
+            set_output_dir(library, key, str(chunk_num))
+            set_fault_range(library, chunk_range)
+
+            print(f"Starting chunk {chunk_num} for fault range {chunk_range}.")
+            pool.apply_async(
+                execute_faults, args=(library,),
+                callback=lambda _, num=chunk_num: print(f"Chunk {num} done at {datetime.now()}.")
+            )
+
+            # Give the process to start and read the config files from disk.
+            sleep(10)
+
+        pool.close()
+        pool.join()
+
+    #
+    # Restore the original state.
+    #
+    set_num_checkpoints(library, total_checkpoints)
+    set_fault_range(library, fault_range)
+    set_output_dir(library, key)
+    set_num_threads(library, total_cores)
