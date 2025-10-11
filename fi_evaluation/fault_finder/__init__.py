@@ -4,4 +4,5 @@ from fi_evaluation.fault_finder.fault_finder import (
     simulate_faults_parallel)
 from fi_evaluation.fault_finder.result import (Fault, FaultTarget, FaultType,
                                                SimulationResult,
-                                               print_sorted_simulation_results)
+                                               print_sorted_simulation_results,
+                                               read_processed_outputs)

@@ -3,6 +3,7 @@ import os
 
 from fi_evaluation.fault_finder import (Fault, SimulationResult,
                                         print_sorted_simulation_results,
+                                        read_processed_outputs,
                                         simulate_faults_parallel)
 from fi_evaluation.library import PredictableOutputs, library_from_name
 
@@ -93,7 +94,12 @@ def main():
     if args.command == "check-predictable":
         public_key_bytes = bytes.fromhex(args.public_key)
         private_key_bytes = bytes.fromhex(args.private_key)
-        library.check_predictable_outputs(args.output_dir, public_key_bytes, private_key_bytes)
+        # Need to cast to a list to be able to iterate multiple times.
+        parsed_output = list(read_processed_outputs(args.output_dir, skip_errors=True))
+        key_shortening_results = library.check_key_shortening(parsed_output, public_key_bytes, private_key_bytes)
+        print_predictable_outputs(key_shortening_results, "Faulted key")
+        known_output_results = library.check_known_outputs(parsed_output, public_key_bytes, private_key_bytes)
+        print_predictable_outputs(known_output_results, "Known output")
 
     elif args.command == "check-safe-error":
         public_key_bytes = bytes.fromhex(args.public_key)

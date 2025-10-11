@@ -3,8 +3,7 @@ from typing import Iterable
 
 from fi_evaluation.curve import Curve
 from fi_evaluation.fault_finder.result import (SimulationResult,
-                                               load_ordered_sim_results,
-                                               read_processed_outputs)
+                                               load_ordered_sim_results)
 
 PredictableOutputs = dict[bytes, tuple[int, set[SimulationResult]]]
 
@@ -27,6 +26,8 @@ class Library(ABC):
         pass
 
     def generate_known_outputs(self, public_key: bytes, private_key: bytes) -> Iterable[tuple[bytes, int]]:
+        # TODO: We need to generate also faulted outputs with underlying data
+        # ecc25519... instead of 00000000...
         yield from self.curve.generate_known_outputs(public_key, private_key)
         yield from self.generate_computational_loop_abort_results(public_key, private_key)
 
@@ -50,6 +51,7 @@ class Library(ABC):
 
     def check_key_shortening(self, parsed_output: list[SimulationResult],
                              public_key: bytes, private_key: bytes) -> PredictableOutputs:
+        # Maps outputs to the set of SimulationResults producing them.
         results_sim: dict[bytes, set[SimulationResult]] = {}
         for result_sim in parsed_output:
             if result_sim.output is None:
@@ -70,13 +72,6 @@ class Library(ABC):
                     seen_effective_keys[faulted_key] = (entropy, results_sim[result])
 
         return seen_effective_keys
-
-    def check_predictable_outputs(self, output_dir: str, public_key: bytes, private_key: bytes) -> PredictableOutputs:
-        # Need to cast to a list to be able to iterate multiple times
-        parsed_output = list(read_processed_outputs(output_dir, skip_errors=True))
-        predictable_outputs = self.check_key_shortening(parsed_output, public_key, private_key)
-        predictable_outputs.update(self.check_known_outputs(parsed_output, public_key, private_key))
-        return predictable_outputs
 
     def safe_error_leak(self, result_1: SimulationResult,
                         correct_output_1: bytes,
