@@ -167,14 +167,16 @@ def process_outputs(output_dir: str, clean: bool = False) -> None:
     """
     processes: list[Process] = []
 
-    for file_name in os.listdir(output_dir):
-        if not file_name.endswith(".txt"):
-            continue
-        original_path = os.path.join(output_dir, file_name)
-        destination_path = os.path.join(output_dir, file_name.replace(".txt", ".bin"))
-        process = Process(target=process_output, args=(original_path, destination_path, clean))
-        processes.append(process)
-        process.start()
+    # Instead of entries directly in the directory, traverse the entire directory:
+    for directory, _, entries in os.walk(output_dir):
+        for entry_name in entries:
+            original_path = os.path.join(directory, entry_name)
+            if not os.path.isfile(original_path) or not entry_name.endswith(".txt"):
+                continue
+            destination_path = os.path.join(directory, entry_name.replace(".txt", ".bin"))
+            process = Process(target=process_output, args=(original_path, destination_path, clean))
+            processes.append(process)
+            process.start()
 
     for process in processes:
         process.join()

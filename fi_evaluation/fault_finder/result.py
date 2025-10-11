@@ -250,9 +250,14 @@ def print_sorted_simulation_results(results: set[SimulationResult]):
 
 
 def read_processed_outputs(output_dir: str, skip_errors: bool) -> Iterable[SimulationResult]:
-    for filename in os.listdir(output_dir):
-        if filename.endswith(".bin"):
-            with open(os.path.join(output_dir, filename), "rb") as output_file:
+    # Do not read just files in the directory, but traverse the entire directory
+    for directory, _, entries in os.walk(output_dir):
+        for entry_name in entries:
+            full_path = os.path.join(directory, entry_name)
+            if not os.path.isfile(full_path) or not entry_name.endswith(".bin"):
+                continue
+
+            with open(full_path, "rb") as output_file:
                 # Read 64 byte chunks, for each call SimulationResult.from_bytes()
                 while chunk := output_file.read(64):
                     result = SimulationResult.from_bytes(chunk)
