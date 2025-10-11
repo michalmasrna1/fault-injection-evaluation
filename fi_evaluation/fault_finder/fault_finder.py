@@ -280,12 +280,18 @@ def split_fault_range(fault_range: range, num_chunks: int, total_checkpoints: in
     return chunks
 
 
-def simulate_faults_parallel(library: Library, optimal_threads: int) -> None:
+def simulate_faults_parallel(library: Library, optimal_threads: int | None = None) -> None:
     """
     In the entire function we do not care about the small inefficiencies that
     arise if the optimal threads does not divide the total number of cores,
     or if the last chunk is smaller/bigger than the others.
     """
+    # If the optimal number of threads was passed, use that.
+    # If not, try to read it from the environment variable FF_OPT_THREADS (FaultFinder optimal threads).
+    # If the environment variable is not set, use 8 as a reasonable default.
+    if optimal_threads is None:
+        optimal_threads = int(os.getenv("FF_OPT_THREADS", "8"))
+
     # Assume 1 core if the number of cores cannot be determined.
     total_cores = os.cpu_count() or 1
 

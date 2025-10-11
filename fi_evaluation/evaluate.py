@@ -85,7 +85,7 @@ def main():
     parser_simulate_parallel = subparsers.add_parser("simulate-parallel")
     parser_simulate_parallel.add_argument("library_name", type=str)
     parser_simulate_parallel.add_argument("curve_name", type=str)
-    parser_simulate_parallel.add_argument("optimal_threads", type=int)
+    parser_simulate_parallel.add_argument("optimal_threads", type=int, nargs='?', default=None)
 
     args = parser.parse_args()
     library = library_from_name(args.library_name, args.curve_name)
@@ -110,7 +110,10 @@ def main():
     # TODO: Not sure if this should be here, this is not really an evaluation
     # so calling "evaluate.py simulate-parallel" is not really correct.
     elif args.command == "simulate-parallel":
-        simulate_faults_parallel(library, args.optimal_threads)
+        if args.optimal_threads is None:
+            simulate_faults_parallel(library)
+        else:
+            simulate_faults_parallel(library, args.optimal_threads)
 
 
 if __name__ == "__main__":
