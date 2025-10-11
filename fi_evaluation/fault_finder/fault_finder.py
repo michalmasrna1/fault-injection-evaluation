@@ -8,6 +8,16 @@ from fi_evaluation.library import Library
 FAULT_FINDER_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "fault-finder")
 
 
+def read_from_file(file_path: str, pattern: str) -> str:
+    with open(file_path, 'r', encoding='utf-8') as file:
+        content = file.read()
+
+    if match := re.search(pattern, content):
+        return match.group(1)
+    else:
+        raise ValueError(f"Match not found: {pattern}")
+
+
 def replace_in_file(file_path: str, pattern: str, replacement: str) -> None:
     with open(file_path, 'r', encoding='utf-8') as file:
         content = file.read()
@@ -62,38 +72,87 @@ def print_fault_model_file(library: Library, instruction_fault_pairs: list[set[F
                 f.write(fault_model_string(fault))
 
 
-def output_dir_from_key(library: Library, key: bytes) -> str:
-    return os.path.join("demos", library.name, "outputs", key.hex())
+def output_dir_from_key(library: Library, key: bytes, absolute: bool = True) -> str:
+    """
+    It is better to put relative paths into FaultFinder jsons, which is why
+    the relative path can be requested.
+    """
+    relative_path = os.path.join("demos", library.name, "outputs", key.hex())
+    if absolute:
+        return os.path.join(FAULT_FINDER_DIR, relative_path)
+    return relative_path
+
+
+def get_binary_details_path(library: Library) -> str:
+    return os.path.join(FAULT_FINDER_DIR, "demos", library.name, "jsons", "binary-details.json")
+
+
+def get_fault_json_path(library: Library) -> str:
+    return os.path.join(FAULT_FINDER_DIR, "demos", library.name, "jsons", "fault.json")
+
+
+def get_golden_run_json_path(library: Library) -> str:
+    return os.path.join(FAULT_FINDER_DIR, "demos", library.name, "jsons", "goldenrun_full.json")
+
+
+def set_output_dir(library: Library, key: bytes):
+    # Change dir so that we do not call makedirs with an absolute path.
+    os.chdir(FAULT_FINDER_DIR)
+    # Relative path is also better for the fault.json file.
+    output_dir_rel = output_dir_from_key(library, key, False)
+    os.makedirs(output_dir_rel, exist_ok=True)
+
+    fault_json_path = get_fault_json_path(library)
+    replace_in_file(fault_json_path, r'\"output directory name\".*?\"(.*?)\"', output_dir_rel)
+
+
+def set_private_key(library: Library, key: bytes):
+    binary_details_json_path = get_binary_details_path(library)
+    replace_in_file(binary_details_json_path, r'\"byte array\".*?\"(.{64})\"\s*\/\/\s*private_key', key.hex())
+
+
+def get_number_of_faulted_instructions(library: Library) -> int:
+    result = execute_golden_run(library)
+    total_instructions = int(re.findall(r"Total instructions in faulting range:\s+(\d+)", result.stdout)[0])
+    return total_instructions
+
+
+def process_output(library: Library, key: bytes, clean: bool = True):
+    print("Processing output.")
+    output_dir = output_dir_from_key(library, key)
+    process_output_path = os.path.join(
+        FAULT_FINDER_DIR,
+        "..",
+        "fault-injection-evaluation",
+        "fi_evaluation",
+        "process_output.py")
+    process_output_args = ["python3", process_output_path, output_dir]
+    if clean:
+        process_output_args.append("--clean")
+    subprocess.run(process_output_args, check=True)
 
 
 def execute_golden_run(library: Library) -> subprocess.CompletedProcess[str]:
     # The jsons are prepared so that they can be executed from inside the fault-finder directory.
     os.chdir(FAULT_FINDER_DIR)
     print("Executing the golden run.")
-    golden_run_path = f"demos/{library.name}/jsons/goldenrun_full.json"
+    golden_run_path = get_golden_run_json_path(library)
     # Can't check, returns 1 even on what we consider successful execution.
     result = subprocess.run(["./faultfinder", golden_run_path], capture_output=True, text=True, check=False)
 
     return result
 
 
-def simulate_faults(library: Library, key: bytes) -> None:
-    # The jsons are prepared so that they can be executed from inside the fault-finder directory.
-    os.chdir(FAULT_FINDER_DIR)
+def simulate_faults(library: Library, key: bytes, clean: bool = True) -> None:
 
-    output_dir = output_dir_from_key(library, key)
-    os.makedirs(output_dir, exist_ok=True)
-
-    fault_json_path = os.path.join("demos", library.name, "jsons", "fault.json")
-    replace_in_file(fault_json_path, r'\"output directory name\".*?\"(.*?)\"', output_dir)
-
-    binary_details_path = os.path.join("demos", library.name, "jsons", "binary-details.json")
-    replace_in_file(binary_details_path, r'\"byte array\".*?\"(.{64})\"\s*\/\/\s*private_key', key.hex())
+    fault_json_path = get_fault_json_path(library)
+    set_output_dir(library, key)
+    set_private_key(library, key)
 
     print(f"Simulating faults for key: {key.hex()}")
+    # The jsons are prepared so that they can be executed from inside the fault-finder directory.
+    os.chdir(FAULT_FINDER_DIR)
     # Can't check, returns 1 even on what we consider successful execution.
     subprocess.run(["./faultfinder", fault_json_path], capture_output=True, text=True, check=False)
 
-    print("Processing output.")
-    subprocess.run(["python3", "../fault-injection-evaluation/fi_evaluation/process_output.py",
-                    output_dir, "--clean"], check=True)
+    process_output(library, key, clean)

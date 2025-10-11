@@ -1,10 +1,9 @@
 import argparse
-import re
 from random import randbytes
 
 from fi_evaluation.evaluate import print_safe_error_results
 from fi_evaluation.fault_finder import (Fault, SimulationResult,
-                                        execute_golden_run,
+                                        get_number_of_faulted_instructions,
                                         output_dir_from_key,
                                         print_fault_model_file,
                                         simulate_faults)
@@ -24,8 +23,7 @@ def evaluate_safe_error(
 ):
     library = library_from_name("sca25519-unprotected", "curve25519")
 
-    result = execute_golden_run(library)
-    total_instructions = int(re.findall(r"Total instructions in faulting range:\s+(\d+)", result.stdout)[0])
+    total_instructions = get_number_of_faulted_instructions(library)
     print(f"Total number of faulted instructions: {total_instructions}")
 
     # Defining in advance so that we can print it after the loop.
