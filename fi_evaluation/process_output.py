@@ -79,7 +79,7 @@ def fault_from_entry(entry: str) -> Fault:
         # which is how it is printed.
         # To avoid confusion when printing the fault model later, we keep the mask as is,
         # even though it does not correspond well to the actual changed bits.
-        mask_str = find_in_entry(entry, r'Mask\s*?:\s*?0x([a-f0-9]+?)\s')
+        mask_str = find_in_entry(entry, r'Mask\s*?:\s*?0x([a-f0-9]+?)\.?\s')
         old_value_str = find_in_entry(entry, r'Original instruction\s*?:\s*?(([a-f0-9]{2} ){2,4})\s')
         new_value_str = find_in_entry(entry, r'Updated instruction\s*?:\s*?(([a-f0-9]{2} ){2,4})\s')
     elif target_str == "Register":
