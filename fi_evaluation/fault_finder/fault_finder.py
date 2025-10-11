@@ -278,7 +278,8 @@ def split_fault_range(fault_range: range, num_chunks: int, total_checkpoints: in
                 (range_size - (inst_num - fault_range.start)) + ADDITIONAL_WORK_PER_INSTRUCTION
                 for inst_num in range(current_chunk_start, fault_range.stop)
             )
-            print(f"Last chunk received {(100 * last_chunk_work) // work_per_chunk}% of average work.")
+            last_chunk_work_percentage = (100 * last_chunk_work) // work_per_chunk
+            print(f"Last chunk received {last_chunk_work_percentage}% of the average work (should be around 100%).")
             break
 
         # We do not know where was the last checkpoint so we always use the average.
