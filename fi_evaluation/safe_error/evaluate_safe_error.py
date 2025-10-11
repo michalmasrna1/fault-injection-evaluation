@@ -11,7 +11,7 @@ from fi_evaluation.fault_finder import (Fault, SimulationResult,
 from fi_evaluation.library import Library, library_from_name
 from fi_evaluation.safe_error import SafeErrorModel, safe_error_model_from_name
 
-# How many (relative to the total number of iterations) key pairs without change to assume convergence.
+# How many (relative to the total number of iterations) key pairs without change at least to assume convergence.
 CONVERGENCE_THRESHOLD_RELATIVE = 0.1
 # How many (absolute) key pairs without change at least to assume convergence.
 CONVERGENCE_THRESHOLD_ABSOLUTE = 5
@@ -36,6 +36,10 @@ def evaluate_safe_error(
 
     while True:
         total_iters += 1
+
+        #
+        # 1. Generate the key pair and run the simulations.
+        #
         # Safe error leakage should be present for all keys. We also
         # do not really care about the cryptographic quality of the
         # random numbers here.
@@ -45,6 +49,9 @@ def evaluate_safe_error(
         complementary_key = safe_error_model.complementary_key(original_key)
         simulate_faults(library, complementary_key)
 
+        #
+        # 2. Determine potentially prone instructions for this pair.
+        #
         previous_prone_instructions = prone_instructions.copy()
         prone_instructions = [set() for _ in range(total_instructions)]
 
@@ -54,6 +61,9 @@ def evaluate_safe_error(
                 library, complementary_key), public_key, original_key, complementary_key
         )
 
+        #
+        # 3. Update the potentially prone instructions and the fault model file accordingly.
+        #
         for simulation_result in potentially_prone_instructions:
             instruction_index_0_based = simulation_result.executed_instruction.instruction - 1
             fault = simulation_result.fault
@@ -66,6 +76,9 @@ def evaluate_safe_error(
         print(f"Number of potentially prone instruction-fault pairs: {sum(len(p) for p in prone_instructions)}")
         print_fault_model_file(library, prone_instructions)
 
+        #
+        # 4. Check if we have reached the convergence criteria.
+        #
         if prone_instructions == previous_prone_instructions:
             unchanged_iters += 1
             if unchanged_iters >= CONVERGENCE_THRESHOLD_ABSOLUTE and\
