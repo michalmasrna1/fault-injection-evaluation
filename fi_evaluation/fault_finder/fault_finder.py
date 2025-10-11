@@ -74,7 +74,7 @@ def fault_model_string(fault: Fault) -> str:
     raise ValueError("Unknown fault type")
 
 
-def print_fault_model_file(library: Library, instruction_fault_pairs: list[set[Fault]]) -> None:
+def write_fault_model_file(library: Library, instruction_fault_pairs: list[set[Fault]]) -> None:
     beginning_str = """######################################################################
 #
 ######################################################################
@@ -270,8 +270,7 @@ def split_fault_range(fault_range: range, num_chunks: int, total_checkpoints: in
         # We do not know where was the last checkpoint so we always use the average.
         work_before = checkpoint_restore_work // 2
         work_after = range_size - (inst_num - fault_range.start)
-        inst_work = checkpoint_restore_work + work_before + work_after + ADDITIONAL_WORK_PER_INSTRUCTION
-        current_chunk_work += inst_work
+        current_chunk_work += checkpoint_restore_work + work_before + work_after + ADDITIONAL_WORK_PER_INSTRUCTION
         if current_chunk_work >= work_per_chunk:
             chunks.append(range(current_chunk_start, inst_num))
             current_chunk_start = inst_num + 1

@@ -4,9 +4,8 @@ from random import randbytes
 from fi_evaluation.evaluate import print_safe_error_results
 from fi_evaluation.fault_finder import (Fault, SimulationResult,
                                         get_number_of_faulted_instructions,
-                                        output_dir_from_key,
-                                        print_fault_model_file,
-                                        simulate_faults)
+                                        output_dir_from_key, simulate_faults,
+                                        write_fault_model_file)
 from fi_evaluation.library import Library, library_from_name
 from fi_evaluation.safe_error import SafeErrorModel, safe_error_model_from_name
 
@@ -62,8 +61,11 @@ def evaluate_safe_error(
 
         print(f"Checking safe error on key pair {original_key.hex()}, {complementary_key.hex()}.")
         potentially_prone_instructions = library.check_safe_error(
-            output_dir_from_key(library, original_key), output_dir_from_key(
-                library, complementary_key), public_key, original_key, complementary_key
+            output_dir_from_key(library, original_key),
+            output_dir_from_key(library, complementary_key),
+            public_key,
+            original_key,
+            complementary_key
         )
 
         #
@@ -79,7 +81,7 @@ def evaluate_safe_error(
                 prone_instructions[instruction_index_0_based].add(fault)
 
         print(f"Number of potentially prone instruction-fault pairs: {sum(len(p) for p in prone_instructions)}")
-        print_fault_model_file(library, prone_instructions)
+        write_fault_model_file(library, prone_instructions)
 
         #
         # 4. Check if we have reached the convergence criteria.
