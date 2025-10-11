@@ -183,9 +183,6 @@ def execute_faults(library: Library) -> subprocess.CompletedProcess[str]:
     fault_json_path = get_fault_json_path(library)
     # Can't check, returns 1 even on what we consider successful execution.
     result = subprocess.run(["./faultfinder", fault_json_path], capture_output=True, text=True, check=False)
-
-    print(result.stderr)
-
     return result
 
 

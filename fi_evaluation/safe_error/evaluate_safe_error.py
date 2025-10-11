@@ -15,6 +15,24 @@ CONVERGENCE_THRESHOLD_RELATIVE = 0.1
 CONVERGENCE_THRESHOLD_ABSOLUTE = 5
 
 
+def print_state_start(total_iters: int):
+    print("################################################################################")
+    print(f"Starting iteration number {total_iters}.")
+
+
+def print_state_end(total_iters: int, unchanged_iters: int, prone_instructions: list[set[Fault]]):
+    print(f"Number of potentially prone instruction-fault pairs: {sum(len(p) for p in prone_instructions)}.")
+    print(f"Convergence status: {unchanged_iters}/{CONVERGENCE_THRESHOLD_ABSOLUTE}; "
+          f"{unchanged_iters / total_iters if total_iters > 0 else 0:.0%}/{CONVERGENCE_THRESHOLD_RELATIVE:.0%}.")
+    print("################################################################################")
+    print()
+
+
+def check_convergence(unchanged_iters: int, total_iters: int) -> bool:
+    return (unchanged_iters >= CONVERGENCE_THRESHOLD_ABSOLUTE and
+            unchanged_iters >= CONVERGENCE_THRESHOLD_RELATIVE * total_iters)
+
+
 def evaluate_safe_error(
         library: Library,
         public_key: bytes,
@@ -25,6 +43,7 @@ def evaluate_safe_error(
 
     total_instructions = get_number_of_faulted_instructions(library)
     print(f"Total number of faulted instructions: {total_instructions}")
+    print()
 
     # Defining in advance so that we can print it after the loop.
     potentially_prone_instructions: set[SimulationResult] = set()
@@ -34,6 +53,7 @@ def evaluate_safe_error(
 
     while True:
         total_iters += 1
+        print_state_start(total_iters)
 
         #
         # 1. Load/generate the key pair and run the simulations.
@@ -80,7 +100,6 @@ def evaluate_safe_error(
                 # The instruction<>fault pair was prone and remains prone.
                 prone_instructions[instruction_index_0_based].add(fault)
 
-        print(f"Number of potentially prone instruction-fault pairs: {sum(len(p) for p in prone_instructions)}")
         write_fault_model_file(library, prone_instructions)
 
         #
@@ -88,11 +107,13 @@ def evaluate_safe_error(
         #
         if prone_instructions == previous_prone_instructions:
             unchanged_iters += 1
-            if unchanged_iters >= CONVERGENCE_THRESHOLD_ABSOLUTE and\
-                    unchanged_iters >= CONVERGENCE_THRESHOLD_RELATIVE * total_iters:
-                break
         else:
             unchanged_iters = 0
+
+        print_state_end(total_iters, unchanged_iters, prone_instructions)
+
+        if check_convergence(unchanged_iters, total_iters):
+            break
 
     # Print the potentially prone instructions from the last run.
     # As the set of potentially prone instructions should have converged
