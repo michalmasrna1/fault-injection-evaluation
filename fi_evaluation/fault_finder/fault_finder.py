@@ -5,6 +5,7 @@ from datetime import datetime
 from multiprocessing import Pool
 from time import sleep
 
+from fi_evaluation.fault_finder.process_output import process_outputs
 from fi_evaluation.fault_finder.result import Fault, FaultType
 from fi_evaluation.library import Library
 
@@ -166,21 +167,6 @@ def get_fault_range(library: Library) -> range:
     return range(start, end)
 
 
-def process_output(library: Library, key: bytes, clean: bool = True):
-    print("Processing output.")
-    output_dir = output_dir_from_key(library, key)
-    process_output_path = os.path.join(
-        FAULT_FINDER_DIR,
-        "..",
-        "fault-injection-evaluation",
-        "fi_evaluation",
-        "process_output.py")
-    process_output_args = ["python3", process_output_path, output_dir]
-    if clean:
-        process_output_args.append("--clean")
-    subprocess.run(process_output_args, check=True)
-
-
 def execute_golden_run(library: Library) -> subprocess.CompletedProcess[str]:
     # The jsons are prepared so that they can be executed from inside the fault-finder directory.
     os.chdir(FAULT_FINDER_DIR)
@@ -204,13 +190,12 @@ def execute_faults(library: Library) -> subprocess.CompletedProcess[str]:
 
 
 def simulate_faults(library: Library, key: bytes, clean: bool = True) -> None:
-
     set_output_dir(library, key)
     set_private_key(library, key)
 
     print(f"Simulating faults for key: {key.hex()}")
     execute_faults(library)
-    process_output(library, key, clean)
+    process_outputs(output_dir_from_key(library, key), clean)
 
 
 # There is some additional work per faulted instruction. This is hard to
