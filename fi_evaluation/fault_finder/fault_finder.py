@@ -213,6 +213,14 @@ def simulate_faults(library: Library, key: bytes, clean: bool = True) -> None:
     process_output(library, key, clean)
 
 
+# There is some additional work per faulted instruction. This is hard to
+# quantify, the following constant is a guesstimate based on experiments.
+# If the first chunks tend to end early, increase this number.
+# If the last chunks tend to end early, decrease this number.
+# The number represents how many simulated instructions is the work equal to.
+ADDITIONAL_WORK_PER_INSTRUCTION = 2000
+
+
 def count_total_work(fault_range: range, total_checkpoints: int) -> int:
     range_size = len(fault_range)
     # Assume that the number of checkpoints has been optimized.
@@ -230,7 +238,10 @@ def count_total_work(fault_range: range, total_checkpoints: int) -> int:
     # should have been optimized.
     total_before_fault_work = (checkpoint_restore_work // 2) * range_size
     total_instructions_work = total_after_fault_work + total_before_fault_work
-    total_work = total_instructions_work + total_checkpoints_work
+
+    total_additional_work = ADDITIONAL_WORK_PER_INSTRUCTION * range_size
+
+    total_work = total_instructions_work + total_checkpoints_work + total_additional_work
 
     return total_work
 
@@ -265,7 +276,7 @@ def split_fault_range(fault_range: range, num_chunks: int, total_checkpoints: in
         # We do not know where was the last checkpoint so we always use the average.
         work_before = checkpoint_restore_work // 2
         work_after = range_size - (inst_num - fault_range.start)
-        inst_work = checkpoint_restore_work + work_before + work_after
+        inst_work = checkpoint_restore_work + work_before + work_after + ADDITIONAL_WORK_PER_INSTRUCTION
         current_chunk_work += inst_work
         if current_chunk_work >= work_per_chunk:
             chunks.append(range(current_chunk_start, inst_num))
@@ -320,7 +331,7 @@ def simulate_faults_parallel(library: Library, optimal_threads: int) -> None:
                 callback=lambda _, num=chunk_num: print(f"Chunk {num} done at {datetime.now()}.")
             )
 
-            # Give the process to start and read the config files from disk.
+            # Give the process time to start and read the config files from disk.
             sleep(10)
 
         pool.close()
