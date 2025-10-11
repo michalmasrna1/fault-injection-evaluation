@@ -271,6 +271,14 @@ def split_fault_range(fault_range: range, num_chunks: int, total_checkpoints: in
         if len(chunks) == num_chunks - 1:
             # The last chunk has to go to the end.
             chunks.append(range(current_chunk_start, fault_range.stop))
+
+            # Calculate the work of the final chunk for sanity check.
+            last_chunk_work = sum(
+                checkpoint_restore_work + checkpoint_restore_work // 2 +
+                (range_size - (inst_num - fault_range.start)) + ADDITIONAL_WORK_PER_INSTRUCTION
+                for inst_num in range(current_chunk_start, fault_range.stop)
+            )
+            print(f"Last chunk received {(100 * last_chunk_work) // work_per_chunk}% of average work.")
             break
 
         # We do not know where was the last checkpoint so we always use the average.
