@@ -19,7 +19,8 @@ CONVERGENCE_THRESHOLD_ABSOLUTE = 5
 def evaluate_safe_error(
         library: Library,
         public_key: bytes,
-        safe_error_model: SafeErrorModel
+        safe_error_model: SafeErrorModel,
+        first_key: bytes | None = None
 ):
     library = library_from_name("sca25519-unprotected", "curve25519")
 
@@ -36,16 +37,22 @@ def evaluate_safe_error(
         total_iters += 1
 
         #
-        # 1. Generate the key pair and run the simulations.
+        # 1. Load/generate the key pair and run the simulations.
+        #    We assume that if a key has been provided, the first-round
+        #    simulation does not need to be run for the first key
+        #    or its complement.
         #
-        # Safe error leakage should be present for all keys. We also
-        # do not really care about the cryptographic quality of the
-        # random numbers here.
-        original_key = randbytes(32)
-        simulate_faults(library, original_key)
-
-        complementary_key = safe_error_model.complementary_key(original_key)
-        simulate_faults(library, complementary_key)
+        if total_iters == 1 and first_key is not None:
+            original_key = first_key
+            complementary_key = safe_error_model.complementary_key(original_key)
+            print("Skipping simulation for the first key pair as the first key was provided.")
+        else:
+            # Safe error leakage should be present for all keys. We also do not
+            # really care about the cryptographic quality of the random numbers here.
+            original_key = randbytes(32)
+            complementary_key = safe_error_model.complementary_key(original_key)
+            simulate_faults(library, original_key)
+            simulate_faults(library, complementary_key)
 
         #
         # 2. Determine potentially prone instructions for this pair.
@@ -92,19 +99,20 @@ def evaluate_safe_error(
 
 
 def main():
-
     parser = argparse.ArgumentParser()
     parser.add_argument("library_name", type=str)
     parser.add_argument("curve_name", type=str)
     parser.add_argument("public_key", type=str)
     parser.add_argument("safe_error_model", type=str)
-
+    parser.add_argument("first_key", type=str, default=None, nargs='?')
     args = parser.parse_args()
+
     library = library_from_name(args.library_name, args.curve_name)
     public_key_bytes = bytes.fromhex(args.public_key)
     safe_error_model = safe_error_model_from_name(args.safe_error_model)
+    first_key = bytes.fromhex(args.first_key) if args.first_key else None
 
-    evaluate_safe_error(library, public_key_bytes, safe_error_model)
+    evaluate_safe_error(library, public_key_bytes, safe_error_model, first_key)
 
 
 if __name__ == "__main__":
