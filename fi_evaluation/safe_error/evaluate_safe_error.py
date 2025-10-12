@@ -126,8 +126,8 @@ def main():
     parser.add_argument("library_name", type=str)
     parser.add_argument("curve_name", type=str)
     parser.add_argument("safe_error_model", type=str)
+    parser.add_argument("first_key", type=str, nargs='?', default=None)
     parser.add_argument("public_key", type=str, nargs='?', default=None)
-    parser.add_argument("first_key", type=str, default=None, nargs='?')
     args = parser.parse_args()
 
     library = library_from_name(args.library_name, args.curve_name)
