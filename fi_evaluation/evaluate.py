@@ -95,18 +95,19 @@ def main():
 
     if args.public_key is None:
         print("No public key specified, using the base point.")
-        public_key_bytes = library.curve.base_point()
+        pub_key_bytes = library.curve.base_point()
     else:
-        public_key_bytes = bytes.fromhex(args.public_key)
+        pub_key_bytes = bytes.fromhex(args.public_key)
 
     if args.command == "check-predictable":
-        private_key_bytes = bytes.fromhex(args.private_key)
+        priv_key_bytes = bytes.fromhex(args.private_key)
         # Need to cast to a list to be able to iterate multiple times.
         parsed_output = list(read_processed_outputs(args.output_dir, skip_errors=True))
-        key_shortening_results = library.check_key_shortening(parsed_output, public_key_bytes, private_key_bytes)
+
+        key_shortening_results = library.check_key_shortening(parsed_output, pub_key_bytes, priv_key_bytes)
         print_predictable_outputs(key_shortening_results, "Faulted key")
-        known_output_results = library.check_known_outputs(
-            parsed_output, public_key_bytes, private_key_bytes, OUTPUT_BUFFER)
+
+        known_output_results = library.check_known_outputs(parsed_output, pub_key_bytes, priv_key_bytes, OUTPUT_BUFFER)
         print_predictable_outputs(known_output_results, "Known output")
 
     elif args.command == "check-safe-error":
@@ -115,7 +116,7 @@ def main():
         potentially_prone_addresses = library.check_safe_error(
             args.output_dir_1,
             args.output_dir_2,
-            public_key_bytes,
+            pub_key_bytes,
             private_key_1_bytes,
             private_key_2_bytes
         )
