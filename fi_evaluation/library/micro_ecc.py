@@ -1,7 +1,7 @@
 from typing import Iterable
 
 from ecdsa import curves, ellipticcurve
-from fi_evaluation.curve import SECP256K1, SECP256R1, Curve
+from fi_evaluation.curve import SECP256K1, Curve
 from fi_evaluation.library import Library
 
 
@@ -10,8 +10,8 @@ class MicroECC(Library):
     name = "micro-ecc"
 
     def __init__(self, curve: Curve):
-        if not isinstance(curve, (SECP256K1, SECP256R1)):
-            raise ValueError("Our implementation of MicroECC only supports SECP256K1 and SECP256R1 curves.")
+        if not isinstance(curve, SECP256K1):
+            raise ValueError("Our implementation of MicroECC only supports the secp256k1 curve.")
         super().__init__(curve)
 
     def generate_computational_loop_abort_results(
@@ -20,8 +20,8 @@ class MicroECC(Library):
         Yields tuples of (faulted_result, entropy), where the entropy
         represents how many bits were used from the original key.
         """
-        if not isinstance(self.curve, (SECP256K1, SECP256R1)):
-            raise ValueError("MicroECC is currently implemented only with SECP256K1 and SECP256R1 curves.")
+        if not isinstance(self.curve, SECP256K1):
+            raise ValueError("MicroECC is currently implemented only with the secp256k1 curve.")
 
         curve = curves.SECP256k1.curve
         x = int.from_bytes(public_key[0:32], "big")
