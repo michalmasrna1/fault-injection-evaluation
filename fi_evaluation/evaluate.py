@@ -73,17 +73,17 @@ def main():
     parser_check_predictable.add_argument("library_name", type=str)
     parser_check_predictable.add_argument("curve_name", type=str)
     parser_check_predictable.add_argument("output_dir", type=str)
-    parser_check_predictable.add_argument("public_key", type=str)
     parser_check_predictable.add_argument("private_key", type=str)
+    parser_check_predictable.add_argument("public_key", type=str, nargs='?', default=None)
 
     parser_check_safe_error = subparsers.add_parser("check-safe-error")
     parser_check_safe_error.add_argument("library_name", type=str)
     parser_check_safe_error.add_argument("curve_name", type=str)
     parser_check_safe_error.add_argument("output_dir_1", type=str)
     parser_check_safe_error.add_argument("output_dir_2", type=str)
-    parser_check_safe_error.add_argument("public_key", type=str)
     parser_check_safe_error.add_argument("private_key_1", type=str)
     parser_check_safe_error.add_argument("private_key_2", type=str)
+    parser_check_safe_error.add_argument("public_key", type=str, nargs='?', default=None)
 
     parser_simulate_parallel = subparsers.add_parser("simulate-parallel")
     parser_simulate_parallel.add_argument("library_name", type=str)
@@ -93,8 +93,13 @@ def main():
     args = parser.parse_args()
     library = library_from_name(args.library_name, args.curve_name)
 
-    if args.command == "check-predictable":
+    if args.public_key is None:
+        print("No public key specified, using the base point.")
+        public_key_bytes = library.curve.base_point()
+    else:
         public_key_bytes = bytes.fromhex(args.public_key)
+
+    if args.command == "check-predictable":
         private_key_bytes = bytes.fromhex(args.private_key)
         # Need to cast to a list to be able to iterate multiple times.
         parsed_output = list(read_processed_outputs(args.output_dir, skip_errors=True))
@@ -105,7 +110,6 @@ def main():
         print_predictable_outputs(known_output_results, "Known output")
 
     elif args.command == "check-safe-error":
-        public_key_bytes = bytes.fromhex(args.public_key)
         private_key_1_bytes = bytes.fromhex(args.private_key_1)
         private_key_2_bytes = bytes.fromhex(args.private_key_2)
         potentially_prone_addresses = library.check_safe_error(
@@ -113,7 +117,8 @@ def main():
             args.output_dir_2,
             public_key_bytes,
             private_key_1_bytes,
-            private_key_2_bytes)
+            private_key_2_bytes
+        )
         print_safe_error_results(potentially_prone_addresses, group=True)
 
     # TODO: Not sure if this should be here, this is not really an evaluation

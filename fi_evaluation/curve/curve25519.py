@@ -6,7 +6,7 @@ from fi_evaluation.curve import Curve
 
 class Curve25519(Curve):
     name = "curve25519"
-    _base_point = bytes.fromhex("09000000000000000000000000000000000000000000000000000000")
+    _base_point = bytes.fromhex("0900000000000000000000000000000000000000000000000000000000000000")
     # The special points from https://cr.yp.to/ecdh.html
     _small_subgroup_ints = [
         # The real x coordinates of the 5 small subgroup points.
