@@ -9,6 +9,7 @@ cryptography = "*"
 setuptools = "*"
 fault-injection-evaluation = {file = ".", editable = true}
 ecdsa = "*"
+capstone = "*"
 
 [dev-packages]
 

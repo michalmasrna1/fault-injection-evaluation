@@ -9,6 +9,9 @@ from functools import total_ordering
 from math import log2
 from typing import Iterable
 
+from capstone import CS_ARCH_ARM, CS_MODE_THUMB, Cs
+
+md = Cs(CS_ARCH_ARM, CS_MODE_THUMB)
 NO_OUTPUT = b"nooutput" * 4  # 32 bytes placeholder representing no output
 
 
@@ -76,24 +79,46 @@ class Fault:
 
     def __str__(self) -> str:
         def format_instr(instruction: bytes) -> str:
-            # Format the instruction to how it would be printed
-            # in the disassembly. Beware that this includes changing
-            # the endianity of 16-bit instruction parts.
-            # More details are explained in process_output.py.
+
             instruction_hex = instruction.hex()
             while instruction_hex.startswith("0000"):
                 instruction_hex = instruction_hex[4:]
 
-            chunks_16_bits = [instruction_hex[i:i + 4] for i in range(0, len(instruction_hex), 4)]
-            return " ".join([chunk[2:4] + chunk[0:2] for chunk in chunks_16_bits])
+            #
+            # Format the instruction to how it would be printed
+            # in the disassembly. Beware that this includes changing
+            # the endianity of 16-bit instruction parts.
+            # More details are explained in process_output.py.
+            #
+
+            # chunks_16_bits = [instruction_hex[i:i + 4] for i in range(0, len(instruction_hex), 4)]
+            # inst_str = " ".join([chunk[2:4] + chunk[0:2] for chunk in chunks_16_bits])
+
+            # For now, we only print the disassembled instruction, as it seems more useful.
+            # I am keeping the commented code above if we want to revert to the hex representation.
+
+            #
+            # Print the disassembled instruction.
+            #
+            # We use instruction_hex as it has already been stripped of leading 0s.
+            disassembled_list = list(md.disasm_lite(bytes.fromhex(instruction_hex), 0))
+
+            if len(disassembled_list) == 0:
+                # This can easily happen if the opcode has been faulted.
+                return "Invalid instruction."
+
+            # We assume we only get one instruction.
+            disassembled = disassembled_list[0]
+            op_code = disassembled[2]
+            params = disassembled[3]
+            return f"{op_code} {params}"
 
         if self.fault_type == FaultType.SKIP:
             return f"Skipped {self.mask_int} instruction{'s' if self.mask_int > 1 else ''}"
 
         if self.fault_type == FaultType.FLIP:
-            # TODO: Ideally, we would also print the disassembled instructions
-            # I believe a 1-based index is more natural for people.
-            return f"Flipped instruction bit {self.mask_int + 1} ({format_instr(self.old_value)} -> {format_instr(self.new_value)})"
+            return (f"Flipped instruction bit {self.mask_int + 1} "
+                    f"({format_instr(self.old_value)} -> {format_instr(self.new_value)})")
 
         if self.fault_type == FaultType.ZERO:
             return f"Zeroed register {self.target.name}"
