@@ -8,6 +8,8 @@ from fi_evaluation.fault_finder import (Fault, SimulationResult,
 from fi_evaluation.library import PredictableOutputs, library_from_name
 
 EXECUTABLE_DIR = os.path.dirname(os.path.abspath(__file__))
+# Could be parsed from the command line but for now all evaluations use the same buffer content.
+OUTPUT_BUFFER = bytes.fromhex("ecc25519ecc25519ecc25519ecc25519ecc25519ecc25519ecc25519ecc25519")
 
 
 def print_predictable_outputs(predictable_outputs: PredictableOutputs, type_name: str):
@@ -98,7 +100,8 @@ def main():
         parsed_output = list(read_processed_outputs(args.output_dir, skip_errors=True))
         key_shortening_results = library.check_key_shortening(parsed_output, public_key_bytes, private_key_bytes)
         print_predictable_outputs(key_shortening_results, "Faulted key")
-        known_output_results = library.check_known_outputs(parsed_output, public_key_bytes, private_key_bytes)
+        known_output_results = library.check_known_outputs(
+            parsed_output, public_key_bytes, private_key_bytes, OUTPUT_BUFFER)
         print_predictable_outputs(known_output_results, "Known output")
 
     elif args.command == "check-safe-error":

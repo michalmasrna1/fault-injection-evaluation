@@ -51,8 +51,9 @@ class Curve25519(Curve):
     def preprocess_key(self, key: bytes) -> bytes:
         return self.clamp(key)
 
-    def generate_known_outputs(self, public_key: bytes, private_key: bytes) -> Iterable[tuple[bytes, int]]:
-        yield from super().generate_known_outputs(public_key, private_key)
+    def generate_known_outputs(self, public_key: bytes, private_key: bytes,
+                               buffer_content: bytes) -> Iterable[tuple[bytes, int]]:
+        yield from super().generate_known_outputs(public_key, private_key, buffer_content)
 
         # All small subgroup points have the entropy 0.
         yield from ((point, 0) for point in self.small_subgroup_points())

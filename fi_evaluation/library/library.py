@@ -25,15 +25,14 @@ class Library(ABC):
             self, public_key: bytes, private_key: bytes) -> Iterable[tuple[bytes, int]]:
         pass
 
-    def generate_known_outputs(self, public_key: bytes, private_key: bytes) -> Iterable[tuple[bytes, int]]:
-        # TODO: We need to generate also faulted outputs with underlying data
-        # ecc25519... instead of 00000000...
-        yield from self.curve.generate_known_outputs(public_key, private_key)
+    def generate_known_outputs(self, public_key: bytes, private_key: bytes,
+                               output_buffer: bytes) -> Iterable[tuple[bytes, int]]:
+        yield from self.curve.generate_known_outputs(public_key, private_key, output_buffer)
         yield from self.generate_computational_loop_abort_results(public_key, private_key)
 
-    def check_known_outputs(self, parsed_output: list[SimulationResult],
-                            public_key: bytes, private_key: bytes) -> PredictableOutputs:
-        known_outputs = dict(self.generate_known_outputs(public_key, private_key))
+    def check_known_outputs(self, parsed_output: list[SimulationResult], public_key: bytes,
+                            private_key: bytes, output_buffer: bytes) -> PredictableOutputs:
+        known_outputs = dict(self.generate_known_outputs(public_key, private_key, output_buffer))
         seen_known_outputs: PredictableOutputs = {}
 
         for result_sim in parsed_output:

@@ -27,13 +27,15 @@ class Curve(ABC):
         """
         return key
 
-    def generate_known_outputs(self, public_key: bytes, private_key: bytes) -> Iterable[tuple[bytes, int]]:
+    def generate_known_outputs(self, public_key: bytes, private_key: bytes,
+                               buffer_content: bytes) -> Iterable[tuple[bytes, int]]:
         """
         Generate known outputs specific for the curve, which are not
         dependent on the implementation details.
         """
         correct_output = self.shared_secret(public_key, private_key)
-        for faulted_output, entropy in generate_faulted_outputs(correct_output):
+
+        for faulted_output, entropy in generate_faulted_outputs(correct_output, buffer_content):
             if faulted_output != correct_output:
                 yield faulted_output, entropy
 
