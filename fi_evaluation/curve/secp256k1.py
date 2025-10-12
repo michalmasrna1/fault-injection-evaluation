@@ -4,6 +4,11 @@ from fi_evaluation.curve import Curve
 
 class SECP256K1(Curve):
     name = "secp256k1"
+    _base_point = bytes.fromhex(
+        "79be667ef9dcbbac55a06295ce870b07029bfcdb2dce28d959f2815b16f81798483ada7726a3c4655da4fbfc0e1108a8fd17b448a68554199c47d08ffb10d4b8")
+
+    def base_point(self) -> bytes:
+        return SECP256K1._base_point
 
     def shared_secret(self, public_key_bytes: bytes, private_key_bytes: bytes) -> bytes:
         try:

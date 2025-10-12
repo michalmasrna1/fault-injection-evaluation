@@ -13,6 +13,10 @@ PRECOMPUTED_RESULTS_DIR = os.path.join(root_path, "key_exchange_results")
 class Curve(ABC):
     name: str
 
+    @abstractmethod
+    def base_point(self) -> bytes:
+        pass
+
     def precomputed_results_path(self, public_key: bytes) -> str:
         return os.path.join(PRECOMPUTED_RESULTS_DIR, self.name, f"{public_key.hex()}.json")
 
