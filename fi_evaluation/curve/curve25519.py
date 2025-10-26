@@ -27,6 +27,19 @@ class Curve25519(Curve):
         2 * (2 ** 255 - 19) + 0,
         2 * (2 ** 255 - 19) + 1
     ]
+    # The hex representations are in order:
+    # 0000000000000000000000000000000000000000000000000000000000000000
+    # 0100000000000000000000000000000000000000000000000000000000000000
+    # e0eb7a7c3b41b8ae1656e3faf19fc46ada098deb9c32b1fd866205165f49b800
+    # 5f9c95bca3508c24b1d0b1559c83ef5b04445cc4581c8e86d8224eddd09f1157
+    # ecffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f
+    # edffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f
+    # eeffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff7f
+    # cdeb7a7c3b41b8ae1656e3faf19fc46ada098deb9c32b1fd866205165f49b880
+    # 4c9c95bca3508c24b1d0b1559c83ef5b04445cc4581c8e86d8224eddd09f11d7
+    # d9ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+    # daffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
+    # dbffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
 
     def base_point(self) -> bytes:
         return Curve25519._base_point
