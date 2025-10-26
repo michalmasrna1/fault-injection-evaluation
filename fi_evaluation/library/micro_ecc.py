@@ -1,8 +1,13 @@
 from typing import Iterable
 
-from ecdsa import curves, ellipticcurve
 from fi_evaluation.curve import SECP256K1, Curve
 from fi_evaluation.library import Library
+from fi_evaluation.library.secp256k1_co_z import (NUM_BITS, P,
+                                                  finish_ecc_point_mult,
+                                                  mod_sub, regularize_k,
+                                                  test_bit, xycz_add,
+                                                  xycz_addc,
+                                                  xycz_initial_double)
 
 
 class MicroECC(Library):
@@ -23,29 +28,37 @@ class MicroECC(Library):
         if not isinstance(self.curve, SECP256K1):
             raise ValueError("MicroECC is currently implemented only with the secp256k1 curve.")
 
-        curve = curves.SECP256k1.curve
+        # This depends on the used RNG and seed.
+        initial_z = 0x35ac548e96e16329beb88236c4d75c10c43ea788affcf9892871ea67b769220e
         x = int.from_bytes(public_key[0:32], "big")
         y = int.from_bytes(public_key[32:], "big")
-        point = ellipticcurve.Point(curve, x, y)
+        scalar = int.from_bytes(private_key, "big")
+        k0, k1, carry = regularize_k(scalar)
+        regularized_scalar = k0 if carry else k1
 
-        results: set[tuple[bytes, int]] = set()
+        # What follows in the implementation of ecc_point_mult
+        # with yields of intermediate results.
+        rx: list[list[int]] = [[0], [0]]
+        ry: list[list[int]] = [[0], [0]]
 
-        for i in range(1, 256):
-            # This works up to i = 128, then something weird begins to happen
+        rx[1][0] = x
+        ry[1][0] = y
 
-            # Only use the top i bits of the private_key but do not fill with zeroes,
-            # but rather shift the used key to the right as much as possible
-            # The (1 << i) is or'd to the result for the initial explicit doubling.
-            masked_key = ((1 << i) | (int.from_bytes(private_key[:1 + (i - 1) // 8], "big")
-                                      >> ((8 - (i % 8)) % 8))).to_bytes(32, byteorder="big")
+        xycz_initial_double(rx[1], ry[1], rx[0], ry[0], [initial_z])
+        yield rx[0][0].to_bytes(32, "big"), 0
+        yield rx[1][0].to_bytes(32, "big"), 0
+        sub = [mod_sub(rx[0][0], rx[1][0], P)]
 
-            if masked_key == private_key:
-                continue
+        for i in range(NUM_BITS - 1, 0, -1):
+            nb = int(not test_bit(regularized_scalar, i))
+            xycz_addc(rx[1 - nb], ry[1 - nb], rx[nb], ry[nb], sub)
+            xycz_add(rx[nb], ry[nb], rx[1 - nb], ry[1 - nb], sub)
 
-            scalar = int.from_bytes(masked_key, "big")
-
-            for scalar_modified in (2 * scalar, 2 * scalar + 1):
-                result = point * scalar_modified
-                results.add((int(result.x()).to_bytes(32, "big"), i))
-
-        return results
+            entropy = 1 + NUM_BITS - 1 - i
+            # The intermediate results without finishing.
+            yield rx[0][0].to_bytes(32, "big"), entropy
+            yield rx[1][0].to_bytes(32, "big"), entropy
+            # The intermediate result after finishing.
+            if i > 1:
+                # If i == 1, we would just yield the correct result.
+                yield finish_ecc_point_mult((x, y), regularized_scalar, rx, ry, sub)[0].to_bytes(32, "big"), entropy + 1
