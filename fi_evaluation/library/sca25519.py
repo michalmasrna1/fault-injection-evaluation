@@ -33,7 +33,7 @@ class Sca25519(Library, ABC):
         assert isinstance(scl, ScalingFormula)
 
         multiplier = LadderMultiplier(ladd, scl=scl, complete=False, short_circuit=False, full=True)
-        if public_key != bytes.fromhex("09" + "00" * 31):
+        if public_key != Curve25519().base_point():
             raise NotImplementedError("Public keys other than the generator are not supported.")
         generator = curve25519.generator
 
