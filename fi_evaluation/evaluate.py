@@ -122,8 +122,8 @@ def main():
         )
         print_safe_error_results(potentially_prone_addresses, group=True)
 
-    # TODO: Not sure if this should be here, this is not really an evaluation
-    # so calling "evaluate.py simulate-parallel" is not really correct.
+    # Not the best place for this command as it is technically not
+    # an "evaluation", but lets not over-engineer.
     elif args.command == "simulate-parallel":
         if args.optimal_threads is None:
             simulate_faults_parallel(library)
