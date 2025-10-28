@@ -2,12 +2,9 @@ from typing import Iterable
 
 from fi_evaluation.curve import SECP256K1, Curve
 from fi_evaluation.library import Library
-from fi_evaluation.library.secp256k1_co_z import (NUM_BITS, P,
-                                                  finish_ecc_point_mult,
-                                                  mod_sub, regularize_k,
-                                                  test_bit, xycz_add,
-                                                  xycz_addc,
-                                                  xycz_initial_double)
+from fi_evaluation.library.micro_ecc_reimplementation import (
+    NUM_BITS, P, finish_ecc_point_mult, mod_sub, regularize_k, test_bit,
+    xycz_add, xycz_addc, xycz_initial_double)
 
 
 class MicroECC(Library):
