@@ -3,8 +3,8 @@ import os
 from abc import ABC, abstractmethod
 from typing import Iterable
 
-from fi_evaluation.key import (generate_faulted_outputs,
-                               generate_low_entropy_keys)
+from fi_evaluation.bytes_generator import (generate_faulted_outputs,
+                                           generate_low_entropy_keys)
 
 root_path = os.path.dirname(os.path.abspath(__package__ or "."))
 PRECOMPUTED_RESULTS_DIR = os.path.join(root_path, "key_exchange_results")
