@@ -40,7 +40,9 @@ class Curve(ABC):
         correct_output = self.shared_secret(public_key, private_key)
 
         for faulted_output, entropy in generate_faulted_outputs(correct_output, buffer_content):
-            if faulted_output != correct_output:
+            # Hard to say whether we mind yielding the buffer_ content.
+            # It might indicate an attack but also produces a lot of false positives.
+            if faulted_output != correct_output and faulted_output != buffer_content:
                 yield faulted_output, entropy
 
     def generate_faulted_results(self, public_key: bytes,
