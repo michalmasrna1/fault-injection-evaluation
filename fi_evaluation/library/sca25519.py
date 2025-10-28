@@ -50,6 +50,10 @@ class Sca25519(Library, ABC):
                 action = child.action
                 result_point: Point | None = None
                 if len(action.result) == 2:
+                    # Yield the raw intermediate result without scaling
+                    yield int(str(action.result[0].coords["X"])).to_bytes(32, byteorder="little"), bit_no
+                    yield int(str(action.result[1].coords["X"])).to_bytes(32, byteorder="little"), bit_no
+
                     # One of the ladder steps, the two results are xp and xq
                     # The correct result is determined by the last processed bit
                     # (see the last call to cswap after the computational loop)
