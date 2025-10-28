@@ -186,16 +186,23 @@ def generate_faulted_outputs(original_output: bytes, buffer_content: bytes) -> I
 
     fault_masks.update(BeginningEndMaskGenerator(output_size_bits).generate())
 
-    for mask in fault_masks:
-        # This and that ^ has to be brought into one function.
-        # The function accepts the mask, the original bytes and the "filler".
-        num_bits = bin(int.from_bytes(mask, byteorder='little')).count('1')
-        faulted_output_bytes = bytes(a & b for a, b in zip(original_output, mask))
-        yield faulted_output_bytes, num_bits
+    fillers = [
+        b'\x00' * len(original_output),  # All 0s
+        b'\xff' * len(original_output),  # All 1s
+        buffer_content  # The original buffer content
+    ]
 
-    # Shifted output filled with 0s.
-    yield from ShiftedBytesGenerator(b'\x00' * len(original_output)).generate(original_output)
-    # Shifted output filled with 1s.
-    yield from ShiftedBytesGenerator(b'\xff' * len(original_output)).generate(original_output)
-    # Shifted output filled with the original buffer contents.
-    yield from ShiftedBytesGenerator(buffer_content).generate(original_output)
+    for filler in fillers:
+        for mask in fault_masks:
+            num_bits = bin(int.from_bytes(mask, byteorder='little')).count('1')
+            # For each bit, if the mask has it set to 1, take it from the original output,
+            # else from the filler.
+            faulted_output_bytes = bytes(
+                ((a & b) | (c & ~b))
+                for a, b, c in zip(original_output, mask, filler)
+            )
+
+            print(faulted_output_bytes.hex())
+            yield faulted_output_bytes, num_bits
+
+        yield from ShiftedBytesGenerator(filler).generate(original_output)
