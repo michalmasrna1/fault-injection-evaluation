@@ -115,7 +115,7 @@ class BlockMaskGenerator(MaskGenerator):
         """
         unshifted_mask: int = 2**self.block_size_bits - 1
         for i in range(self.key_size_bits // self.block_size_bits):
-            yield (unshifted_mask << (i * self.block_size_bits)).to_bytes(32, 'little')
+            yield (unshifted_mask << (i * self.block_size_bits)).to_bytes(self.key_size_bits // 8, 'little')
 
 
 class BeginningEndMaskGenerator(MaskGenerator):
