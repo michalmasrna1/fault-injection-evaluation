@@ -1,8 +1,11 @@
+from copy import deepcopy
 from typing import Iterable
 
-from ecdsa import curves, ellipticcurve
 from fi_evaluation.curve import SECP256K1, Curve
 from fi_evaluation.library import Library
+from fi_evaluation.library.sweet_b_reimplementation import (
+    Context, State, point_mult_final_iteration, point_mult_iteration,
+    shared_secret_finish, shared_secret_start)
 
 
 class SweetB(Library):
@@ -23,29 +26,43 @@ class SweetB(Library):
         if not isinstance(self.curve, SECP256K1):
             raise ValueError("The Sweet-B library only supports the secp256k1 curve.")
 
-        curve = curves.SECP256k1.curve
-        x = int.from_bytes(public_key[0:32], "big")
-        y = int.from_bytes(public_key[32:], "big")
-        point = ellipticcurve.Point(curve, x, y)
+        # This depends on the used RNG and seed.
+        initial_z = 0x7b2dacc400b3edf840ce84a889944306f5f4421ee1cfe1a4d239ee55d04b79c0
+        private_key_int = int.from_bytes(private_key)
+        public_key_x = int.from_bytes(public_key[:32])
+        public_key_y = int.from_bytes(public_key[32:])
 
-        results: set[tuple[bytes, int]] = set()
+        # Copy of shared_secret with yield support
+        ctx = Context(
+            x1=0, y1=0, x2=0, y2=0,
+            t5=0, t6=0, t7=0, t8=0,
+            k=0, z=0, point_x=0, point_y=0,
+            state=State(i=0, swap=0, inv_k=False, k_one=False)
+        )
 
-        for i in range(1, 256):
-            # This works up to i = 128, then something weird begins to happen
+        shared_secret_start(ctx, private_key_int, public_key_x, public_key_y, initial_z)
 
-            # Only use the top i bits of the private_key but do not fill with zeroes,
-            # but rather shift the used key to the right as much as possible
-            # The (1 << i) is or'd to the result for the initial explicit doubling.
-            masked_key = ((1 << i) | (int.from_bytes(private_key[:1 + (i - 1) // 8], "big")
-                                      >> ((8 - (i % 8)) % 8))).to_bytes(32, byteorder="big")
+        yield ctx.x1.to_bytes(32), 0
+        yield ctx.x2.to_bytes(32), 0
+        ctx_tmp = deepcopy(ctx)
+        point_mult_final_iteration(ctx_tmp)
+        result = shared_secret_finish(ctx_tmp)
+        yield result.to_bytes(32), 1
 
-            if masked_key == private_key:
-                continue
+        while ctx.state.i > 0:
+            # Consciously ignoring the 16-bit chunking.
+            point_mult_iteration(ctx)
+            entropy = 255 - ctx.state.i
+            # Yield the raw intermediate results.
+            yield ctx.x1.to_bytes(32), entropy
+            yield ctx.x2.to_bytes(32), entropy
 
-            scalar = int.from_bytes(masked_key, "big")
+            # Skip yielding the final result when i == 0
+            if ctx.state.i > 1:
+                # Deep copy context and finish computation to get aborted result
+                ctx_tmp = deepcopy(ctx)
+                point_mult_final_iteration(ctx_tmp)
+                result = shared_secret_finish(ctx_tmp)
+                yield result.to_bytes(32), entropy + 1
 
-            for scalar_modified in (2 * scalar, 2 * scalar + 1):
-                result = point * scalar_modified
-                results.add((int(result.x()).to_bytes(32, "big"), i))
-
-        return results
+        # No need to yield after the real finish.
