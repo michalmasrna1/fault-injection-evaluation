@@ -1,18 +1,56 @@
-import argparse
 from random import randbytes
 
-from fi_evaluation.evaluate import print_safe_error_results
 from fi_evaluation.fault_finder import (Fault, SimulationResult,
                                         get_number_of_faulted_instructions,
                                         output_dir_from_key, simulate_faults,
                                         write_fault_model_file)
 from fi_evaluation.library import Library, library_from_name
-from fi_evaluation.safe_error import SafeErrorModel, safe_error_model_from_name
+from fi_evaluation.safe_error.leakage import SafeErrorModel
 
 # How many (relative to the total number of iterations) key pairs without change at least to assume convergence.
 CONVERGENCE_THRESHOLD_RELATIVE = 0.1
 # How many (absolute) key pairs without change at least to assume convergence.
 CONVERGENCE_THRESHOLD_ABSOLUTE = 5
+
+
+def print_safe_error_results(potentially_prone_addresses: set[SimulationResult], group: bool = False):
+    if not group:
+        for result in sorted(potentially_prone_addresses):
+            print(result)
+        return
+
+    # Construct a dict mapping each (address, hit) pair to the instruction number
+    address_hit_to_inst: dict[tuple[bytes, int], int] = {}
+    for result in potentially_prone_addresses:
+        address_hit_to_inst[(result.executed_instruction.address,
+                             result.executed_instruction.hit)] = result.executed_instruction.instruction
+
+    # First, construct a set of Faults for each address<>hit pair.
+    address_hit_to_faults: dict[tuple[bytes, int], set[Fault]] = {}
+    for result in potentially_prone_addresses:
+        key = (result.executed_instruction.address, result.executed_instruction.hit)
+        if key not in address_hit_to_faults:
+            address_hit_to_faults[key] = set()
+        address_hit_to_faults[key].add(result.fault)
+
+    # for each address, group the hits by the set of faults this address<>hit
+    # pair is prone to.
+    grouped_results: dict[bytes, dict[frozenset[Fault], set[int]]] = {}
+    for (address, hit), faults in address_hit_to_faults.items():
+        if address not in grouped_results:
+            grouped_results[address] = {}
+        if frozenset(faults) not in grouped_results[address]:
+            grouped_results[address][frozenset(faults)] = set()
+        grouped_results[address][frozenset(faults)].add(hit)
+
+    for address, faults_to_hits in sorted(grouped_results.items()):
+        print(f"Address {address.hex()}:")
+        for faults, hits in faults_to_hits.items():
+            hits_string = ", ".join(f"{i} ({address_hit_to_inst[(address, i)]})" for i in sorted(hits))
+            print(f"  Hit{'s' if len(hits) > 1 else ''} {hits_string}:")
+            for fault in sorted(faults):
+                print(f"    {fault}")
+        print()
 
 
 def print_state_start(total_iters: int):
@@ -119,27 +157,3 @@ def evaluate_safe_error(
     # As the set of potentially prone instructions should have converged
     # by the end, this should be the final result.
     print_safe_error_results(potentially_prone_instructions, group=True)
-
-
-def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("library_name", type=str)
-    parser.add_argument("curve_name", type=str)
-    parser.add_argument("safe_error_model", type=str)
-    parser.add_argument("first_key", type=str, nargs='?', default=None)
-    parser.add_argument("public_key", type=str, nargs='?', default=None)
-    args = parser.parse_args()
-
-    library = library_from_name(args.library_name, args.curve_name)
-    if args.public_key is None:
-        public_key_bytes = library.curve.base_point()
-    else:
-        public_key_bytes = bytes.fromhex(args.public_key)
-    safe_error_model = safe_error_model_from_name(args.safe_error_model)
-    first_key = bytes.fromhex(args.first_key) if args.first_key else None
-
-    evaluate_safe_error(library, public_key_bytes, safe_error_model, first_key)
-
-
-if __name__ == "__main__":
-    main()

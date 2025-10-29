@@ -1,4 +1,7 @@
-from leakage import KeyBits, NeighbouringBitsXor, SafeErrorModel
+from fi_evaluation.safe_error.evaluate import (evaluate_safe_error,
+                                               print_safe_error_results)
+from fi_evaluation.safe_error.leakage import (KeyBits, NeighbouringBitsXor,
+                                              SafeErrorModel)
 
 
 def safe_error_model_from_name(name: str) -> SafeErrorModel:

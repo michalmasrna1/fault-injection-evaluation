@@ -1,11 +1,13 @@
 import argparse
 import os
 
-from fi_evaluation.fault_finder import (Fault, SimulationResult,
-                                        print_sorted_simulation_results,
+from fi_evaluation.fault_finder import (print_sorted_simulation_results,
                                         read_processed_outputs,
                                         simulate_faults_parallel)
 from fi_evaluation.library import PredictableOutputs, library_from_name
+from fi_evaluation.safe_error import (evaluate_safe_error,
+                                      print_safe_error_results,
+                                      safe_error_model_from_name)
 
 EXECUTABLE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Could be parsed from the command line but for now all evaluations use the same buffer content.
@@ -22,46 +24,6 @@ def print_predictable_outputs(predictable_outputs: PredictableOutputs, type_name
         print(f"{type_name} - {output.hex()} ({entropy}).")
         print_sorted_simulation_results(results)
     print()
-
-
-def print_safe_error_results(potentially_prone_addresses: set[SimulationResult], group: bool = False):
-    if not group:
-        for result in sorted(potentially_prone_addresses):
-            print(result)
-        return
-
-    # Construct a dict mapping each (address, hit) pair to the instruction number
-    address_hit_to_inst: dict[tuple[bytes, int], int] = {}
-    for result in potentially_prone_addresses:
-        address_hit_to_inst[(result.executed_instruction.address,
-                             result.executed_instruction.hit)] = result.executed_instruction.instruction
-
-    # First, construct a set of Faults for each address<>hit pair.
-    address_hit_to_faults: dict[tuple[bytes, int], set[Fault]] = {}
-    for result in potentially_prone_addresses:
-        key = (result.executed_instruction.address, result.executed_instruction.hit)
-        if key not in address_hit_to_faults:
-            address_hit_to_faults[key] = set()
-        address_hit_to_faults[key].add(result.fault)
-
-    # for each address, group the hits by the set of faults this address<>hit
-    # pair is prone to.
-    grouped_results: dict[bytes, dict[frozenset[Fault], set[int]]] = {}
-    for (address, hit), faults in address_hit_to_faults.items():
-        if address not in grouped_results:
-            grouped_results[address] = {}
-        if frozenset(faults) not in grouped_results[address]:
-            grouped_results[address][frozenset(faults)] = set()
-        grouped_results[address][frozenset(faults)].add(hit)
-
-    for address, faults_to_hits in sorted(grouped_results.items()):
-        print(f"Address {address.hex()}:")
-        for faults, hits in faults_to_hits.items():
-            hits_string = ", ".join(f"{i} ({address_hit_to_inst[(address, i)]})" for i in sorted(hits))
-            print(f"  Hit{'s' if len(hits) > 1 else ''} {hits_string}:")
-            for fault in sorted(faults):
-                print(f"    {fault}")
-        print()
 
 
 def main():
@@ -84,6 +46,13 @@ def main():
     parser_check_safe_error.add_argument("private_key_1", type=str)
     parser_check_safe_error.add_argument("private_key_2", type=str)
     parser_check_safe_error.add_argument("public_key", type=str, nargs='?', default=None)
+
+    parser_evaluate_safe_error = subparsers.add_parser("evaluate-safe-error")
+    parser_evaluate_safe_error.add_argument("library_name", type=str)
+    parser_evaluate_safe_error.add_argument("curve_name", type=str)
+    parser_evaluate_safe_error.add_argument("safe_error_model", type=str)
+    parser_evaluate_safe_error.add_argument("first_key", type=str, nargs='?', default=None)
+    parser_evaluate_safe_error.add_argument("public_key", type=str, nargs='?', default=None)
 
     parser_simulate_parallel = subparsers.add_parser("simulate-parallel")
     parser_simulate_parallel.add_argument("library_name", type=str)
@@ -121,6 +90,11 @@ def main():
             private_key_2_bytes
         )
         print_safe_error_results(potentially_prone_addresses, group=True)
+
+    elif args.command == "evaluate-safe-error":
+        safe_error_model = safe_error_model_from_name(args.safe_error_model)
+        first_key = bytes.fromhex(args.first_key) if args.first_key else None
+        evaluate_safe_error(library, pub_key_bytes, safe_error_model, first_key)
 
     # Not the best place for this command as it is technically not
     # an "evaluation", but lets not over-engineer.
