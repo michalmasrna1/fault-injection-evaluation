@@ -1,13 +1,16 @@
 import argparse
 import os
 
+from fi_evaluation.curve import supported_curve_names
 from fi_evaluation.fault_finder import (print_sorted_simulation_results,
                                         read_processed_outputs,
                                         simulate_faults_parallel)
-from fi_evaluation.library import PredictableOutputs, library_from_name
+from fi_evaluation.library import (PredictableOutputs, library_from_name,
+                                   supported_library_names)
 from fi_evaluation.safe_error import (evaluate_safe_error,
                                       print_safe_error_results,
-                                      safe_error_model_from_name)
+                                      safe_error_model_from_name,
+                                      supported_leakage_model_names)
 
 EXECUTABLE_DIR = os.path.dirname(os.path.abspath(__file__))
 # Could be parsed from the command line but for now all evaluations use the same buffer content.
@@ -27,39 +30,73 @@ def print_predictable_outputs(predictable_outputs: PredictableOutputs, type_name
 
 
 def main():
-    parser = argparse.ArgumentParser()
-    subparsers = parser.add_subparsers(dest="command")
+    command_parser = argparse.ArgumentParser()
+    subparsers = command_parser.add_subparsers(dest="command")
     subparsers.required = True
 
-    parser_check_predictable = subparsers.add_parser("check-predictable")
-    parser_check_predictable.add_argument("library_name", type=str)
-    parser_check_predictable.add_argument("curve_name", type=str)
-    parser_check_predictable.add_argument("output_dir", type=str)
-    parser_check_predictable.add_argument("private_key", type=str)
-    parser_check_predictable.add_argument("public_key", type=str, nargs='?', default=None)
+    parser_check_predictable = subparsers.add_parser("check-predictable",
+                                                     help="Check predictable-result fault-injection attacks.")
+    parser_check_safe_error = subparsers.add_parser("check-safe-error",
+                                                    help="Check safe-error susceptible addresses for one key pair.")
+    parser_evaluate_safe_error = subparsers.add_parser("evaluate-safe-error",
+                                                       help="Evaluate safe-error susceptible addresses of a library. "
+                                                            "Calls check-safe-error repeatedly.")
+    parser_simulate_parallel = subparsers.add_parser("simulate-parallel",
+                                                     help="Run multiple instances of fault finder in parallel "
+                                                          "for optimized performance.")
 
-    parser_check_safe_error = subparsers.add_parser("check-safe-error")
-    parser_check_safe_error.add_argument("library_name", type=str)
-    parser_check_safe_error.add_argument("curve_name", type=str)
-    parser_check_safe_error.add_argument("output_dir_1", type=str)
-    parser_check_safe_error.add_argument("output_dir_2", type=str)
-    parser_check_safe_error.add_argument("private_key_1", type=str)
-    parser_check_safe_error.add_argument("private_key_2", type=str)
-    parser_check_safe_error.add_argument("public_key", type=str, nargs='?', default=None)
+    # Library and curve all required for all commands.
+    for parser in (parser_check_predictable, parser_check_safe_error,
+                   parser_evaluate_safe_error, parser_simulate_parallel):
+        parser.add_argument("library_name", type=str, choices=supported_library_names(),
+                            help="The name of the library to evaluate.")
+        parser.add_argument("curve_name", type=str, choices=supported_curve_names(),
+                            help="The name of the curve to use for the evaluation.")
 
-    parser_evaluate_safe_error = subparsers.add_parser("evaluate-safe-error")
-    parser_evaluate_safe_error.add_argument("library_name", type=str)
-    parser_evaluate_safe_error.add_argument("curve_name", type=str)
-    parser_evaluate_safe_error.add_argument("safe_error_model", type=str)
-    parser_evaluate_safe_error.add_argument("first_key", type=str, nargs='?', default=None)
-    parser_evaluate_safe_error.add_argument("public_key", type=str, nargs='?', default=None)
+    # check-predictable
+    parser_check_predictable.add_argument("output_dir", type=str,
+                                          help="Path to the directory that contains the fault-finder outputs "
+                                               "(processed to .bin).")
+    parser_check_predictable.add_argument("private_key", type=str,
+                                          help="The private key (scalar) used for the evaluation.")
 
-    parser_simulate_parallel = subparsers.add_parser("simulate-parallel")
-    parser_simulate_parallel.add_argument("library_name", type=str)
-    parser_simulate_parallel.add_argument("curve_name", type=str)
-    parser_simulate_parallel.add_argument("optimal_threads", type=int, nargs='?', default=None)
+    # check-safe-error
+    parser_check_safe_error.add_argument("output_dir_1", type=str,
+                                         help="Path to the directory that contains the fault-finder outputs "
+                                              "(processed to .bin) for the first key.")
+    parser_check_safe_error.add_argument("output_dir_2", type=str,
+                                         help="Path to the directory that contains the fault-finder outputs "
+                                              "(processed to .bin) for the second key.")
+    parser_check_safe_error.add_argument("private_key_1", type=str,
+                                         help="The first private key (scalar) used for the evaluation.")
+    parser_check_safe_error.add_argument("private_key_2", type=str,
+                                         help="The second (complementary) private key "
+                                              "(scalar) used for the evaluation.")
 
-    args = parser.parse_args()
+    # evaluate-safe-error
+    parser_evaluate_safe_error.add_argument("safe_error_model", type=str, choices=supported_leakage_model_names(),
+                                            help="The leakage model to use for the evaluation.")
+    parser_evaluate_safe_error.add_argument("first_key", type=str, nargs='?', default=None,
+                                            help="If provided, the private key(s) in the first iteration are not "
+                                                 "generated randomly, but the provided value and its complement are "
+                                                 "used. Should be used to avoid the expensive first iteration if "
+                                                 "results for some scalar pair are already computed.")
+
+    # simulate-parallel
+    parser_simulate_parallel.add_argument("optimal_threads", type=int, nargs='?', default=None,
+                                          help="The number of threads per fault-finder instance. "
+                                               "The ideal number should be determined outside this script. "
+                                               "If no value is provided, the script will attempt to read "
+                                               "an environment variable FF_OPT_THREADS. If that is not present "
+                                               "either, 8 is used.")
+
+    # Add public_key to the commands which use it.
+    # Added as the last argument so that it can be optional.
+    for parser in (parser_check_predictable, parser_check_safe_error, parser_evaluate_safe_error):
+        parser.add_argument("public_key", type=str, nargs='?', default=None,
+                            help="The public key used for the evaluation. Defaults to the curve's base point.")
+
+    args = command_parser.parse_args()
     library = library_from_name(args.library_name, args.curve_name)
 
     if args.public_key is None:
