@@ -5,11 +5,23 @@ from datetime import datetime
 from multiprocessing import Pool
 from time import sleep
 
+from dotenv import load_dotenv
 from fi_evaluation.fault_finder.process_output import process_outputs
 from fi_evaluation.fault_finder.result import Fault, FaultType
 from fi_evaluation.library import Library
 
-FAULT_FINDER_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", "..", "fault-finder")
+# Read the env variable FAULT_FINDER_PATH.
+# 1. If it is an absolute path, use it directly.
+# 2. If it is a relative path, interpret it as relative to the base of this repository.
+# 3. If the env variable is not set, use ../fault-finder, assuming the fault-finder
+#    directory resides directly next to this repository.
+load_dotenv()
+FAULT_FINDER_PATH = os.environ.get("FAULT_FINDER_PATH", os.path.join("..", "fault-finder-default"))
+FAULT_FINDER_DIR = FAULT_FINDER_PATH if os.path.isabs(FAULT_FINDER_PATH) else os.path.join(
+    os.path.dirname(os.path.abspath(__file__)), "..", "..", FAULT_FINDER_PATH
+)
+if not os.path.isdir(FAULT_FINDER_DIR):
+    raise ValueError(f"FAULT_FINDER_PATH does not point to a valid directory: {FAULT_FINDER_DIR}")
 
 
 def get_binary_details_path(library: Library) -> str:
