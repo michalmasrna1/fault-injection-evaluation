@@ -99,6 +99,16 @@ def main():
     args = command_parser.parse_args()
     library = library_from_name(args.library_name, args.curve_name)
 
+    # Not the best place for this command as it is technically not
+    # an "evaluation", but lets not over-engineer.
+    if args.command == "simulate-parallel":
+        if args.optimal_threads is None:
+            simulate_faults_parallel(library)
+        else:
+            simulate_faults_parallel(library, args.optimal_threads)
+        # Return to avoid parsing the public key argument.
+        return
+
     if args.public_key is None:
         print("No public key specified, using the base point.")
         pub_key_bytes = library.curve.base_point()
@@ -132,14 +142,6 @@ def main():
         safe_error_model = safe_error_model_from_name(args.safe_error_model)
         first_key = bytes.fromhex(args.first_key) if args.first_key else None
         evaluate_safe_error(library, pub_key_bytes, safe_error_model, first_key)
-
-    # Not the best place for this command as it is technically not
-    # an "evaluation", but lets not over-engineer.
-    elif args.command == "simulate-parallel":
-        if args.optimal_threads is None:
-            simulate_faults_parallel(library)
-        else:
-            simulate_faults_parallel(library, args.optimal_threads)
 
 
 if __name__ == "__main__":
