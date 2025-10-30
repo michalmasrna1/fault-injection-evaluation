@@ -42,7 +42,7 @@ The main entry point to the repository is the file `fi_evaluation/evaluate.py`. 
     - computational loop-abort attack
     - fixing the scalar multiplication output
     - small subgroup attack on Curve25519
-    - invalid curve attack on secp25k1
+    - invalid curve attack on secp256k1
 
 2. `check-safe-error` - Determine the instructions susceptible to safe-error attack according to the provided leakage model for one scalar pair.
 
