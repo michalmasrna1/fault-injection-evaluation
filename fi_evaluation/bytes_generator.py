@@ -202,7 +202,6 @@ def generate_faulted_outputs(original_output: bytes, buffer_content: bytes) -> I
                 for a, b, c in zip(original_output, mask, filler)
             )
 
-            print(faulted_output_bytes.hex())
             yield faulted_output_bytes, num_bits
 
         yield from ShiftedBytesGenerator(filler).generate(original_output)
