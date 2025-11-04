@@ -37,6 +37,9 @@ class Curve(ABC):
         Generate known outputs specific for the curve, which are not
         dependent on the implementation details.
         """
+        yield public_key, 0
+        yield self.base_point(), 0
+
         correct_output = self.shared_secret(public_key, private_key)
 
         for faulted_output, entropy in generate_faulted_outputs(correct_output, buffer_content):
