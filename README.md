@@ -66,7 +66,7 @@ will print more details on the individual commands and their arguments.
 
 ## Configuration
 
-The `simulate-parallel` needs to know the path to the `fault-finder` directory to run it and change its configuration.
+The `simulate-parallel` and `evaluate-safe-error` commands need to know the path to the `fault-finder` directory to run it and change its configuration.
 This can be configured via the `.env` file, which contains the `FAULT_FINDER_PATH` variable.
 The path can be an absolute path or a relative path to the repository's base. The default is `../fault-finder`, which assumes the `fault-finder` directory is in the same parent directory as this repository.
-The code assumes `fault-finder` is compiled in that directory and that its configuration directory structure matches that of the forked repository.
+The code assumes `faultfinder` is compiled in that directory and that its configuration directory structure matches that of the forked repository.
