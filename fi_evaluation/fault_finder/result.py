@@ -274,7 +274,7 @@ def print_sorted_simulation_results(results: set[SimulationResult]):
         print(result)
 
 
-def read_processed_outputs(output_dir: str, skip_errors: bool) -> Iterable[SimulationResult]:
+def discover_all_output_files(output_dir: str) -> Iterable[str]:
     # Do not read just files in the directory, but traverse the entire directory
     for directory, _, entries in os.walk(output_dir):
         for entry_name in entries:
@@ -282,16 +282,31 @@ def read_processed_outputs(output_dir: str, skip_errors: bool) -> Iterable[Simul
             if not os.path.isfile(full_path) or not entry_name.endswith(".bin"):
                 continue
 
-            with open(full_path, "rb") as output_file:
-                # Read 64 byte chunks, for each call SimulationResult.from_bytes()
-                while chunk := output_file.read(64):
-                    result = SimulationResult.from_bytes(chunk)
+            yield full_path
 
-                    if skip_errors and (result.errored or result.output == NO_OUTPUT):
-                        # There was no output, we skip the result
-                        continue
 
-                    yield result
+def count_total_faults(output_dir: str) -> int:
+    total_faults = 0
+    for full_path in discover_all_output_files(output_dir):
+        file_size = os.path.getsize(full_path)
+        if file_size % 64 != 0:
+            raise ValueError(f"Output file {full_path} has invalid size {file_size}, not a multiple of 64.")
+        total_faults += file_size // 64
+    return total_faults
+
+
+def read_processed_outputs(output_dir: str, skip_errors: bool) -> Iterable[SimulationResult]:
+    for full_path in discover_all_output_files(output_dir):
+        with open(full_path, "rb") as output_file:
+            # Read 64 byte chunks, for each call SimulationResult.from_bytes()
+            while chunk := output_file.read(64):
+                result = SimulationResult.from_bytes(chunk)
+
+                if skip_errors and (result.errored or result.output == NO_OUTPUT):
+                    # There was no output, we skip the result
+                    continue
+
+                yield result
 
 
 def load_ordered_sim_results(output_dir: str, skip_errors: bool) -> list[dict[Fault, SimulationResult]]:

@@ -2,7 +2,8 @@ import argparse
 import os
 
 from fi_evaluation.curve import supported_curve_names
-from fi_evaluation.fault_finder import (print_sorted_simulation_results,
+from fi_evaluation.fault_finder import (SimulationResult, count_total_faults,
+                                        print_sorted_simulation_results,
                                         read_processed_outputs,
                                         simulate_faults_parallel)
 from fi_evaluation.library import (PredictableOutputs, library_from_name,
@@ -26,6 +27,43 @@ def print_predictable_outputs(predictable_outputs: PredictableOutputs, type_name
     for output, (entropy, results) in sorted(predictable_outputs.items(), key=lambda item: item[1][0]):
         print(f"{type_name} - {output.hex()} ({entropy}).")
         print_sorted_simulation_results(results)
+    print()
+
+
+def print_predictable_outputs_summary(predictable_outputs: PredictableOutputs, type_name: str):
+    """
+    Print the number of successful faults for each predictable output
+    sorted by the number of successful faults, and secondary by entropy.
+    """
+    print(f"Summary of {type_name}s:")
+    print(f"Total: {sum(len(results) for (_, results) in predictable_outputs.values())} successful faults.")
+    for output, (entropy, results) in sorted(predictable_outputs.items(),
+                                             key=lambda item: (len(item[1][1]), item[1][0]), reverse=True):
+        print(f"{output.hex()} ({entropy}): {len(results)} successful faults.")
+    print()
+
+
+def print_output_distribution(processed_outputs: list[SimulationResult], correct_output: bytes):
+    """
+    Print the distribution of faulted outputs in the processed outputs.
+    """
+    output_counts: dict[bytes, int] = {}
+    for result in processed_outputs:
+        output = result.output
+        if output is None:
+            continue
+        output_counts[output] = output_counts.get(output, 0) + 1
+
+    total_outputs = sum(output_counts.values())
+
+    print("Total number of outputs:", total_outputs)
+    print(" - faults which cause no output (crash) are not counted.")
+    print("Most common outputs:")
+    for output, count in sorted(output_counts.items(), key=lambda item: item[1], reverse=True):
+        relative_count = count / total_outputs
+        if relative_count >= 0.0001:
+            print(f"{output.hex()}: {count} ({relative_count * 100:.2f}%)."
+                  f"{' (the correct result)' if output == correct_output else ''}")
     print()
 
 
@@ -125,6 +163,15 @@ def main():
 
         known_output_results = library.check_known_outputs(parsed_output, pub_key_bytes, priv_key_bytes, OUTPUT_BUFFER)
         print_predictable_outputs(known_output_results, "Known output")
+
+        print("Total number of faults: ", count_total_faults(args.output_dir))
+        correct_output = library.curve.shared_secret(pub_key_bytes, priv_key_bytes)
+        print_output_distribution(parsed_output, correct_output)
+
+        # Print the summaries at the end for visibility.
+        print_predictable_outputs_summary(key_shortening_results, "Faulted key")
+        print()
+        print_predictable_outputs_summary(known_output_results, "Known output")
 
     elif args.command == "check-safe-error":
         private_key_1_bytes = bytes.fromhex(args.private_key_1)

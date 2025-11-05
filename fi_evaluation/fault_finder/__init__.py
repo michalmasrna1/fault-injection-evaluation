@@ -4,5 +4,6 @@ from fi_evaluation.fault_finder.fault_finder import (
     write_fault_model_file)
 from fi_evaluation.fault_finder.result import (Fault, FaultTarget, FaultType,
                                                SimulationResult,
+                                               count_total_faults,
                                                print_sorted_simulation_results,
                                                read_processed_outputs)
