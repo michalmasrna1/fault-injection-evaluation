@@ -45,7 +45,7 @@ class Curve(ABC):
         for faulted_output, entropy in generate_faulted_outputs(correct_output, buffer_content):
             # Hard to say whether we mind yielding the buffer_ content.
             # It might indicate an attack but also produces a lot of false positives.
-            if faulted_output != correct_output and faulted_output != buffer_content:
+            if faulted_output != correct_output:
                 yield faulted_output, entropy
 
     def generate_faulted_results(self, public_key: bytes,
@@ -58,7 +58,7 @@ class Curve(ABC):
         for low_entropy_key, entropy in generate_low_entropy_keys(original_private_key):
             preprocessed_key = self.preprocess_key(low_entropy_key)
 
-            if preprocessed_key == original_private_key:
+            if preprocessed_key in [original_private_key, self.preprocess_key(original_private_key)]:
                 # Skip "faulted" keys equal to the original key for clearer output.
                 continue
 
