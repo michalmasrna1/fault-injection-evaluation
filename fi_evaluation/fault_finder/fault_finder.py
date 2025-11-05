@@ -212,7 +212,7 @@ def simulate_faults(library: Library, key: bytes, clean: bool = True) -> None:
 # If the first chunks tend to end early, increase this number.
 # If the last chunks tend to end early, decrease this number.
 # The number represents how many simulated instructions is the work equal to.
-ADDITIONAL_WORK_PER_INSTRUCTION = 180_000
+ADDITIONAL_WORK_PER_INSTRUCTION = 220_000
 
 
 def count_total_work(fault_range: range, total_checkpoints: int) -> int:
