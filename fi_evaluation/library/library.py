@@ -30,7 +30,8 @@ class Library(ABC):
         yield public_key, 0
         yield private_key, 0
         yield from self.curve.generate_known_outputs(public_key, private_key, output_buffer)
-        yield from self.generate_computational_loop_abort_results(public_key, private_key)
+        preprocess_key = self.curve.preprocess_key(private_key)
+        yield from self.generate_computational_loop_abort_results(public_key, preprocess_key)
 
     def check_known_outputs(self, parsed_output: list[SimulationResult], public_key: bytes,
                             private_key: bytes, output_buffer: bytes) -> PredictableOutputs:
