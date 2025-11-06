@@ -31,10 +31,10 @@ class Curve(ABC):
         """
         return key
 
-    def generate_known_outputs(self, public_key: bytes, private_key: bytes,
+    def generate_fixed_outputs(self, public_key: bytes, private_key: bytes,
                                buffer_content: bytes) -> Iterable[tuple[bytes, int]]:
         """
-        Generate known outputs specific for the curve, which are not
+        Generate fixed outputs specific for the curve, which are not
         dependent on the implementation details.
         """
         yield self.base_point(), 0

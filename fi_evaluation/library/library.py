@@ -12,7 +12,7 @@ class Library(ABC):
     """
     A class representing an evaluated library.
     It should represent a specific implementation of ECDH
-    on a particular curve.
+    on the provided curve.
     """
     curve: Curve
     name: str
@@ -25,17 +25,25 @@ class Library(ABC):
             self, public_key: bytes, private_key: bytes) -> Iterable[tuple[bytes, int]]:
         pass
 
-    def generate_known_outputs(self, public_key: bytes, private_key: bytes,
+    def generate_fixed_outputs(self, public_key: bytes, private_key: bytes,
                                output_buffer: bytes) -> Iterable[tuple[bytes, int]]:
         yield public_key, 0
         yield private_key, 0
-        yield from self.curve.generate_known_outputs(public_key, private_key, output_buffer)
-        preprocess_key = self.curve.preprocess_key(private_key)
-        yield from self.generate_computational_loop_abort_results(public_key, preprocess_key)
+        yield from self.curve.generate_fixed_outputs(public_key, private_key, output_buffer)
 
-    def check_known_outputs(self, parsed_output: list[SimulationResult], public_key: bytes,
+    def check_output_fixing(self, parsed_output: list[SimulationResult], public_key: bytes,
                             private_key: bytes, output_buffer: bytes) -> PredictableOutputs:
-        known_outputs = dict(self.generate_known_outputs(public_key, private_key, output_buffer))
+        fixed_outputs = dict(self.generate_fixed_outputs(public_key, private_key, output_buffer))
+        return self.check_known_outputs(parsed_output, fixed_outputs)
+
+    def check_computational_loop_abort(self, parsed_output: list[SimulationResult],
+                                       public_key: bytes, private_key: bytes) -> PredictableOutputs:
+        preprocessed_key = self.curve.preprocess_key(private_key)
+        loop_abort_results = dict(self.generate_computational_loop_abort_results(public_key, preprocessed_key))
+        return self.check_known_outputs(parsed_output, loop_abort_results)
+
+    def check_known_outputs(self, parsed_output: list[SimulationResult],
+                            known_outputs: dict[bytes, int]) -> PredictableOutputs:
         seen_known_outputs: PredictableOutputs = {}
 
         for result_sim in parsed_output:

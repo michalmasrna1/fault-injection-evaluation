@@ -158,20 +158,25 @@ def main():
         # Need to cast to a list to be able to iterate multiple times.
         parsed_output = list(read_processed_outputs(args.output_dir, skip_errors=True))
 
+        loop_abort_results = library.check_computational_loop_abort(parsed_output, pub_key_bytes, priv_key_bytes)
+        print_predictable_outputs(loop_abort_results, "Loop abort output")
+
         key_shortening_results = library.check_key_shortening(parsed_output, pub_key_bytes, priv_key_bytes)
         print_predictable_outputs(key_shortening_results, "Faulted key")
 
-        known_output_results = library.check_known_outputs(parsed_output, pub_key_bytes, priv_key_bytes, OUTPUT_BUFFER)
-        print_predictable_outputs(known_output_results, "Known output")
+        fixed_output_results = library.check_output_fixing(parsed_output, pub_key_bytes, priv_key_bytes, OUTPUT_BUFFER)
+        print_predictable_outputs(fixed_output_results, "Fixed output")
 
         print("Total number of faults: ", count_total_faults(args.output_dir))
         correct_output = library.curve.shared_secret(pub_key_bytes, priv_key_bytes)
         print_output_distribution(parsed_output, correct_output)
 
         # Print the summaries at the end for visibility.
+        print_predictable_outputs_summary(loop_abort_results, "Loop abort output")
+        print()
         print_predictable_outputs_summary(key_shortening_results, "Faulted key")
         print()
-        print_predictable_outputs_summary(known_output_results, "Known output")
+        print_predictable_outputs_summary(fixed_output_results, "Fixed output")
 
     elif args.command == "check-safe-error":
         private_key_1_bytes = bytes.fromhex(args.private_key_1)
