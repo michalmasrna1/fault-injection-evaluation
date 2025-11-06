@@ -141,7 +141,7 @@ def set_num_checkpoints(library: Library, num_checkpoints: int):
 
 def set_private_key(library: Library, key: bytes):
     binary_details_json_path = get_binary_details_path(library)
-    replace_in_file(binary_details_json_path, r'\"byte array\".*?\"(.{64})\"\s*\/\/\s*private_key', key.hex())
+    replace_in_file(binary_details_json_path, r'\n\s*\"byte array\".*?\"(.{64})\"\s*\/\/\s*private_key', key.hex())
 
 
 def set_fault_range(library: Library, fault_range: range):
@@ -152,7 +152,7 @@ def set_fault_range(library: Library, fault_range: range):
 
 def get_private_key(library: Library) -> bytes:
     binary_details_json_path = get_binary_details_path(library)
-    key_hex = read_from_file(binary_details_json_path, r'\"byte array\".*?\"(.{64})\"\s*\/\/\s*private_key')
+    key_hex = read_from_file(binary_details_json_path, r'\n\s*\"byte array\".*?\"(.{64})\"\s*\/\/\s*private_key')
     return bytes.fromhex(key_hex)
 
 
