@@ -27,6 +27,8 @@ class Library(ABC):
 
     def generate_known_outputs(self, public_key: bytes, private_key: bytes,
                                output_buffer: bytes) -> Iterable[tuple[bytes, int]]:
+        yield public_key, 0
+        yield private_key, 0
         yield from self.curve.generate_known_outputs(public_key, private_key, output_buffer)
         yield from self.generate_computational_loop_abort_results(public_key, private_key)
 
