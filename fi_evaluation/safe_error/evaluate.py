@@ -1,4 +1,4 @@
-from random import randbytes
+from random import randbytes, seed
 
 from fi_evaluation.fault_finder import (Fault, SimulationResult,
                                         get_number_of_faulted_instructions,
@@ -86,6 +86,9 @@ def evaluate_safe_error(
     prone_instructions: list[set[Fault]] = [set() for _ in range(total_instructions)]
     total_iters = 0
     unchanged_iters = 0
+
+    # Reseed the RNG to get reproducible keys.
+    seed(bytes.fromhex("ecc25519"))
 
     while True:
         total_iters += 1
