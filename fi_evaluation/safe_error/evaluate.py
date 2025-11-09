@@ -4,7 +4,7 @@ from fi_evaluation.fault_finder import (Fault, SimulationResult,
                                         get_number_of_faulted_instructions,
                                         output_dir_from_key, simulate_faults,
                                         write_fault_model_file)
-from fi_evaluation.library import Library, library_from_name
+from fi_evaluation.library import Library
 from fi_evaluation.safe_error.leakage import SafeErrorModel
 
 # How many (relative to the total number of iterations) key pairs without change at least to assume convergence.
@@ -77,8 +77,6 @@ def evaluate_safe_error(
         safe_error_model: SafeErrorModel,
         first_key: bytes | None = None
 ):
-    library = library_from_name("sca25519-unprotected", "curve25519")
-
     total_instructions = get_number_of_faulted_instructions(library)
     print(f"Total number of faulted instructions: {total_instructions}")
     print()
