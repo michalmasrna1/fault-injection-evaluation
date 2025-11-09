@@ -74,7 +74,7 @@ def fault_model_string(fault: Fault) -> str:
     if fault.fault_type == FaultType.FLIP:
         return f"""    Instruction:
         Op_codes: ALL
-            Lifespan: 0
+            Lifespan: 1, revert
                 Operations: xOR
                     Masks: 1<{fault.mask_int}<{fault.mask_int + 1}
 """
