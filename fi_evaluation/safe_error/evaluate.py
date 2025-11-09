@@ -10,7 +10,7 @@ from fi_evaluation.safe_error.leakage import SafeErrorModel
 # How many (relative to the total number of iterations) key pairs without change at least to assume convergence.
 CONVERGENCE_THRESHOLD_RELATIVE = 0.1
 # How many (absolute) key pairs without change at least to assume convergence.
-CONVERGENCE_THRESHOLD_ABSOLUTE = 5
+CONVERGENCE_THRESHOLD_ABSOLUTE = 20
 
 
 def print_safe_error_results(potentially_prone_addresses: set[SimulationResult], group: bool = False):
