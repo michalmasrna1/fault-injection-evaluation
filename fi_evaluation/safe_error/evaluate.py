@@ -7,6 +7,7 @@ from fi_evaluation.fault_finder import (Fault, SimulationResult,
 from fi_evaluation.library import Library
 from fi_evaluation.safe_error.leakage import SafeErrorModel
 
+ALLOWED_RELATIVE_CHANGE = 0.0001
 # How many (relative to the total number of iterations) key pairs without change at least to assume convergence.
 CONVERGENCE_THRESHOLD_RELATIVE = 0.1
 # How many (absolute) key pairs without change at least to assume convergence.
@@ -58,12 +59,20 @@ def print_state_start(total_iters: int):
     print(f"Starting iteration number {total_iters}.")
 
 
-def print_state_end(total_iters: int, unchanged_iters: int, prone_instructions: list[set[Fault]]):
-    print(f"Number of potentially prone instruction-fault pairs: {sum(len(p) for p in prone_instructions)}.")
+def print_state_end(total_iters: int, unchanged_iters: int, relative_change: float,
+                    prone_instructions: list[set[Fault]]):
+    print(
+        f"Number of potentially prone instruction-fault pairs: {
+            count_prone_pairs(prone_instructions)}"
+        f" (Changed {(100 * relative_change):.2f} % compared to the previous iteration).")
     print(f"Convergence status: {unchanged_iters}/{CONVERGENCE_THRESHOLD_ABSOLUTE}; "
           f"{unchanged_iters / total_iters if total_iters > 0 else 0:.0%}/{CONVERGENCE_THRESHOLD_RELATIVE:.0%}.")
     print("################################################################################")
     print()
+
+
+def count_prone_pairs(prone_instructions: list[set[Fault]]) -> int:
+    return sum(len(faults) for faults in prone_instructions)
 
 
 def check_convergence(unchanged_iters: int, total_iters: int) -> bool:
@@ -144,12 +153,18 @@ def evaluate_safe_error(
         #
         # 4. Check if we have reached the convergence criteria.
         #
-        if prone_instructions == previous_prone_instructions:
+        if total_iters == 1:
+            relative_change = 1  # Avoid converging on the first iteration.
+        else:
+            relative_change = abs(1 - count_prone_pairs(prone_instructions) /
+                                  count_prone_pairs(previous_prone_instructions))
+
+        if relative_change < ALLOWED_RELATIVE_CHANGE:
             unchanged_iters += 1
         else:
             unchanged_iters = 0
 
-        print_state_end(total_iters, unchanged_iters, prone_instructions)
+        print_state_end(total_iters, unchanged_iters, relative_change, prone_instructions)
 
         if check_convergence(unchanged_iters, total_iters):
             break
