@@ -77,6 +77,9 @@ class Sca25519Unprotected(Sca25519):
 class Sca25519Ephemeral(Sca25519):
     name = "sca25519-ephemeral"
 
+class Sca25519EphemeralHardened(Sca25519):
+    name = "sca25519-ephemeral-hardened"
+
 
 class Sca25519Static(Sca25519):
     name = "sca25519-static"
