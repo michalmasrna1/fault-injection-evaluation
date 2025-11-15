@@ -4,6 +4,7 @@ from fi_evaluation.fault_finder import (Fault, SimulationResult,
                                         get_number_of_faulted_instructions,
                                         output_dir_from_key, simulate_faults,
                                         write_fault_model_file)
+from fi_evaluation.fault_finder.result import FaultType
 from fi_evaluation.library import Library
 from fi_evaluation.safe_error.leakage import SafeErrorModel
 
@@ -12,6 +13,21 @@ ALLOWED_RELATIVE_CHANGE = 0.0001
 CONVERGENCE_THRESHOLD_RELATIVE = 0.1
 # How many (absolute) key pairs without change at least to assume convergence.
 CONVERGENCE_THRESHOLD_ABSOLUTE = 20
+
+
+def print_safe_error_summary(potentially_prone_addresses: set[SimulationResult]):
+    total = len(potentially_prone_addresses)
+    count_skip = sum(1 for r in potentially_prone_addresses if r.fault.fault_type == FaultType.SKIP)
+    count_flip = sum(1 for r in potentially_prone_addresses if r.fault.fault_type == FaultType.FLIP)
+
+    unique_instructions = {r.executed_instruction.instruction for r in potentially_prone_addresses}
+    unique_addresses = {r.executed_instruction.address for r in potentially_prone_addresses}
+
+    print(f"Total potentially prone instruction-fault pairs: {total}")
+    print(f"  Instruction skips: {count_skip}")
+    print(f"  Instruction bit flips: {count_flip}")
+    print(f"Unique instructions: {len(unique_instructions)}")
+    print(f"Unique addresses: {len(unique_addresses)}")
 
 
 def print_safe_error_results(potentially_prone_addresses: set[SimulationResult], group: bool = False):
@@ -173,3 +189,5 @@ def evaluate_safe_error(
     # As the set of potentially prone instructions should have converged
     # by the end, this should be the final result.
     print_safe_error_results(potentially_prone_instructions, group=True)
+
+    print_safe_error_summary(potentially_prone_instructions)
