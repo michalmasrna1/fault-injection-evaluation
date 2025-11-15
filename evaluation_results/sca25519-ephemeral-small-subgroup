@@ -1,0 +1,816 @@
+No public key specified, using the base point.
+
+
+Fixed output - 0000000000000000000000000000000000000000000000000000000000000000 (0).
+Address 08001068 on hit 1 (1) - Flipped instruction bit 12 (push.w {r4, r5, r6, r7, r8, lr} -> b #0x25e)
+Address 0800109e on hit 1 (490) - Flipped instruction bit 19 (bl #0x1ee -> bl #0x1e6)
+Address 080010ec on hit 1 (916) - Skipped 2 instructions
+Address 080010ee on hit 1 (917) - Skipped 1 instruction
+Address 080010ee on hit 1 (917) - Skipped 3 instructions
+Address 08000d84 on hit 1 (918) - Flipped instruction bit 15 (push.w {r4, r5, r6, r7, r8, sb, sl, lr} -> add r1, sp, #0xb4)
+Address 080010f2 on hit 1 (1702) - Skipped 2 instructions
+Address 080010f4 on hit 1 (1703) - Skipped 3 instructions
+Address 080010f4 on hit 1 (1703) - Skipped 1 instruction
+Address 080010f4 on hit 1 (1703) - Flipped instruction bit 17 (bl #0xfffffc90 -> bl #0xfffffc92)
+Address 08000d84 on hit 2 (1704) - Flipped instruction bit 15 (push.w {r4, r5, r6, r7, r8, sb, sl, lr} -> add r1, sp, #0xb4)
+Address 080010f8 on hit 1 (2488) - Flipped instruction bit 5 (add r0, sp, #0x60 -> add r0, sp, #0x20)
+Address 080010f8 on hit 1 (2488) - Skipped 2 instructions
+Address 080010fa on hit 1 (2489) - Skipped 1 instruction
+Address 08000d84 on hit 3 (2490) - Flipped instruction bit 15 (push.w {r4, r5, r6, r7, r8, sb, sl, lr} -> add r1, sp, #0xb4)
+Address 08000d8c on hit 3 (2492) - Flipped instruction bit 22 (add.w sb, r0, #0x20 -> add.w sb, r0, #0)
+Address 08000d8c on hit 3 (2492) - Flipped instruction bit 3 (add.w sb, r0, #0x20 -> add.w sb, r4, #0x20)
+Address 08000d8c on hit 3 (2492) - Flipped instruction bit 23 (add.w sb, r0, #0x20 -> add.w sb, r0, #0x60)
+Address 08000d90 on hit 3 (2493) - Flipped instruction bit 3 (add.w r8, r0, #0x40 -> add.w r8, r4, #0x40)
+Address 08000d9e on hit 3 (2498) - Flipped instruction bit 4 (mov r2, r8 -> mov r2, sb)
+Address 08000dae on hit 3 (2504) - Flipped instruction bit 15 (umlal ip, lr, r7, r0 -> cbnz r7, #0x7c)
+Address 08000e22 on hit 3 (2536) - Skipped 3 instructions
+Address 08000e26 on hit 3 (2537) - Skipped 2 instructions
+Address 08000e28 on hit 3 (2538) - Flipped instruction bit 11 (mov r1, r4 -> tst r1, r4)
+Address 08000e28 on hit 3 (2538) - Flipped instruction bit 14 (mov r1, r4 -> str r1, [r4, #0x60])
+Address 08000e28 on hit 3 (2538) - Flipped instruction bit 8 (mov r1, r4 -> mov sb, r4)
+Address 08000e28 on hit 3 (2538) - Skipped 1 instruction
+Address 08000e28 on hit 3 (2538) - Flipped instruction bit 2 (mov r1, r4 -> mov r3, r4)
+Address 08000e28 on hit 3 (2538) - Flipped instruction bit 1 (mov r1, r4 -> mov r0, r4)
+Address 08000e28 on hit 3 (2538) - Flipped instruction bit 12 (mov r1, r4 -> ldr r6, [pc, #0x84])
+Address 08000e2a on hit 3 (2539) - Skipped 3 instructions
+Address 08000e2c on hit 3 (2540) - Skipped 3 instructions
+Address 08000e2c on hit 3 (2540) - Skipped 2 instructions
+Address 08000e32 on hit 3 (2659) - Flipped instruction bit 4 (mov r2, sb -> mov r2, r8)
+Address 08000e34 on hit 3 (2660) - Flipped instruction bit 4 (mov r1, r8 -> mov r1, sb)
+Address 08000efc on hit 3 (2711) - Flipped instruction bit 8 (mov r1, r5 -> mov sb, r5)
+Address 08000efe on hit 3 (2712) - Skipped 3 instructions
+Address 08000f00 on hit 3 (2713) - Skipped 2 instructions
+Address 08000f00 on hit 3 (2713) - Skipped 3 instructions
+Address 08000f08 on hit 3 (2833) - Skipped 3 instructions
+Address 08000f08 on hit 3 (2833) - Flipped instruction bit 7 (mov r0, sb -> mov r0, r1)
+Address 08000f0a on hit 3 (2834) - Skipped 2 instructions
+Address 08000f0a on hit 3 (2834) - Skipped 3 instructions
+Address 0800067c on hit 5 (2975) - Flipped instruction bit 21 (ldr.w sb, [sp, #0x20] -> ldr.w sb, [sp, #0x30])
+Address 0800067c on hit 5 (2975) - Flipped instruction bit 20 (ldr.w sb, [sp, #0x20] -> ldr.w sb, [sp, #0x28])
+Address 0800067c on hit 5 (2975) - Flipped instruction bit 19 (ldr.w sb, [sp, #0x20] -> ldr.w sb, [sp, #0x24])
+Address 08000f10 on hit 3 (2989) - Flipped instruction bit 4 (mov r2, r8 -> mov r2, sb)
+Address 0800105a on hit 3 (3117) - Flipped instruction bit 6 (mov r1, r8 -> mov r1, ip)
+Address 0800110a on hit 1 (3279) - Flipped instruction bit 7 (add r0, sp, #0xa0 -> add r0, sp, #0x1a0)
+Address 0800110a on hit 1 (3279) - Flipped instruction bit 12 (add r0, sp, #0xa0 -> adr r0, #0xa0)
+Address 0800110a on hit 1 (3279) - Flipped instruction bit 4 (add r0, sp, #0xa0 -> add r0, sp, #0x80)
+Address 0800110a on hit 1 (3279) - Skipped 2 instructions
+Address 0800110a on hit 1 (3279) - Flipped instruction bit 5 (add r0, sp, #0xa0 -> add r0, sp, #0xe0)
+Address 0800110c on hit 1 (3280) - Flipped instruction bit 13 (bl #0x27c -> b #4)
+Address 0800110c on hit 1 (3280) - Skipped 1 instruction
+Address 0800110c on hit 1 (3280) - Flipped instruction bit 32 (bl #0x27c -> and sb, r0, #0x2f00000)
+Address 0800138a on hit 1 (3282) - Skipped 1 instruction
+Address 080012f8 on hit 1 (3286) - Flipped instruction bit 16 (adds r2, #1 -> sxth r1, r0)
+Address 080012f8 on hit 1 (3286) - Flipped instruction bit 9 (adds r2, #1 -> adds r3, #1)
+Address 080012f8 on hit 1 (3286) - Flipped instruction bit 14 (adds r2, #1 -> asrs r1, r0, #8)
+Address 080012f8 on hit 1 (3286) - Skipped 1 instruction
+Address 080012f8 on hit 1 (3286) - Flipped instruction bit 11 (adds r2, #1 -> adds r6, #1)
+Address 080012f8 on hit 1 (3286) - Flipped instruction bit 1 (adds r2, #1 -> adds r2, #0)
+Address 080012fa on hit 1 (3287) - Flipped instruction bit 23 (add.w r3, r2, r2, lsl #3 -> add.w r3, r2, r2, lsl #2)
+Address 080012fa on hit 1 (3287) - Flipped instruction bit 22 (add.w r3, r2, r2, lsl #3 -> add.w r3, r2, r2, asr #3)
+Address 080012fa on hit 1 (3287) - Flipped instruction bit 9 (add.w r3, r2, r2, lsl #3 -> and.w r3, r2, r2, lsl #3)
+Address 080012fa on hit 1 (3287) - Flipped instruction bit 4 (add.w r3, r2, r2, lsl #3 -> add.w r3, sl, r2, lsl #3)
+Address 080012fa on hit 1 (3287) - Flipped instruction bit 20 (add.w r3, r2, r2, lsl #3 -> add.w r3, r2, sl, lsl #3)
+Address 080012fa on hit 1 (3287) - Flipped instruction bit 24 (add.w r3, r2, r2, lsl #3 -> add.w r3, r2, r2, lsl #1)
+Address 080012fa on hit 1 (3287) - Flipped instruction bit 21 (add.w r3, r2, r2, lsl #3 -> add.w r3, r2, r2, lsr #3)
+Address 08001300 on hit 1 (3289) - Flipped instruction bit 27 (add.w r2, r2, r3, lsl #1 -> add.w r6, r2, r3, lsl #1)
+Address 08001300 on hit 1 (3289) - Flipped instruction bit 4 (add.w r2, r2, r3, lsl #1 -> add.w r2, sl, r3, lsl #1)
+Address 08001300 on hit 1 (3289) - Flipped instruction bit 9 (add.w r2, r2, r3, lsl #1 -> and.w r2, r2, r3, lsl #1)
+Address 08001300 on hit 1 (3289) - Flipped instruction bit 20 (add.w r2, r2, r3, lsl #1 -> add.w r2, r2, fp, lsl #1)
+Address 08001300 on hit 1 (3289) - Flipped instruction bit 21 (add.w r2, r2, r3, lsl #1 -> add.w r2, r2, r3, lsr #1)
+Address 08001300 on hit 1 (3289) - Flipped instruction bit 15 (add.w r2, r2, r3, lsl #1 -> add r3, sp, #8)
+Address 08001300 on hit 1 (3289) - Flipped instruction bit 28 (add.w r2, r2, r3, lsl #1 -> add.w sl, r2, r3, lsl #1)
+Address 08001300 on hit 1 (3289) - Flipped instruction bit 17 (add.w r2, r2, r3, lsl #1 -> add.w r2, r2, r2, lsl #1)
+Address 08001300 on hit 1 (3289) - Flipped instruction bit 22 (add.w r2, r2, r3, lsl #1 -> add.w r2, r2, r3, asr #1)
+Address 08001300 on hit 1 (3289) - Flipped instruction bit 25 (add.w r2, r2, r3, lsl #1 -> add.w r3, r2, r3, lsl #1)
+Address 08001300 on hit 1 (3289) - Skipped 1 instruction
+Address 08001300 on hit 1 (3289) - Flipped instruction bit 23 (add.w r2, r2, r3, lsl #1 -> add.w r2, r2, r3)
+Address 08001306 on hit 1 (3291) - Skipped 2 instructions
+Address 08001306 on hit 1 (3291) - Skipped 3 instructions
+Address 08001308 on hit 1 (3292) - Skipped 1 instruction
+Address 08001308 on hit 1 (3292) - Skipped 3 instructions
+Address 08001308 on hit 1 (3292) - Flipped instruction bit 24 (add.w r6, r0, #0x18 -> add.w r6, r0, #0x98)
+Address 08001308 on hit 1 (3292) - Flipped instruction bit 26 (add.w r6, r0, #0x18 -> add.w r4, r0, #0x18)
+Address 08001308 on hit 1 (3292) - Flipped instruction bit 32 (add.w r6, r0, #0x18 -> bmi.w #0xc34)
+Address 08001308 on hit 1 (3292) - Flipped instruction bit 19 (add.w r6, r0, #0x18 -> add.w r6, r0, #0x1c)
+Address 08001308 on hit 1 (3292) - Flipped instruction bit 23 (add.w r6, r0, #0x18 -> add.w r6, r0, #0x58)
+Address 08001308 on hit 1 (3292) - Skipped 2 instructions
+Address 08001308 on hit 1 (3292) - Flipped instruction bit 22 (add.w r6, r0, #0x18 -> add.w r6, r0, #0x38)
+Address 08001308 on hit 1 (3292) - Flipped instruction bit 27 (add.w r6, r0, #0x18 -> add.w r2, r0, #0x18)
+Address 0800130c on hit 1 (3293) - Flipped instruction bit 3 (ldr r5, [r4, #4]! -> ldr r5, [r0, #4]!)
+Address 0800130c on hit 1 (3293) - Skipped 3 instructions
+Address 0800130c on hit 1 (3293) - Flipped instruction bit 26 (ldr r5, [r4, #4]! -> ldr r5, [r4, #-0x4]!)
+Address 0800130c on hit 1 (3293) - Flipped instruction bit 19 (ldr r5, [r4, #4]! -> ldr r5, [r4, #0]!)
+Address 0800130c on hit 1 (3293) - Flipped instruction bit 13 (ldr r5, [r4, #4]! -> ldrex r5, [r4, #0x10])
+Address 0800130c on hit 1 (3293) - Skipped 2 instructions
+Address 0800130c on hit 1 (3293) - Skipped 1 instruction
+Address 0800130c on hit 1 (3293) - Flipped instruction bit 25 (ldr r5, [r4, #4]! -> ldrt r5, [r4, #4])
+Address 0800130c on hit 1 (3293) - Flipped instruction bit 27 (ldr r5, [r4, #4]! -> ldr r5, [r4], #4)
+Address 0800130c on hit 1 (3293) - Flipped instruction bit 7 (ldr r5, [r4, #4]! -> ldrb r5, [r4, #4]!)
+Address 0800130c on hit 1 (3293) - Flipped instruction bit 2 (ldr r5, [r4, #4]! -> ldr r5, [r6, #4]!)
+Address 0800130c on hit 1 (3293) - Flipped instruction bit 4 (ldr r5, [r4, #4]! -> ldr r5, [ip, #4]!)
+Address 08001310 on hit 1 (3294) - Skipped 2 instructions
+Address 08001310 on hit 1 (3294) - Flipped instruction bit 17 (adds.w r8, r2, r5 -> adds.w r8, r2, r4)
+Address 08001310 on hit 1 (3294) - Flipped instruction bit 1 (adds.w r8, r2, r5 -> adds.w r8, r3, r5)
+Address 08001310 on hit 1 (3294) - Flipped instruction bit 31 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #16)
+Address 08001310 on hit 1 (3294) - Flipped instruction bit 23 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #1)
+Address 08001310 on hit 1 (3294) - Skipped 3 instructions
+Address 08001310 on hit 1 (3294) - Flipped instruction bit 24 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #2)
+Address 08001310 on hit 1 (3294) - Flipped instruction bit 29 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #4)
+Address 08001310 on hit 1 (3294) - Flipped instruction bit 21 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsr #32)
+Address 08001310 on hit 1 (3294) - Flipped instruction bit 4 (adds.w r8, r2, r5 -> adds.w r8, sl, r5)
+Address 08001310 on hit 1 (3294) - Flipped instruction bit 18 (adds.w r8, r2, r5 -> adds.w r8, r2, r7)
+Address 08001310 on hit 1 (3294) - Flipped instruction bit 30 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #8)
+Address 08001310 on hit 1 (3294) - Flipped instruction bit 20 (adds.w r8, r2, r5 -> adds.w r8, r2, sp)
+Address 08001310 on hit 1 (3294) - Flipped instruction bit 19 (adds.w r8, r2, r5 -> adds.w r8, r2, r1)
+Address 08001314 on hit 1 (3295) - Flipped instruction bit 26 (adc sb, r3, #0 -> adc fp, r3, #0)
+Address 08001314 on hit 1 (3295) - Skipped 1 instruction
+Address 08001314 on hit 1 (3295) - Skipped 3 instructions
+Address 08001314 on hit 1 (3295) - Flipped instruction bit 6 (adc sb, r3, #0 -> sbc sb, r3, #0)
+Address 08001314 on hit 1 (3295) - Flipped instruction bit 10 (adc sb, r3, #0 -> sbfx sb, r3, #0, #1)
+Address 08001314 on hit 1 (3295) - Flipped instruction bit 8 (adc sb, r3, #0 -> rsb.w sb, r3, #0)
+Address 08001314 on hit 1 (3295) - Skipped 2 instructions
+Address 08001314 on hit 1 (3295) - Flipped instruction bit 9 (adc sb, r3, #0 -> orr sb, r3, #0)
+Address 08001314 on hit 1 (3295) - Flipped instruction bit 7 (adc sb, r3, #0 -> add.w sb, r3, #0)
+Address 08001314 on hit 1 (3295) - Flipped instruction bit 25 (adc sb, r3, #0 -> adc r8, r3, #0)
+Address 0800131a on hit 1 (3297) - Flipped instruction bit 4 (mov r2, sb -> mov r2, r8)
+Address 0800131a on hit 1 (3297) - Flipped instruction bit 5 (mov r2, sb -> mov r2, fp)
+Address 0800131c on hit 1 (3298) - Flipped instruction bit 25 (mov.w r3, #0 -> mov.w r2, #0)
+Address 0800131c on hit 1 (3298) - Flipped instruction bit 6 (mov.w r3, #0 -> mvn r3, #0)
+Address 08001320 on hit 1 (3299) - Flipped instruction bit 2 (bne #0xffffffec -> bne #0xfffffff0)
+Address 08001320 on hit 1 (3299) - Flipped instruction bit 3 (bne #0xffffffec -> bne #0xffffffe4)
+Address 08001320 on hit 1 (3299) - Skipped 3 instructions
+Address 0800130c on hit 2 (3300) - Skipped 1 instruction
+Address 0800130c on hit 2 (3300) - Flipped instruction bit 7 (ldr r5, [r4, #4]! -> ldrb r5, [r4, #4]!)
+Address 0800130c on hit 2 (3300) - Flipped instruction bit 27 (ldr r5, [r4, #4]! -> ldr r5, [r4], #4)
+Address 0800130c on hit 2 (3300) - Flipped instruction bit 4 (ldr r5, [r4, #4]! -> ldr r5, [ip, #4]!)
+Address 0800130c on hit 2 (3300) - Flipped instruction bit 2 (ldr r5, [r4, #4]! -> ldr r5, [r6, #4]!)
+Address 0800130c on hit 2 (3300) - Flipped instruction bit 26 (ldr r5, [r4, #4]! -> ldr r5, [r4, #-0x4]!)
+Address 0800130c on hit 2 (3300) - Flipped instruction bit 19 (ldr r5, [r4, #4]! -> ldr r5, [r4, #0]!)
+Address 08001310 on hit 2 (3301) - Flipped instruction bit 23 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #1)
+Address 08001310 on hit 2 (3301) - Flipped instruction bit 17 (adds.w r8, r2, r5 -> adds.w r8, r2, r4)
+Address 08001310 on hit 2 (3301) - Flipped instruction bit 24 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #2)
+Address 08001310 on hit 2 (3301) - Flipped instruction bit 29 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #4)
+Address 08001310 on hit 2 (3301) - Flipped instruction bit 21 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsr #32)
+Address 08001310 on hit 2 (3301) - Flipped instruction bit 18 (adds.w r8, r2, r5 -> adds.w r8, r2, r7)
+Address 08001310 on hit 2 (3301) - Flipped instruction bit 30 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #8)
+Address 08001310 on hit 2 (3301) - Flipped instruction bit 4 (adds.w r8, r2, r5 -> adds.w r8, sl, r5)
+Address 08001310 on hit 2 (3301) - Flipped instruction bit 31 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #16)
+Address 08001310 on hit 2 (3301) - Flipped instruction bit 1 (adds.w r8, r2, r5 -> adds.w r8, r3, r5)
+Address 08001310 on hit 2 (3301) - Flipped instruction bit 20 (adds.w r8, r2, r5 -> adds.w r8, r2, sp)
+Address 08001310 on hit 2 (3301) - Flipped instruction bit 19 (adds.w r8, r2, r5 -> adds.w r8, r2, r1)
+Address 08001314 on hit 2 (3302) - Flipped instruction bit 8 (adc sb, r3, #0 -> rsb.w sb, r3, #0)
+Address 08001314 on hit 2 (3302) - Flipped instruction bit 10 (adc sb, r3, #0 -> sbfx sb, r3, #0, #1)
+Address 08001314 on hit 2 (3302) - Flipped instruction bit 7 (adc sb, r3, #0 -> add.w sb, r3, #0)
+Address 08001314 on hit 2 (3302) - Flipped instruction bit 6 (adc sb, r3, #0 -> sbc sb, r3, #0)
+Address 08001314 on hit 2 (3302) - Flipped instruction bit 9 (adc sb, r3, #0 -> orr sb, r3, #0)
+Address 0800131a on hit 2 (3304) - Flipped instruction bit 4 (mov r2, sb -> mov r2, r8)
+Address 0800131a on hit 2 (3304) - Flipped instruction bit 5 (mov r2, sb -> mov r2, fp)
+Address 0800131c on hit 2 (3305) - Flipped instruction bit 6 (mov.w r3, #0 -> mvn r3, #0)
+Address 0800131c on hit 2 (3305) - Flipped instruction bit 25 (mov.w r3, #0 -> mov.w r2, #0)
+Address 08001320 on hit 2 (3306) - Flipped instruction bit 3 (bne #0xffffffec -> bne #0xffffffe4)
+Address 08001320 on hit 2 (3306) - Skipped 3 instructions
+Address 0800130c on hit 3 (3307) - Flipped instruction bit 26 (ldr r5, [r4, #4]! -> ldr r5, [r4, #-0x4]!)
+Address 0800130c on hit 3 (3307) - Flipped instruction bit 2 (ldr r5, [r4, #4]! -> ldr r5, [r6, #4]!)
+Address 0800130c on hit 3 (3307) - Flipped instruction bit 7 (ldr r5, [r4, #4]! -> ldrb r5, [r4, #4]!)
+Address 0800130c on hit 3 (3307) - Flipped instruction bit 4 (ldr r5, [r4, #4]! -> ldr r5, [ip, #4]!)
+Address 08001310 on hit 3 (3308) - Flipped instruction bit 19 (adds.w r8, r2, r5 -> adds.w r8, r2, r1)
+Address 08001310 on hit 3 (3308) - Flipped instruction bit 17 (adds.w r8, r2, r5 -> adds.w r8, r2, r4)
+Address 08001310 on hit 3 (3308) - Flipped instruction bit 24 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #2)
+Address 08001310 on hit 3 (3308) - Flipped instruction bit 29 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #4)
+Address 08001310 on hit 3 (3308) - Flipped instruction bit 21 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsr #32)
+Address 08001310 on hit 3 (3308) - Flipped instruction bit 31 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #16)
+Address 08001310 on hit 3 (3308) - Flipped instruction bit 23 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #1)
+Address 08001310 on hit 3 (3308) - Flipped instruction bit 18 (adds.w r8, r2, r5 -> adds.w r8, r2, r7)
+Address 08001310 on hit 3 (3308) - Flipped instruction bit 1 (adds.w r8, r2, r5 -> adds.w r8, r3, r5)
+Address 08001310 on hit 3 (3308) - Flipped instruction bit 30 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #8)
+Address 08001310 on hit 3 (3308) - Flipped instruction bit 4 (adds.w r8, r2, r5 -> adds.w r8, sl, r5)
+Address 08001310 on hit 3 (3308) - Flipped instruction bit 20 (adds.w r8, r2, r5 -> adds.w r8, r2, sp)
+Address 08001314 on hit 3 (3309) - Flipped instruction bit 10 (adc sb, r3, #0 -> sbfx sb, r3, #0, #1)
+Address 08001314 on hit 3 (3309) - Flipped instruction bit 9 (adc sb, r3, #0 -> orr sb, r3, #0)
+Address 08001314 on hit 3 (3309) - Flipped instruction bit 7 (adc sb, r3, #0 -> add.w sb, r3, #0)
+Address 08001314 on hit 3 (3309) - Flipped instruction bit 6 (adc sb, r3, #0 -> sbc sb, r3, #0)
+Address 08001314 on hit 3 (3309) - Flipped instruction bit 8 (adc sb, r3, #0 -> rsb.w sb, r3, #0)
+Address 0800131a on hit 3 (3311) - Flipped instruction bit 4 (mov r2, sb -> mov r2, r8)
+Address 0800131a on hit 3 (3311) - Flipped instruction bit 5 (mov r2, sb -> mov r2, fp)
+Address 0800131c on hit 3 (3312) - Flipped instruction bit 25 (mov.w r3, #0 -> mov.w r2, #0)
+Address 0800131c on hit 3 (3312) - Flipped instruction bit 6 (mov.w r3, #0 -> mvn r3, #0)
+Address 08001320 on hit 3 (3313) - Flipped instruction bit 3 (bne #0xffffffec -> bne #0xffffffe4)
+Address 08001320 on hit 3 (3313) - Skipped 3 instructions
+Address 0800130c on hit 4 (3314) - Flipped instruction bit 7 (ldr r5, [r4, #4]! -> ldrb r5, [r4, #4]!)
+Address 0800130c on hit 4 (3314) - Flipped instruction bit 2 (ldr r5, [r4, #4]! -> ldr r5, [r6, #4]!)
+Address 0800130c on hit 4 (3314) - Flipped instruction bit 4 (ldr r5, [r4, #4]! -> ldr r5, [ip, #4]!)
+Address 08001310 on hit 4 (3315) - Flipped instruction bit 4 (adds.w r8, r2, r5 -> adds.w r8, sl, r5)
+Address 08001310 on hit 4 (3315) - Flipped instruction bit 18 (adds.w r8, r2, r5 -> adds.w r8, r2, r7)
+Address 08001310 on hit 4 (3315) - Flipped instruction bit 20 (adds.w r8, r2, r5 -> adds.w r8, r2, sp)
+Address 08001310 on hit 4 (3315) - Flipped instruction bit 31 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #16)
+Address 08001310 on hit 4 (3315) - Flipped instruction bit 30 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #8)
+Address 08001310 on hit 4 (3315) - Flipped instruction bit 19 (adds.w r8, r2, r5 -> adds.w r8, r2, r1)
+Address 08001310 on hit 4 (3315) - Flipped instruction bit 17 (adds.w r8, r2, r5 -> adds.w r8, r2, r4)
+Address 08001310 on hit 4 (3315) - Flipped instruction bit 23 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #1)
+Address 08001310 on hit 4 (3315) - Flipped instruction bit 24 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #2)
+Address 08001310 on hit 4 (3315) - Flipped instruction bit 21 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsr #32)
+Address 08001310 on hit 4 (3315) - Flipped instruction bit 1 (adds.w r8, r2, r5 -> adds.w r8, r3, r5)
+Address 08001310 on hit 4 (3315) - Flipped instruction bit 29 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #4)
+Address 08001314 on hit 4 (3316) - Flipped instruction bit 9 (adc sb, r3, #0 -> orr sb, r3, #0)
+Address 08001314 on hit 4 (3316) - Flipped instruction bit 7 (adc sb, r3, #0 -> add.w sb, r3, #0)
+Address 08001314 on hit 4 (3316) - Flipped instruction bit 10 (adc sb, r3, #0 -> sbfx sb, r3, #0, #1)
+Address 08001314 on hit 4 (3316) - Flipped instruction bit 8 (adc sb, r3, #0 -> rsb.w sb, r3, #0)
+Address 08001314 on hit 4 (3316) - Flipped instruction bit 6 (adc sb, r3, #0 -> sbc sb, r3, #0)
+Address 0800131a on hit 4 (3318) - Flipped instruction bit 4 (mov r2, sb -> mov r2, r8)
+Address 0800131a on hit 4 (3318) - Flipped instruction bit 5 (mov r2, sb -> mov r2, fp)
+Address 0800131c on hit 4 (3319) - Flipped instruction bit 6 (mov.w r3, #0 -> mvn r3, #0)
+Address 0800131c on hit 4 (3319) - Flipped instruction bit 25 (mov.w r3, #0 -> mov.w r2, #0)
+Address 08001320 on hit 4 (3320) - Skipped 3 instructions
+Address 08001320 on hit 4 (3320) - Flipped instruction bit 3 (bne #0xffffffec -> bne #0xffffffe4)
+Address 0800130c on hit 5 (3321) - Flipped instruction bit 2 (ldr r5, [r4, #4]! -> ldr r5, [r6, #4]!)
+Address 0800130c on hit 5 (3321) - Flipped instruction bit 7 (ldr r5, [r4, #4]! -> ldrb r5, [r4, #4]!)
+Address 0800130c on hit 5 (3321) - Flipped instruction bit 13 (ldr r5, [r4, #4]! -> ldrex r5, [r4, #0x10])
+Address 0800130c on hit 5 (3321) - Flipped instruction bit 4 (ldr r5, [r4, #4]! -> ldr r5, [ip, #4]!)
+Address 08001310 on hit 5 (3322) - Flipped instruction bit 31 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #16)
+Address 08001310 on hit 5 (3322) - Flipped instruction bit 24 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #2)
+Address 08001310 on hit 5 (3322) - Flipped instruction bit 23 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #1)
+Address 08001310 on hit 5 (3322) - Flipped instruction bit 18 (adds.w r8, r2, r5 -> adds.w r8, r2, r7)
+Address 08001310 on hit 5 (3322) - Flipped instruction bit 4 (adds.w r8, r2, r5 -> adds.w r8, sl, r5)
+Address 08001310 on hit 5 (3322) - Flipped instruction bit 1 (adds.w r8, r2, r5 -> adds.w r8, r3, r5)
+Address 08001310 on hit 5 (3322) - Flipped instruction bit 29 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #4)
+Address 08001310 on hit 5 (3322) - Flipped instruction bit 20 (adds.w r8, r2, r5 -> adds.w r8, r2, sp)
+Address 08001310 on hit 5 (3322) - Flipped instruction bit 30 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #8)
+Address 08001310 on hit 5 (3322) - Flipped instruction bit 17 (adds.w r8, r2, r5 -> adds.w r8, r2, r4)
+Address 08001310 on hit 5 (3322) - Flipped instruction bit 21 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsr #32)
+Address 08001310 on hit 5 (3322) - Flipped instruction bit 19 (adds.w r8, r2, r5 -> adds.w r8, r2, r1)
+Address 08001314 on hit 5 (3323) - Flipped instruction bit 9 (adc sb, r3, #0 -> orr sb, r3, #0)
+Address 08001314 on hit 5 (3323) - Flipped instruction bit 7 (adc sb, r3, #0 -> add.w sb, r3, #0)
+Address 08001314 on hit 5 (3323) - Flipped instruction bit 6 (adc sb, r3, #0 -> sbc sb, r3, #0)
+Address 08001314 on hit 5 (3323) - Flipped instruction bit 8 (adc sb, r3, #0 -> rsb.w sb, r3, #0)
+Address 08001314 on hit 5 (3323) - Flipped instruction bit 10 (adc sb, r3, #0 -> sbfx sb, r3, #0, #1)
+Address 0800131a on hit 5 (3325) - Flipped instruction bit 4 (mov r2, sb -> mov r2, r8)
+Address 0800131a on hit 5 (3325) - Flipped instruction bit 5 (mov r2, sb -> mov r2, fp)
+Address 0800131c on hit 5 (3326) - Flipped instruction bit 25 (mov.w r3, #0 -> mov.w r2, #0)
+Address 0800131c on hit 5 (3326) - Flipped instruction bit 6 (mov.w r3, #0 -> mvn r3, #0)
+Address 08001320 on hit 5 (3327) - Flipped instruction bit 3 (bne #0xffffffec -> bne #0xffffffe4)
+Address 08001320 on hit 5 (3327) - Skipped 3 instructions
+Address 0800130c on hit 6 (3328) - Flipped instruction bit 13 (ldr r5, [r4, #4]! -> ldrex r5, [r4, #0x10])
+Address 0800130c on hit 6 (3328) - Flipped instruction bit 7 (ldr r5, [r4, #4]! -> ldrb r5, [r4, #4]!)
+Address 0800130c on hit 6 (3328) - Flipped instruction bit 2 (ldr r5, [r4, #4]! -> ldr r5, [r6, #4]!)
+Address 0800130c on hit 6 (3328) - Flipped instruction bit 4 (ldr r5, [r4, #4]! -> ldr r5, [ip, #4]!)
+Address 08001310 on hit 6 (3329) - Flipped instruction bit 30 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #8)
+Address 08001310 on hit 6 (3329) - Flipped instruction bit 4 (adds.w r8, r2, r5 -> adds.w r8, sl, r5)
+Address 08001310 on hit 6 (3329) - Flipped instruction bit 31 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #16)
+Address 08001310 on hit 6 (3329) - Flipped instruction bit 1 (adds.w r8, r2, r5 -> adds.w r8, r3, r5)
+Address 08001310 on hit 6 (3329) - Flipped instruction bit 20 (adds.w r8, r2, r5 -> adds.w r8, r2, sp)
+Address 08001310 on hit 6 (3329) - Flipped instruction bit 19 (adds.w r8, r2, r5 -> adds.w r8, r2, r1)
+Address 08001310 on hit 6 (3329) - Flipped instruction bit 17 (adds.w r8, r2, r5 -> adds.w r8, r2, r4)
+Address 08001310 on hit 6 (3329) - Flipped instruction bit 23 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #1)
+Address 08001310 on hit 6 (3329) - Flipped instruction bit 24 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #2)
+Address 08001310 on hit 6 (3329) - Flipped instruction bit 18 (adds.w r8, r2, r5 -> adds.w r8, r2, r7)
+Address 08001310 on hit 6 (3329) - Flipped instruction bit 29 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #4)
+Address 08001310 on hit 6 (3329) - Flipped instruction bit 21 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsr #32)
+Address 08001314 on hit 6 (3330) - Flipped instruction bit 6 (adc sb, r3, #0 -> sbc sb, r3, #0)
+Address 08001314 on hit 6 (3330) - Flipped instruction bit 9 (adc sb, r3, #0 -> orr sb, r3, #0)
+Address 08001314 on hit 6 (3330) - Flipped instruction bit 7 (adc sb, r3, #0 -> add.w sb, r3, #0)
+Address 08001314 on hit 6 (3330) - Flipped instruction bit 10 (adc sb, r3, #0 -> sbfx sb, r3, #0, #1)
+Address 08001314 on hit 6 (3330) - Flipped instruction bit 8 (adc sb, r3, #0 -> rsb.w sb, r3, #0)
+Address 0800131a on hit 6 (3332) - Flipped instruction bit 4 (mov r2, sb -> mov r2, r8)
+Address 0800131a on hit 6 (3332) - Flipped instruction bit 5 (mov r2, sb -> mov r2, fp)
+Address 0800131c on hit 6 (3333) - Flipped instruction bit 6 (mov.w r3, #0 -> mvn r3, #0)
+Address 0800131c on hit 6 (3333) - Flipped instruction bit 25 (mov.w r3, #0 -> mov.w r2, #0)
+Address 08001320 on hit 6 (3334) - Skipped 3 instructions
+Address 08001320 on hit 6 (3334) - Flipped instruction bit 3 (bne #0xffffffec -> bne #0xffffffe4)
+Address 0800130c on hit 7 (3335) - Flipped instruction bit 7 (ldr r5, [r4, #4]! -> ldrb r5, [r4, #4]!)
+Address 0800130c on hit 7 (3335) - Flipped instruction bit 4 (ldr r5, [r4, #4]! -> ldr r5, [ip, #4]!)
+Address 0800130c on hit 7 (3335) - Flipped instruction bit 2 (ldr r5, [r4, #4]! -> ldr r5, [r6, #4]!)
+Address 08001310 on hit 7 (3336) - Flipped instruction bit 1 (adds.w r8, r2, r5 -> adds.w r8, r3, r5)
+Address 08001310 on hit 7 (3336) - Flipped instruction bit 4 (adds.w r8, r2, r5 -> adds.w r8, sl, r5)
+Address 08001310 on hit 7 (3336) - Flipped instruction bit 30 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #8)
+Address 08001310 on hit 7 (3336) - Flipped instruction bit 20 (adds.w r8, r2, r5 -> adds.w r8, r2, sp)
+Address 08001310 on hit 7 (3336) - Flipped instruction bit 21 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsr #32)
+Address 08001310 on hit 7 (3336) - Flipped instruction bit 19 (adds.w r8, r2, r5 -> adds.w r8, r2, r1)
+Address 08001310 on hit 7 (3336) - Flipped instruction bit 23 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #1)
+Address 08001310 on hit 7 (3336) - Flipped instruction bit 31 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #16)
+Address 08001310 on hit 7 (3336) - Flipped instruction bit 18 (adds.w r8, r2, r5 -> adds.w r8, r2, r7)
+Address 08001310 on hit 7 (3336) - Flipped instruction bit 17 (adds.w r8, r2, r5 -> adds.w r8, r2, r4)
+Address 08001310 on hit 7 (3336) - Flipped instruction bit 24 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #2)
+Address 08001310 on hit 7 (3336) - Flipped instruction bit 29 (adds.w r8, r2, r5 -> adds.w r8, r2, r5, lsl #4)
+Address 08001314 on hit 7 (3337) - Flipped instruction bit 10 (adc sb, r3, #0 -> sbfx sb, r3, #0, #1)
+Address 08001314 on hit 7 (3337) - Flipped instruction bit 8 (adc sb, r3, #0 -> rsb.w sb, r3, #0)
+Address 08001314 on hit 7 (3337) - Flipped instruction bit 9 (adc sb, r3, #0 -> orr sb, r3, #0)
+Address 08001314 on hit 7 (3337) - Flipped instruction bit 6 (adc sb, r3, #0 -> sbc sb, r3, #0)
+Address 08001314 on hit 7 (3337) - Flipped instruction bit 7 (adc sb, r3, #0 -> add.w sb, r3, #0)
+Address 08001320 on hit 7 (3341) - Skipped 3 instructions
+Address 08001322 on hit 1 (3342) - Flipped instruction bit 2 (adds.w r2, sb, r7 -> adds.w r2, fp, r7)
+Address 08001322 on hit 1 (3342) - Flipped instruction bit 17 (adds.w r2, sb, r7 -> adds.w r2, sb, r6)
+Address 08001322 on hit 1 (3342) - Flipped instruction bit 25 (adds.w r2, sb, r7 -> adds.w r3, sb, r7)
+Address 08001322 on hit 1 (3342) - Skipped 2 instructions
+Address 08001322 on hit 1 (3342) - Flipped instruction bit 28 (adds.w r2, sb, r7 -> adds.w sl, sb, r7)
+Address 08001322 on hit 1 (3342) - Flipped instruction bit 21 (adds.w r2, sb, r7 -> adds.w r2, sb, r7, lsr #32)
+Address 08001322 on hit 1 (3342) - Flipped instruction bit 19 (adds.w r2, sb, r7 -> adds.w r2, sb, r3)
+Address 08001322 on hit 1 (3342) - Flipped instruction bit 22 (adds.w r2, sb, r7 -> adds.w r2, sb, r7, asr #32)
+Address 08001322 on hit 1 (3342) - Flipped instruction bit 1 (adds.w r2, sb, r7 -> adds.w r2, r8, r7)
+Address 08001322 on hit 1 (3342) - Flipped instruction bit 20 (adds.w r2, sb, r7 -> adds.w r2, sb, pc)
+Address 08001326 on hit 1 (3343) - Flipped instruction bit 25 (adc r3, r3, #0 -> adc r2, r3, #0)
+Address 0800132a on hit 1 (3344) - Flipped instruction bit 12 (lsrs r4, r2, #0x1f -> lsls r4, r2, #0x1f)
+Address 0800132a on hit 1 (3344) - Flipped instruction bit 6 (lsrs r4, r2, #0x1f -> lsrs r4, r6, #0x1f)
+Address 0800132a on hit 1 (3344) - Flipped instruction bit 5 (lsrs r4, r2, #0x1f -> lsrs r4, r0, #0x1f)
+Address 0800132a on hit 1 (3344) - Flipped instruction bit 4 (lsrs r4, r2, #0x1f -> lsrs r4, r3, #0x1f)
+Address 0800132c on hit 1 (3345) - Flipped instruction bit 7 (orr.w r4, r4, r3, lsl #1 -> and.w r4, r4, r3, lsl #1)
+Address 08001334 on hit 1 (3347) - Flipped instruction bit 9 (add.w r2, r4, r3, lsl #1 -> and.w r2, r4, r3, lsl #1)
+Address 0800133c on hit 1 (3350) - Skipped 2 instructions
+Address 0800133c on hit 1 (3350) - Flipped instruction bit 14 (ldr r7, [r1, #4]! -> bhi #0xa6)
+Address 0800133c on hit 1 (3350) - Skipped 1 instruction
+Address 0800133c on hit 1 (3350) - Flipped instruction bit 19 (ldr r7, [r1, #4]! -> ldr r7, [r1, #0]!)
+Address 0800133c on hit 1 (3350) - Flipped instruction bit 26 (ldr r7, [r1, #4]! -> ldr r7, [r1, #-0x4]!)
+Address 08001340 on hit 1 (3351) - Flipped instruction bit 14 (adds r4, r2, r7 -> subs r1, #0xd4)
+Address 08001340 on hit 1 (3351) - Flipped instruction bit 4 (adds r4, r2, r7 -> adds r4, r3, r7)
+Address 0800138e on hit 1 (3411) - Flipped instruction bit 10 (adds r3, r0, #4 -> subs r3, r0, #4)
+Address 08001390 on hit 1 (3412) - Flipped instruction bit 19 (add.w r1, r0, #0x20 -> add.w r1, r0, #0x24)
+Address 08001390 on hit 1 (3412) - Flipped instruction bit 24 (add.w r1, r0, #0x20 -> add.w r1, r0, #0xa0)
+Address 08001390 on hit 1 (3412) - Flipped instruction bit 1 (add.w r1, r0, #0x20 -> add.w r1, r1, #0x20)
+Address 08001390 on hit 1 (3412) - Flipped instruction bit 20 (add.w r1, r0, #0x20 -> add.w r1, r0, #0x28)
+Address 08001390 on hit 1 (3412) - Skipped 3 instructions
+Address 08001390 on hit 1 (3412) - Flipped instruction bit 21 (add.w r1, r0, #0x20 -> add.w r1, r0, #0x30)
+Address 08001390 on hit 1 (3412) - Flipped instruction bit 23 (add.w r1, r0, #0x20 -> add.w r1, r0, #0x60)
+Address 08001390 on hit 1 (3412) - Skipped 2 instructions
+Address 08001394 on hit 1 (3413) - Flipped instruction bit 10 (movs r0, #0 -> movs r2, #0)
+Address 08001394 on hit 1 (3413) - Flipped instruction bit 8 (movs r0, #0 -> movs r0, #0x80)
+Address 08001394 on hit 1 (3413) - Flipped instruction bit 13 (movs r0, #0 -> adds r0, #0)
+Address 08001394 on hit 1 (3413) - Flipped instruction bit 1 (movs r0, #0 -> movs r0, #1)
+Address 08001394 on hit 1 (3413) - Skipped 1 instruction
+Address 08001394 on hit 1 (3413) - Flipped instruction bit 11 (movs r0, #0 -> movs r4, #0)
+Address 08001394 on hit 1 (3413) - Flipped instruction bit 7 (movs r0, #0 -> movs r0, #0x40)
+Address 08001394 on hit 1 (3413) - Flipped instruction bit 3 (movs r0, #0 -> movs r0, #4)
+Address 08001394 on hit 1 (3413) - Flipped instruction bit 6 (movs r0, #0 -> movs r0, #0x20)
+Address 08001394 on hit 1 (3413) - Flipped instruction bit 2 (movs r0, #0 -> movs r0, #2)
+Address 08001394 on hit 1 (3413) - Flipped instruction bit 12 (movs r0, #0 -> cmp r0, #0)
+Address 08001394 on hit 1 (3413) - Flipped instruction bit 5 (movs r0, #0 -> movs r0, #0x10)
+Address 08001394 on hit 1 (3413) - Flipped instruction bit 4 (movs r0, #0 -> movs r0, #8)
+Address 08001394 on hit 1 (3413) - Flipped instruction bit 16 (movs r0, #0 -> adr r0, #0)
+Address 08001394 on hit 1 (3413) - Skipped 3 instructions
+Address 08001394 on hit 1 (3413) - Skipped 2 instructions
+Address 08001394 on hit 1 (3413) - Flipped instruction bit 14 (movs r0, #0 -> Invalid instruction.)
+Address 08001396 on hit 1 (3414) - Flipped instruction bit 2 (ldr r2, [r3], #4 -> ldr r2, [r1], #4)
+Address 08001396 on hit 1 (3414) - Flipped instruction bit 3 (ldr r2, [r3], #4 -> ldr r2, [r7], #4)
+Address 0800139a on hit 1 (3415) - Flipped instruction bit 12 (cmp r3, r1 -> ldr r2, [pc, #0x22c])
+Address 0800139c on hit 1 (3416) - Flipped instruction bit 17 (orr.w r0, r0, r2 -> orr.w r0, r0, r3)
+Address 0800139c on hit 1 (3416) - Flipped instruction bit 1 (orr.w r0, r0, r2 -> orr.w r0, r1, r2)
+Address 0800139c on hit 1 (3416) - Flipped instruction bit 6 (orr.w r0, r0, r2 -> orn r0, r0, r2)
+Address 0800139c on hit 1 (3416) - Flipped instruction bit 19 (orr.w r0, r0, r2 -> orr.w r0, r0, r6)
+Address 08001396 on hit 2 (3418) - Flipped instruction bit 2 (ldr r2, [r3], #4 -> ldr r2, [r1], #4)
+Address 08001396 on hit 2 (3418) - Flipped instruction bit 3 (ldr r2, [r3], #4 -> ldr r2, [r7], #4)
+Address 0800139a on hit 2 (3419) - Flipped instruction bit 12 (cmp r3, r1 -> ldr r2, [pc, #0x22c])
+Address 0800139c on hit 2 (3420) - Flipped instruction bit 17 (orr.w r0, r0, r2 -> orr.w r0, r0, r3)
+Address 0800139c on hit 2 (3420) - Flipped instruction bit 19 (orr.w r0, r0, r2 -> orr.w r0, r0, r6)
+Address 0800139c on hit 2 (3420) - Flipped instruction bit 1 (orr.w r0, r0, r2 -> orr.w r0, r1, r2)
+Address 0800139c on hit 2 (3420) - Flipped instruction bit 6 (orr.w r0, r0, r2 -> orn r0, r0, r2)
+Address 08001396 on hit 3 (3422) - Flipped instruction bit 2 (ldr r2, [r3], #4 -> ldr r2, [r1], #4)
+Address 08001396 on hit 3 (3422) - Flipped instruction bit 3 (ldr r2, [r3], #4 -> ldr r2, [r7], #4)
+Address 0800139a on hit 3 (3423) - Flipped instruction bit 12 (cmp r3, r1 -> ldr r2, [pc, #0x22c])
+Address 0800139c on hit 3 (3424) - Flipped instruction bit 6 (orr.w r0, r0, r2 -> orn r0, r0, r2)
+Address 0800139c on hit 3 (3424) - Flipped instruction bit 1 (orr.w r0, r0, r2 -> orr.w r0, r1, r2)
+Address 0800139c on hit 3 (3424) - Flipped instruction bit 17 (orr.w r0, r0, r2 -> orr.w r0, r0, r3)
+Address 0800139c on hit 3 (3424) - Flipped instruction bit 19 (orr.w r0, r0, r2 -> orr.w r0, r0, r6)
+Address 08001396 on hit 4 (3426) - Flipped instruction bit 3 (ldr r2, [r3], #4 -> ldr r2, [r7], #4)
+Address 08001396 on hit 4 (3426) - Flipped instruction bit 2 (ldr r2, [r3], #4 -> ldr r2, [r1], #4)
+Address 0800139a on hit 4 (3427) - Flipped instruction bit 12 (cmp r3, r1 -> ldr r2, [pc, #0x22c])
+Address 0800139c on hit 4 (3428) - Flipped instruction bit 6 (orr.w r0, r0, r2 -> orn r0, r0, r2)
+Address 0800139c on hit 4 (3428) - Flipped instruction bit 1 (orr.w r0, r0, r2 -> orr.w r0, r1, r2)
+Address 0800139c on hit 4 (3428) - Flipped instruction bit 17 (orr.w r0, r0, r2 -> orr.w r0, r0, r3)
+Address 0800139c on hit 4 (3428) - Flipped instruction bit 19 (orr.w r0, r0, r2 -> orr.w r0, r0, r6)
+Address 08001396 on hit 5 (3430) - Flipped instruction bit 3 (ldr r2, [r3], #4 -> ldr r2, [r7], #4)
+Address 08001396 on hit 5 (3430) - Flipped instruction bit 2 (ldr r2, [r3], #4 -> ldr r2, [r1], #4)
+Address 0800139a on hit 5 (3431) - Flipped instruction bit 12 (cmp r3, r1 -> ldr r2, [pc, #0x22c])
+Address 0800139c on hit 5 (3432) - Flipped instruction bit 6 (orr.w r0, r0, r2 -> orn r0, r0, r2)
+Address 0800139c on hit 5 (3432) - Flipped instruction bit 17 (orr.w r0, r0, r2 -> orr.w r0, r0, r3)
+Address 0800139c on hit 5 (3432) - Flipped instruction bit 19 (orr.w r0, r0, r2 -> orr.w r0, r0, r6)
+Address 0800139c on hit 5 (3432) - Flipped instruction bit 1 (orr.w r0, r0, r2 -> orr.w r0, r1, r2)
+Address 08001396 on hit 6 (3434) - Flipped instruction bit 3 (ldr r2, [r3], #4 -> ldr r2, [r7], #4)
+Address 08001396 on hit 6 (3434) - Flipped instruction bit 2 (ldr r2, [r3], #4 -> ldr r2, [r1], #4)
+Address 0800139a on hit 6 (3435) - Flipped instruction bit 12 (cmp r3, r1 -> ldr r2, [pc, #0x22c])
+Address 0800139c on hit 6 (3436) - Flipped instruction bit 19 (orr.w r0, r0, r2 -> orr.w r0, r0, r6)
+Address 0800139c on hit 6 (3436) - Flipped instruction bit 6 (orr.w r0, r0, r2 -> orn r0, r0, r2)
+Address 0800139c on hit 6 (3436) - Flipped instruction bit 17 (orr.w r0, r0, r2 -> orr.w r0, r0, r3)
+Address 0800139c on hit 6 (3436) - Flipped instruction bit 1 (orr.w r0, r0, r2 -> orr.w r0, r1, r2)
+Address 08001396 on hit 7 (3438) - Flipped instruction bit 27 (ldr r2, [r3], #4 -> ldr r2, [r3, #4]!)
+Address 08001396 on hit 7 (3438) - Flipped instruction bit 2 (ldr r2, [r3], #4 -> ldr r2, [r1], #4)
+Address 08001396 on hit 7 (3438) - Flipped instruction bit 3 (ldr r2, [r3], #4 -> ldr r2, [r7], #4)
+Address 0800139c on hit 7 (3440) - Flipped instruction bit 17 (orr.w r0, r0, r2 -> orr.w r0, r0, r3)
+Address 0800139c on hit 7 (3440) - Flipped instruction bit 19 (orr.w r0, r0, r2 -> orr.w r0, r0, r6)
+Address 0800139c on hit 7 (3440) - Flipped instruction bit 6 (orr.w r0, r0, r2 -> orn r0, r0, r2)
+Address 0800139c on hit 7 (3440) - Flipped instruction bit 9 (orr.w r0, r0, r2 -> adc.w r0, r0, r2)
+Address 0800139c on hit 7 (3440) - Flipped instruction bit 1 (orr.w r0, r0, r2 -> orr.w r0, r1, r2)
+Address 08001110 on hit 1 (3443) - Flipped instruction bit 1 (cbnz r0, #0x24 -> cbnz r1, #0x24)
+Address 08001110 on hit 1 (3443) - Flipped instruction bit 12 (cbnz r0, #0x24 -> cbz r0, #0x24)
+Address 08000724 on hit 2 (3450) - Flipped instruction bit 5 (push.w {r4, r5, r6, r7, r8, sb, fp, lr} -> ldmdb sp!, {r4, r5, r6, r7, r8, sb, fp, lr})
+Address 08001124 on hit 1 (3794) - Flipped instruction bit 4 (add r1, sp, #0x80 -> add r1, sp, #0xa0)
+Address 08001124 on hit 1 (3794) - Flipped instruction bit 5 (add r1, sp, #0x80 -> add r1, sp, #0xc0)
+Address 0800112a on hit 1 (4061) - Skipped 3 instructions
+Address 0800112e on hit 1 (4062) - Skipped 2 instructions
+Address 0800112e on hit 1 (4062) - Skipped 3 instructions
+Fixed output - e0eb7a7c3b41b8ae1656e3faf19fc46ada098deb9c32b1fd866205165f49b800 (0).
+Address 08001124 on hit 1 (3794) - Flipped instruction bit 7 (add r1, sp, #0x80 -> add r1, sp, #0x180)
+
+Total number of faults:  117613
+Total number of outputs: 70307
+ - faults which cause no output (crash) are not counted.
+Most common outputs:
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 30455 (43.32%).
+0000000000000000000000000000000000000000000000000000000000000000: 403 (0.57%).
+711a108d7f1084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510a1ad4f57: 181 (0.26%).
+01d8ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada19c73aeef0e2a0012: 69 (0.10%).
+7f1084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada100000000: 52 (0.07%).
+f96cbdfb9422c5c4e10d806c16cbf7da9303763a6bbcf448f79739988364365c: 43 (0.06%).
+7f1084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 42 (0.06%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada10e2a0012: 40 (0.06%).
+78f2d6187039b6ac3353cee894767872081b5520984d51cd33a4a284e2aef97d: 38 (0.05%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada100000000: 38 (0.05%).
+48a7da14ea19a26969ceacfcce3de8cad60f9cec7f568bbbcd6220688d101a5e: 38 (0.05%).
+90d4acf9def880a1dae66d5bdbcb74e6125f13cdc143b58a6faf5da9b0bb7725: 37 (0.05%).
+48921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae73: 34 (0.05%).
+06d8944344aefaeb902ec9e582aa17593dc21c24c3915001b8be596413fe457e: 32 (0.05%).
+e13de8cad60f9cec7f568bbbcd6220685e1a108d7f1084d0eed7ebb76a707a23: 31 (0.04%).
+57d6f7a81261e2b0ad3f5d5d068d2933538f35bac3b6bcf220795d6ab905b94f: 30 (0.04%).
+cd6220685e1a108d7f1084d0eed7ebb7a37a706aa4fb79ea7bfcfff710454c21: 28 (0.04%).
+f5cd30f7cee4ae25344f81bf2c252ec1bab9c9205772be68f77285f6a677d96d: 28 (0.04%).
+d4cc2b4fea104cfffe639edf198dee4755356e7328980ec0b6ffbec67e0f240f: 28 (0.04%).
+e90f9cec7f568bbbcd6220685e1a108d7f1084d0eed7ebb7a37a706aea79fb24: 27 (0.04%).
+b12a9edd1ab064f2d17cab418c783114885501a7a6ee365bbdbddaca90f2eb51: 26 (0.04%).
+680f0d4977857de20e54cc7f994723ef7027b5a9931ca1c7d0bcd166a39cb54f: 25 (0.04%).
+a2a35f6efe7664f1ff2247e5f8fdecd2bd3c7ec7def0a03fd8a24b95bbf7006f: 25 (0.04%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c451041425aeea1ad4f57: 25 (0.04%).
+cddae685520a88f4a51e7a2aa792b0970f3820c67d1f2d55a046f43c2dc2936b: 24 (0.03%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae739c: 24 (0.03%).
+e7a3ff4c4fbc6fe709be7cb5a446400d576c0aa31be0131820ab81ab24ff9621: 24 (0.03%).
+9b2fb515652bfcab18cf199b1eadd49779a8ffbe9cffba6b02746a5f0a48c925: 24 (0.03%).
+7cceacfcce3de8cad60f9cec7f568bbbcd6220685e1a108d7f1084d0b7ebd76e: 24 (0.03%).
+f50dc6f8562081b07e0e4e94497b488e7c82471d6c035c1710697ed24526346b: 23 (0.03%).
+b22b2ccfabf977c6de6085626e788daa3ffba0392ba7e565024aa67db05bdb42: 23 (0.03%).
+a51084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 23 (0.03%).
+488d2daec43cc6e0594fa1c0e759acaa577ec5982374613e8db1292a3d936f67: 23 (0.03%).
+2d1dc3bf8c930e5c820c2cde1f0cfa1bb1fa5bb77e42e328ac1c2e2f27f55e0d: 23 (0.03%).
+73a05ae06474e40f44c4299f27b77864484bbe51ce41cf7af71e9f917087c667: 23 (0.03%).
+7f568bbbcd6220685e1a108d7f1084d0eed7ebb7a37a706aa4fb79eaf7fffc7b: 23 (0.03%).
+48a7da14921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1: 22 (0.03%).
+86251bd7b6c923bf995f5d8c98c6a80e8eea79e322fe51be24f7c1f4a8400149: 21 (0.03%).
+fdc4118cf2a9e1ad3d9bd58603572f8022fbdcfbd9e8331b7df1447d03a7e730: 21 (0.03%).
+7f1084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1a85a4c5c: 21 (0.03%).
+4fc570a1f124834fe9456bb656ab2213a259af0b849e23b20b3fc823646e4152: 21 (0.03%).
+5ba5a9923ab51756fdaa8c0f5f4614acf9cbc486d06d389bc339065988ce3e75: 21 (0.03%).
+921084d0000000000000000008100358081003d80000002a00000000efae731c: 21 (0.03%).
+c899222f244fabb5fcaf27ed70ca716c0f23a34cba1988d4d3ad97ce03a66157: 21 (0.03%).
+7f660aa29badb19ba9ed22b8eca66190b0f71127980346a6060ce4386dfa024e: 20 (0.03%).
+f2d203bf60c4da107853f056e5cfa22cc78b11317839edf1446ebbf9198e3f62: 20 (0.03%).
+1a41f74b2d2fa0bd462ac847203aabc4fb50bb0e9aea30c71a04119876fc3a7e: 20 (0.03%).
+921084d0eed7ebb7a37a706a7455982d6002f78be2d8212f41425aeeea79fb24: 20 (0.03%).
+921084d0abec9e5863cc9eb17455982d6002f78be2d8212f41425aeeb7ebd76e: 20 (0.03%).
+7f1084d0eed7ebb7a37a706aa4fb79ea7bfcfff7e2d8212f41425aee10454c21: 20 (0.03%).
+5c93b4ee7be67fa19d7457c517e754546e019b205fe9f308a926798a642c520b: 19 (0.03%).
+1192ba9c780dc0f00fdc9cd8c50dff17c2725890a7e3f27c18a04b65cf338078: 19 (0.03%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efa6731c: 19 (0.03%).
+96cb4fb0bce0030be868d8a7595231b10fd1dd568bb3d830d173492ee2ec7f78: 19 (0.03%).
+a7fbc5a956a124bfacd6a5e3c338a349702ee9c650ad1e7e4df5339de4008434: 19 (0.03%).
+124a4a91a7d1f22a5e69120a8bce3e9aa11d372a62f6e05db0560777679f3859: 18 (0.03%).
+921084d0eed7ebb7a37a006aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 18 (0.03%).
+9fb1bbb80c7514f83871e27a36d42cb8cf824f074c2ae54d04375017393cc651: 18 (0.03%).
+e9256eaeb6ec0ec05c3e291bfb0fffd4fa4226150306fd91c5a573514cd0d722: 18 (0.03%).
+96ae6b82c95f9c7b2f93552d1c40802166da2ea7e92f764397fe66cec2e42f11: 18 (0.03%).
+a8a3b102de1e4fa5f2ada93fe85f5877b55ec9af700b7ea13b32b7ab65f92b11: 17 (0.02%).
+a21c9f7b7d1bc48c0e885d19d4dbb0d1ac5a98e16055154cbc4e5ce6d1ef2004: 17 (0.02%).
+e0c7d50c0a998572836d4ba7e1031103dbea59a57bc8974f0dc62c29a319c520: 17 (0.02%).
+8113d0018e9fe747a33d653eaa1ca438388cfcb934f35aefb5ace4e5203c5814: 17 (0.02%).
+da7e87c41c402c3a9f6e63cb8d4400266804f86126afa3303ed19ef7dd675338: 17 (0.02%).
+a4ea8de5817e4699a50d8cadf3c58b96431456b3e4671d992e4e3f1b1ccfb17c: 17 (0.02%).
+3170fef3a31cb43013c77e7d04d27964358f18e21c37bd95d902954584ef860d: 17 (0.02%).
+7f1084d0eed7ebb7a37a706aa4fb79ea6002f78be2d8212f41425aeef7fffc7b: 17 (0.02%).
+f4e96da5a2e8faf5e556d7559f996abca0d24e490b43639e226421737184d70f: 17 (0.02%).
+0064b41c2c28015017c52950e1776d426de758c1a24b658b178c4ce8a98a8f21: 17 (0.02%).
+ea2206a722da7da7a71187ea429f977b90a37459d2c9eaffd7e3f6edeadb354b: 17 (0.02%).
+412ab755a66c370544ba686f067445c102a1a601954d38433ede8eeaceb7027c: 16 (0.02%).
+c03b514babec9e5863cc9eb17455982d6002f78be2d8212f41425aeea85a4c5c: 16 (0.02%).
+89f3583b843596eb73397b103f4ca1728bcbfdca5775659a2f4f99b7b7270f4b: 16 (0.02%).
+92a7da14ea19a26969ceacfcce3de8cad60f9cec7f568bbbcd6220688d101a5e: 16 (0.02%).
+fc7f270153f067fd6824a9f85a5db90c26d2900427c95f1ddacb07a23e04e82e: 16 (0.02%).
+921084d0eed7ebb763cc9eb17455982d6002f78be2d8212f41425aee6a707a23: 16 (0.02%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae735e: 16 (0.02%).
+26a448944ed826a79b216dfa48e8ca126630767291df4d74bdba40a087e20e09: 15 (0.02%).
+1d1eb8949e3951ccceff74f2e92fc0cc5660b6a8188c5b3202956a9fa5080521: 15 (0.02%).
+8e49010488dee28aee0d69b06a8cb28fdd03cb3d4f0bd3b4d65cc11fe9907469: 15 (0.02%).
+3fea7c01bdffc188816845126a2ddfdf89ddd2da3d3374f56bf171fc13fe9b00: 15 (0.02%).
+aacc2232e9b90ae8d8f110bbfa731cf17bb24215fa14f65f92197af32e9cb709: 15 (0.02%).
+10201d9e6561015d85fcab72f8c9347b697a032e4b73c14f83ba087544a75073: 15 (0.02%).
+ba66b7bc699412a71cd7d224390df3d0bdd23c8d9eb1498fead9b1d542fd2956: 15 (0.02%).
+09f062269c1a9d8fb670814ff0cbc9869a898d0406d3fb55cc8ce57b94650615: 15 (0.02%).
+d31084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 15 (0.02%).
+009eedd79893f1f2c9db247897db90ab9732a92da46845ad8be1002e5ae31234: 15 (0.02%).
+085a106991842c3259cb0ddf9a7453898e781b52f7495cb87fa45e1d22df7558: 15 (0.02%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1ef88731c: 15 (0.02%).
+15464dfa2a59fb7497bdb5bc2e436b1384bc18b0e4998a4aab5b4a4a235e5034: 15 (0.02%).
+5c381ef4c8f97922c37bb6ea08cff9268a0dd071d75c001379f60083820eb24d: 14 (0.02%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c0010d74fada1efae731c: 14 (0.02%).
+7f1084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae7300: 14 (0.02%).
+ed48029920042c97e23ca193e018b53fd7180002fba6f98e48133cc7714a631a: 14 (0.02%).
+391e46683b3150f30d418d79bdc873b8e32d30984283c6a4e0cf1f7781041f61: 14 (0.02%).
+d90b7ab3c4d58a45ca38aefbd790963a21722f90a3e3fb7b873ac0cd4b940f31: 13 (0.02%).
+9bf870dc97800ace0a26a153a159fd81bd9550ff56581a860ed627c6eebbb67a: 13 (0.02%).
+7cffaab3f8c483fa82f2cb8f785b5de21c42a3a8848862a0320f52d9b4355d38: 13 (0.02%).
+f1871d4df8e3ed32de814ba203da13110dbda6bb6359c15d005dc775741f8950: 13 (0.02%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfc00f7214c4510d74fada1efae731c: 13 (0.02%).
+7f1084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae739c: 13 (0.02%).
+7fa08811b0ee028a6726ee05b7222b0ad49dd51b621589751446f6ffc0a8fa08: 13 (0.02%).
+921084d0eed700b7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 13 (0.02%).
+734d8ab9b83deede5dbfca40ad7d8eb8182f7401d0bc94d950322e5ad485c22e: 13 (0.02%).
+921084d0eed7ebb7a37a706aa4fb00ea7bfcfff7214c4510d74fada1efae731c: 13 (0.02%).
+8bab2ea7e969cd4e8ce11d3a409a15b3dc7068320a790a6121994fd561e0682d: 13 (0.02%).
+923b84d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 13 (0.02%).
+ea19a26969ceacfcce3de8cad60f9cec7f568bbbcd6220685e1a108dd084107f: 12 (0.02%).
+5e220081987112bf9c511485523c428cbfcfaf544ac5689e08b8da6e735ee83a: 12 (0.02%).
+881b52f81babea54ff9bcee468de8fda7fcc6256afb34c7154e2818731deb85c: 12 (0.02%).
+01d8ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada141425aeeefae731c: 12 (0.02%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae1a5e: 12 (0.02%).
+e98837a97ba94206b1d571271acab7e1220b031d15529f3c445739f0cf0c3c6a: 12 (0.02%).
+e4a64f2f2f2aa443b911efd32b5ca29ee72853dd771963c7d758f3305665ad20: 12 (0.02%).
+a79c061ceb1206d8faf982699fd1c5f97879540105d1f6049ee2bf1497d5b12d: 12 (0.02%).
+c75d6671a8611e5a0224144a9f87cdf8cb4f46397ca4477763c7cd950e653546: 12 (0.02%).
+9210844beed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 12 (0.02%).
+3bd6ef51f1de310729030e582547d00878bf51d79fe7fbab81dac1f8f104556b: 12 (0.02%).
+9ec763ef24bbb8aceb2549f21f7f3d152f3936b478bdfdfd7c18b462627e0a69: 12 (0.02%).
+27b58859256a48c0a23340862b644c9b38471772b78ffeb4b0ec266a21f01135: 12 (0.02%).
+add648aacdcc7df9bd6f55a964a24146a9ada2c48daded081a8930e87ed3e767: 12 (0.02%).
+00000000000000000000000008100358081003d80000002a00000000d084107f: 12 (0.02%).
+610e6f355d00203cbe84a5c9ce134b77a07a1f44633902401d1f5cc22765bc1e: 12 (0.02%).
+921084d0abd7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 12 (0.02%).
+921000d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 12 (0.02%).
+e766a0d7315662612e55f2ecf7861e64dd3c43c1302a116090633e071bace168: 12 (0.02%).
+4d37ff1e13967d179a69fe2653f60eaff7891359c680afa1545c6e8b26ca8130: 12 (0.02%).
+921084d0eed7ebb7a37a706aa45579ea7bfcfff7214c4510d74fada1efae731c: 12 (0.02%).
+b8b0847761c7dd3271f75dc0e7ea70c8e5ab43bb03bd193429a51072e8d8f307: 12 (0.02%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74f00a1efae731c: 12 (0.02%).
+3a432b1d25a93976fb459ad0eaa42b4cedc38dc837b3294a4db0499db80e5625: 12 (0.02%).
+7f1084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada10000002a: 12 (0.02%).
+921051d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 12 (0.02%).
+921084d0eeecebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 12 (0.02%).
+9991b05b11f2a747b89f843ea17565fdf0f74777433b797808e46a2e150c0f75: 11 (0.02%).
+300d531d72f632bb1584904a65a9aff4b79b2a01d5cd24146c2809f193115342: 11 (0.02%).
+121584d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 11 (0.02%).
+921084d07f1084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510a1ad4f57: 11 (0.02%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efda731c: 11 (0.02%).
+604eab2164c51f0091f41c93929b862233b55ede7d9b748f51378ec94c8ee433: 11 (0.02%).
+921084d0eed7ebb7a37a706aa37a706aa4fb79ea7bfcfff7214c4510a1ad4f57: 11 (0.02%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcf7f7214c4510d74fada1efae731c: 11 (0.02%).
+407f755699e7f9e4760d5e889c941f2ef8e28ae2bbbbd858ba14f5f297049746: 11 (0.02%).
+9094bf75814115775d8cab7af51ae5e5fcd29eec9556cff8b62c9a0363745f60: 11 (0.02%).
+e00f6074b2ae1b3437b1683118183b7face3735d31b88e4ed33551f0c42c412b: 11 (0.02%).
+6fd6991db6c20b2a49b17d54e59fef3a31194d919cba2e807ed3bd7946ceef18: 11 (0.02%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff77bfcfff7214c4510a1ad4f57: 11 (0.02%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7e24c4510d74fada1efae731c: 11 (0.02%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c2110d74fada1efae731c: 11 (0.02%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efb6731c: 11 (0.02%).
+e6ab52fdb49b9b0fd6c29874189e27188cfd40eef8a008606de4096a1ea15143: 11 (0.02%).
+921084d0eed7ebb7a37a706aa4fb79eaa4fb79ea7bfcfff7214c4510a1ad4f57: 11 (0.02%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510214c4510a1ad4f57: 11 (0.02%).
+7f1084d001d8ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 11 (0.02%).
+921084d0eed7eb58a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 11 (0.02%).
+921084d0eed7ebb7a37a706aa4fb79d47bfcfff7214c4510d74fada1efae731c: 11 (0.02%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fadeeefae731c: 11 (0.02%).
+380eb78cc896043bf2d53e066734aaddca1d56e986e7823ddceb1d0352e5860e: 11 (0.02%).
+9fef89ed7f93886de9315c7abfdd9bc26faefe59a89f8e3d02fb14afd524cc3c: 11 (0.02%).
+a56c96f531aa2f7aea316179e4fc3fe1c21be6fb0db788081ef36916c89ebe2a: 11 (0.02%).
+d9eefc204f1758a47f25bc8634b4a073698fed1a2603fc1478eaff9afe8bd008: 11 (0.02%).
+a319b5b21ee6e4e417aa472635885f4a07d84735d71f8a1ac2bd84fcf8e2e806: 11 (0.02%).
+02e2e7c83cf1d75f91420ba9e9e6bf8344319362aeab63c1357b99cd25656078: 11 (0.02%).
+52350358d703b008cce4496ecd51b02aa07f28ba179f0ef1448a3bfbec784304: 11 (0.02%).
+921084d0eed7ebb7a3cc706aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 11 (0.02%).
+78558218002d13099a2af2eb9cd000472182b07ca8ad1164d29a56f209852d02: 11 (0.02%).
+921084d0eed7ebb7637a706aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 11 (0.02%).
+921084d0eed7ebb7a37a706a74fb79ea7bfcfff7214c4510d74fada1efae731c: 11 (0.02%).
+921084d0eed7ebb7a37a706aa4fb79ea7b02fff7214c4510d74fada1efae731c: 11 (0.02%).
+302a140bb107b8896101b49dc842ccdfda34d1fc40ee2a042fbc4865e0610f45: 11 (0.02%).
+921084d0eed7ebb7eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510a1ad4f57: 11 (0.02%).
+921084d0eed79eb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 11 (0.02%).
+0b73991e278aca2591fc5545853febff2f4e337ce06dc182001ea70006018840: 10 (0.01%).
+334d1277ea2b89193deceae5dfc2c4f5f009f49514f8eac58be38cad4067ed75: 10 (0.01%).
+f0206498f06e7806d4c19fca777f872722843320c3b0c650504e9234c3b17b34: 10 (0.01%).
+0d041006e2bee7bdf5d593c9aa0b2f34a6ca7ad0a80ac44fb298be2608749226: 10 (0.01%).
+637c73486eeedeba16d1058f35e70061d1bfb6f81dd83f222deb6e39857bb160: 10 (0.01%).
+9a6bd0a9f2907e5452fe88e839766facb8d26a870759aec2ae3eae601a561e6b: 10 (0.01%).
+c3ca51bc232be6d6e40f8eba36d334a42fbbd1ff2de8ec3a187f6db25b986d4d: 10 (0.01%).
+ecb1ae9e8755a5e4c375af8f7628edacf2a600f53f4eceec70b43b702e717802: 10 (0.01%).
+3d9e13cc2ef8ea2ee738226dcd427c6a1569251cc442aeed965ab05e6bbb421a: 10 (0.01%).
+c1d176c5d2071da9749013c41a2242a0724c9fd0c572f0885227044eb06fed26: 10 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada18d101a5e: 10 (0.01%).
+fab42b3bd872b40190a9a1cf22d40c9a080e285bddb3f53444e292880dc1750a: 10 (0.01%).
+dfd2e2f21409bfed84f288746c17d0306de24ff291ff0a38696e376c8efe377b: 10 (0.01%).
+eee9dc3e06b8e70b7733d72032ce16901f945987659472aac7f7009b727fa438: 10 (0.01%).
+5f3cece128a7968c4fa464d3b2727893c30978901f6318a4eb8c064ba9b5ea7f: 10 (0.01%).
+7b18d76b75bed5793f057742836623395d967cc85bf995b843519bc34d78cf53: 10 (0.01%).
+9a983218a5c2142d69146752912ec2cd143691797ba50706d0e28e0d7f6cad7a: 10 (0.01%).
+855ac0b2f661c61da7c839b9cef45382179fdc19972f1cf94ef72e0fbb969141: 10 (0.01%).
+238733971b42c876f017b49e6d139ea6441d55fef5e57151cd6826881c706706: 10 (0.01%).
+7482d44b0aca5b62741ea5ebd9a24a98da87c84ac0074a3fe759ec484c93bd1c: 10 (0.01%).
+08dc393d8eaae55c048bf46ff57bd8295e1bf5ce45a05ba33eef9ff65b354a41: 10 (0.01%).
+b68d8c865dc0c913e01705f0d240e0f6c4b17a9a1f8734b2212e832cf540ec6c: 10 (0.01%).
+d3d941863e4f59ca57bd87ae1c1ad260233bc7ff6ab086762263d90ad4d43e50: 10 (0.01%).
+b2317c6a4794838634beb5c5f00b12da73e3821afae7e11fd88908e7e8aa1c0b: 10 (0.01%).
+4119d50fb27c64990a675fc46ba565658458fe09c5d3a37ea60f2ba7813f2871: 10 (0.01%).
+136b1a2e6b8e7e92893c8c0fc5923a23afd0f2cd8a0a6f83bb84b4d4ae86af02: 10 (0.01%).
+85e4a0b164b3976789fef628ae238cd783e8dd9033f8dfaf2e877b8c4664b540: 10 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c451000000000efae731c: 10 (0.01%).
+218e8bfffc7fcd14ceee2f80a33012e10ad62b2a009ef9e6209bef93e98ad134: 10 (0.01%).
+0e2328e5b7c55bc675b106bdc10ed77a6150cbc01ea4a8e0892d7abc20db4f3b: 10 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510414fada1efae731c: 10 (0.01%).
+a7f6b2944b43cd21a447959fcc65c7e8bde241987becbcea14c8fea6c2b7474a: 10 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea60fcfff7214c4510d74fada1efae731c: 10 (0.01%).
+87bd10d5abb2e3b854246bf3489634691b55d9c3a5150b899d85cdc5473e1129: 10 (0.01%).
+a9d659c1e01a7e46b79b249303533576ba50e60565ab459a2547e159363aa348: 10 (0.01%).
+82903c5862d1448a73b79022779979dc4c830c5b1abbde6281a06be3e8f75c6c: 10 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d742ada1efae731c: 10 (0.01%).
+f055770c3aa72e7f41f843e797e61d266471391dc206b5bd6ef83123fb417850: 10 (0.01%).
+8fa59373ea3ea45f29b72ce0e5c4df6b325a0be2231ada5ff4f0387d0a4d1311: 10 (0.01%).
+47de82dfd8818b585f9730059f44f7f4bfa6b680c747c4c58a9940e6f3af6f43: 10 (0.01%).
+ff16cb50011ca1cee1d45b493a7af735448da98909b887fa5f40a4a84934372e: 10 (0.01%).
+b105d68ce33335519eed061f67e056dc0ed5897a6e0a4e45d7027b73f0d02177: 10 (0.01%).
+026614b46c2854cca0e0b49ae13ea0bab687f34d453d25429c7ec0b9b39a7e3c: 10 (0.01%).
+bd99b86edb213ae80da63241ece1c52b1896d4ad2d9d0d6a9a00a7535ce9223a: 10 (0.01%).
+e1b769846b2d11b460132850f1069c724e93e2da4e57deec364e83f778183277: 10 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1a1ad4f57: 10 (0.01%).
+bb5807382346ca325c2f1f2e12bc58c66d0b8a97cc0f039a17bff811c4ec7112: 10 (0.01%).
+1b3c3172c8138ad5d3beff34af5ca2101368f692e51e1bcec6e0bb2cd880dd25: 10 (0.01%).
+946f1dbcca9cddf46610807cbd287bbb7f67bfcc1bcc60bb336d8efb3e70585b: 10 (0.01%).
+4b4235581bca00bf511a8d6b01cf2a835d5d879268fd9a1100f4bb88f21d4c60: 10 (0.01%).
+81cac82c5c170877e9e7a6512477eb23479a1fa7c938620e145ba01734eddc13: 10 (0.01%).
+921084d0eed7ebb7a37a9e6aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 10 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff721d84510d74fada1efae731c: 10 (0.01%).
+4c9908a7527c4da87eea40c51d3ce45e6b4844121b49c0e8b128be2fafa3616f: 10 (0.01%).
+2dcb16edb7362ff716f568495c2e197d52c8f1afc248e5b4260ab79b29684a60: 10 (0.01%).
+db824ee27a1e00fd0ed21d517fd3f1e9c9d5e9b81d5ff6475fc0c7a0f28e903d: 10 (0.01%).
+9770cedc82656c5c7cdb09639fadc466dd115248c05e12f84b6106d0846dcf5e: 10 (0.01%).
+4776006ec46f279dd9e3d64307763bea01dfc871958f4374bea4316e6c588f46: 10 (0.01%).
+921084d0eed7ebb7a37a706aa4fb98ea7bfcfff7214c4510d74fada1efae731c: 10 (0.01%).
+11290d0a4cdc5b74a524141d6684ce2c1835e6489d62380b6598af8b5d42245a: 10 (0.01%).
+921084d0eed7ebb7a37a70b1a4fb79ea7bfcfff7214c4510d74fada1efae731c: 10 (0.01%).
+921084d0eed7ebb7a37a706aa4fb792d7bfcfff7214c4510d74fada1efae731c: 10 (0.01%).
+1c00000002db0734298b5bf14c0853933affa803a176ac0a59c0fb2b2dd17f4d: 9 (0.01%).
+e1b5f93ba61c11f6b18fb1aae713b864a81684e36aa7dd78ebe5075f2f7e5d3b: 9 (0.01%).
+adb21ae0bd774bd609c8e334cac49b7df49ca4a9806e742e4bc0d0c41bfc5b02: 9 (0.01%).
+04a4d314182f7c8971ca2f1528173e0fec07e42487e2fe59d510f3c0bb5ad307: 9 (0.01%).
+1d22421dcf2f7a4afa4e6f357820200898e89df41a8c0533afa6cb1356d3f842: 9 (0.01%).
+76a871595435dd4bd39fe78055470509a528c763472f216a160fe4711657d329: 9 (0.01%).
+d0f6ceef5eff8956c8e6bdb2c2d092045880c717837e27c58e18b98adde17d39: 9 (0.01%).
+ee1c4f41c113ad6738bfb33bef7af404eb139eb57b4513d7e0d3252e5de29959: 9 (0.01%).
+f92f05e80960cc327ac2d5222459d2898705f146f500b0bd11bf36da002d661d: 9 (0.01%).
+cb7901d0bf949465f9e7ec8a61e74c15c56e28ceebd66093cfb97a92e2e5c327: 9 (0.01%).
+3584883ae4cb3c4338100046a7be18e18241ae323f90c720cb424e8f870d5609: 9 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea00000000214c4510d74fada1efae731c: 9 (0.01%).
+4f4cb571e65e10e259c3648a8d83a940b425de2f4aabae285e594e7c51996629: 9 (0.01%).
+0c81fca24fea4f467da8008c3ff24cb801ef8a7f1721c32b77ec409874fe7374: 9 (0.01%).
+853d82cfb8608983a0493fbf6f6c33494aca7285c3db925fd059fcee7a3a5f53: 9 (0.01%).
+93c0e012c31aea407df47514428f83e204ea106f2ff8712ffe27b2c95b5a6a54: 9 (0.01%).
+f9785459a892e8f64c8131696889f89e8881408a480e4616fd69c1d024665a67: 9 (0.01%).
+2d98ccfb78bdc86a4bc3c53c958288cb3a8fadae90b05054af6a60f9c4d19d05: 9 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfceff6214c4510d74fada1efae731c: 9 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfc1ff7214c4510d74fada1efae731c: 9 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea214c4510d74fada141425aeeefae731c: 9 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510214c4510efae731c: 9 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff700000000d74fada1efae731c: 9 (0.01%).
+921084d0eed7ebb7a4fb79ea7bfcfff7214c4510d74fada141425aeeefae731c: 9 (0.01%).
+921084d0eed7ebb7a37a706a7bfcfff7214c4510d74fada141425aeeefae731c: 9 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7d74fada141425aeeefae731c: 9 (0.01%).
+90f1b69271d53cd0ff9b5ec70590f5d68fdce1f316fa86f5b5b91569addc4530: 9 (0.01%).
+6e431a3152c9a87bf467b1999eca403ab890944beb5a2874f0a5876b1b8c9137: 9 (0.01%).
+0e88c4d20d2484e2c8a50e2aa2d9069761eac686cb8c512d1dc86d8724916f64: 9 (0.01%).
+d1f64246b707cebf932910cd6fa8fb51cc3c3c6af893f4398595e58f81432e39: 9 (0.01%).
+4d626184263caf8054b50281173f9c44cc8907d80b793326f4548f730392ce15: 9 (0.01%).
+921084d0a37a706aa4fb79ea7bfcfff7214c4510d74fada141425aeeefae731c: 9 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae7373: 9 (0.01%).
+dc0fb177b41fdc81d428ef95f19431c54fbf4f0b50dc5141079277b1ee5af139: 9 (0.01%).
+0e10b0f026e570c6f59824fc564425e4c92f0ee9ef31b5479c8ef5f049dd2a3d: 9 (0.01%).
+e7966bc0fc290d750695310f0734e410e6846a41392f58b3fe91a0fcfb29351f: 9 (0.01%).
+da52f109808265ba6e303e645e819d925e16c5967079b8b988b6e36e99aeb77f: 9 (0.01%).
+6405e6fcf7f90e29cfcc6c456bb8140f48d4b04b61e9b35ab868aa5141954552: 9 (0.01%).
+5b43edfd09b1a072375a68cd7ef042d4116d435d491d3beb4a9a15da800ab00b: 9 (0.01%).
+03c6af1a6f72f52b73225cec12371d98e3389ed3dfec393549a3f59c4059aa75: 9 (0.01%).
+4a55de83942bdaf5feebffd537a296220920a2be8990cd0d06c3e07d1269e33e: 9 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79007bfcfff7214c4510d74fada1efae731c: 9 (0.01%).
+51fd17cda9012606522855ae1f071e65299bb77c780309beffaf10d4c209885d: 9 (0.01%).
+5c6e5af4c6db1bf19292c7e72001de6f8ba421a6b9f5bf7de7b847d67c1f944b: 9 (0.01%).
+986832230293373498dfbffb147645ba1ace35a79c8c13ce04573d2ef45ac635: 9 (0.01%).
+015788279c89fdb6e98d8633d6d66e00fe47c919bb1bc594ba620652c79d975d: 9 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c452fd74fada1efae731c: 9 (0.01%).
+edd9ef3c488045ad801ad394cbcfcc9bb4c4e36e1c26698bbd01ff297d7c1b1f: 9 (0.01%).
+75b571afddaf9d711ea85e6c34fb9c769b75a1d3182dd4556bc4deaa42690769: 9 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1ef101a5e: 9 (0.01%).
+756292691866514f5a638cf877178cc54ce5f9d603b0a8f9789353cca028d560: 9 (0.01%).
+234ef35a5cb001ae443eaac2dac493a936266b1c47660d8f5910304a4c5f593d: 9 (0.01%).
+33bfafa160d6ac3abc4b32cda4512c3c6a70fc8dd04a798bf0f0be42c27b9b62: 9 (0.01%).
+51e7bc15aa0cb0ab92b8a9aacbb2cd44441a4c904daaec0c28666efb7ad2dd5c: 9 (0.01%).
+ae089da97b6ad8aa493ea8c9ad6fa99c45d416eafa21ffe13dce2bd637272b6a: 9 (0.01%).
+3cd5b66436f906063a4201959c73bc252ef7337a58a501913d5ea513ac03ef1e: 9 (0.01%).
+90c5f548b78711208c45b864663d143dc505c7ed2bbf90fc9b1d8cf57a53e16a: 9 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74f5aa1efae731c: 9 (0.01%).
+350d40807a551f7796258d182fa6c4d2876689102afebb055fa843a797fecf51: 9 (0.01%).
+720eb8616816f2438ffee65169cf5526076af43aa40a6333332307b3b21d3659: 9 (0.01%).
+b1352ae3f82b80e8afca9d48da6d0fb67c74886421b64ac39c89c359ecf34b2c: 9 (0.01%).
+b9ac22ed10cabaf7a72b7893b2b3943d4671adc9c30e19053ec7a40cc0e10b75: 9 (0.01%).
+7612a4a85a5f5cfc928dd9c69459c9dbecdefdfc85c04de3cf0d2ca1bac6024e: 9 (0.01%).
+5315a8d0b7ae0857897458b2c1a4e44b5044841af61bfe1851d41864b6663416: 9 (0.01%).
+f3a526ecdf8aa21aed633dbcac9e371321403741814b49fcfa2472ff836c1079: 9 (0.01%).
+407581d5a16dfc365cf6d514fd042f41da10825e79991e5a0c4a7fff8cce0a4d: 9 (0.01%).
+2c1772c824ac1aec5abc117680e27cc689f8aea1fe721602ad0d7061d4fe116f: 9 (0.01%).
+3b22efc87d358dd39679af7d2759a5fb5cba3c34ce2d69c9424b03f4b3941966: 9 (0.01%).
+9b7a7bb5dd4064405910dbd0301e4b826f4d8e02e974eb76c375db6985474940: 9 (0.01%).
+3dea0aaa01460c8d47d23b784924bd6a8d8a139c047fd5bd64ab1e908446551f: 9 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcff8b214c4510d74fada1efae731c: 9 (0.01%).
+7f1084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada158031008: 9 (0.01%).
+e4530db815dbd95478fe1409c6ad347ce71a818e609a2ad832c8db45fe2fd51c: 8 (0.01%).
+ea6932452315a46746ddbbf31e000daaddc71b36b81220dbf9c30208f273c32f: 8 (0.01%).
+442a6b995bbb8150c95601ef445e8f31b648b0d1cbbe80e94e65a62abf025b24: 8 (0.01%).
+5850efdb77f93e45888becdbc5fdb0dbdefb0e28e809ee6384fb2f80fde72e22: 8 (0.01%).
+8d749a77add8eb495abf17c2426baf53e9fda640f77fd6a4a049304d5de33e25: 8 (0.01%).
+d57c78a1e0c30239b5826dd2802beee88ea8a57525957f1c0df2255a6832ee68: 8 (0.01%).
+921084d000000000a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 8 (0.01%).
+921084d0eed7ebb7a37a706a000000007bfcfff7214c4510d74fada1efae731c: 8 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfc0ff6214c4510d74fada1efae731c: 8 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d7afada1efae731c: 8 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d76220688d101a5e: 8 (0.01%).
+7f1584d0bf285c7a8d7248cfa2df94a077d4c62558771d05e65477d2b4596666: 8 (0.01%).
+797491a7792367c82ace11823458c6ba8e08d144caed862ee47737dd91380945: 8 (0.01%).
+808619c65f6e8502d0e267a6a4c88d4c2d732110917f79ff02b2b0106123091b: 8 (0.01%).
+4fd67e5bf3d22ff1f12ce2188291514c32c353a5ca9380c5a19056b7629f3c1d: 8 (0.01%).
+f32f9131a3741a39a613afb0ab21c77f79d4389a1aa07a49b6d0eaeee6f9cb0f: 8 (0.01%).
+ce5ef051e358f21f4cb59204df57d883b6c8813d4ca48bd11cb8005782d06a26: 8 (0.01%).
+08e3581369f7b97b48df692ed41d000998886d2e5161c9c7565b164b7e52e856: 8 (0.01%).
+921084d0eed7ebb7a37a586aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 8 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7211c4510d74fada1efae731c: 8 (0.01%).
+efae739ceed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1a85a4c5c: 8 (0.01%).
+921084d0eed7ebb7eed7ebb7a4fb79ea7bfcfff7214c4510d74fada1efae731c: 8 (0.01%).
+1084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae731c5e: 8 (0.01%).
+d461e385aa591db3439b7ad9a79a49c22968da85ef566cc3d11bd9a3d576d02f: 8 (0.01%).
+a45b505484d7c1350a37ce2ed968c972a70a78b5e080a16c5e19169b6e72a630: 8 (0.01%).
+bfec885f5cbf5901eddd5bac155a21e4aab9ec295fd8805cbf0519983a7c4033: 8 (0.01%).
+f010af6f39b1e6dab25ca0b64a047442e5e8835f1ed17865cdcfacbfd2d42440: 8 (0.01%).
+84256325cccd94bad714bc499d71123d43c8bd83117296889958188781c83d1a: 8 (0.01%).
+9a16f0c4746ab7f349e19634939071adc8fe52475a9fa7ccdb014d7f8e73851a: 8 (0.01%).
+433053669d1421299c3dba05af17def390bd9acee68c99ecca63e919f219cd25: 8 (0.01%).
+7f1084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae735c: 8 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79eaa4fb79ea214c4510d74fada1efae731c: 8 (0.01%).
+921084d0eed7ebb7a37a706aa37a706a7bfcfff7214c4510d74fada1efae731c: 8 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ead60f9cec7f568bbbcd6220688d101a5e: 8 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510cd6220688d101a5e: 8 (0.01%).
+f1468a0436d74d1a7380cbf3c1ff3af366b916c9c0065c8936dfde79643f8037: 8 (0.01%).
+11d6b5548cdb4d02fb44716b6b8d3f5ba5227df13300b5e2af583e0184711c55: 8 (0.01%).
+e2d8913b024807ae60a7663f2ae6965978546678356867094c74ae33b8b7cb61: 8 (0.01%).
+6eb99226ea106553b12c0e96537edd3656b46b2fff496995dce4fc07a8e8e909: 8 (0.01%).
+73ae692460627d8bd0edb4abcc0d44d0b90f2330e45d1b951f47521daa320623: 8 (0.01%).
+921084d0eed7ebb700000000a4fb79ea7bfcfff7214c4510d74fada1efae731c: 8 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d7d7ada1efae731c: 8 (0.01%).
+bc3788d2307dd14f46383c81395cbe08a9a7cd132760a7e5bff118ab65dd151e: 8 (0.01%).
+4be5f3c9ab6b247945f3e86d174144cd35cdc04e4a7436151f26c5e367f1b81f: 8 (0.01%).
+a97087bb2b9c2dc7e14e71aa57360219a5329e626a7a745000577b104453436f: 8 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff77bfcfff7d74fada1efae731c: 8 (0.01%).
+ef45b469efd7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 8 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74f20688d101a5e: 8 (0.01%).
+7179413c23e9c9c92282be1c2f305ecae943bc76784ce53e4d2172da40453c5f: 8 (0.01%).
+5948bc019d353a35f304c6bd52813223e8a28ff1eb14fdb51cce65ec22f4d455: 8 (0.01%).
+6eed4fae70de84833954d445b2af4a183890b6b3313a27edd6e75172ec35027b: 8 (0.01%).
+25348634e99014ab840c93476aead729222004835c20500358d81dac2c35c14b: 8 (0.01%).
+0a8a16e50dc7d0a9dbadb4b209fa349ff53f9836a7be222334cb4eadb0018164: 8 (0.01%).
+a896f96bb48ccf3e90d4bb05aa6a2ee1e5749d9218bccd79a056905301472a35: 8 (0.01%).
+0951eea0e5374185607442251ca17a10dd16a7ce773ab815855301fab08bd335: 8 (0.01%).
+fff32651ea9b7a0ad44bb77df6041333ee3a422cd4d7ca7937cbe0c06fa82e00: 8 (0.01%).
+2be48553cf8a53e543633807db2ec2f5f18fe7c66e2917506b735ead2cab8830: 8 (0.01%).
+aa0162dc83ef26f16c3c92ce033970526414fd667b537bc84f10fea2018ad65b: 8 (0.01%).
+6732329dd0469061f808897778c57ec1d459e8b30569c43e1d72f9652b81d164: 8 (0.01%).
+e70d2d4b9b3f5bfb71671810a9f344bbd27a08bf6ad7bf51274111a802b1354d: 8 (0.01%).
+e73c22fd8e058aea46ea7ae0f9f09e9a38436f93283a86d38749d133c414d265: 8 (0.01%).
+8fff5777c42000682e1eba82d0ecfdde367a75467568b182255cde83f8954742: 8 (0.01%).
+ba7ad14c9ccacac8010cff29866be4c0766efd6b4533a2f92d5201163ef57771: 8 (0.01%).
+b2d197a398d879de67ebe797a69eefcb843d1b5bd55cb7c4b6b0c136ca3c0721: 8 (0.01%).
+921084d0ee57e8b7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae731c: 8 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fad688d101a5e: 8 (0.01%).
+a456f1f17624be6bb614ea887ac0dffff7a655196c4d7150096e545b3ffbd73c: 8 (0.01%).
+06465f2a001dd73b49ae45b2c3af5a75c2caf2b89312625a27257a2652cc7a35: 8 (0.01%).
+91c7800ee269eeb24b89cabe67fb4dfd9b377bea28660248ef759615cd89e966: 8 (0.01%).
+7f1084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada1efae7373: 8 (0.01%).
+ef6797ba934e018c24d90a7a2ff16faf1717a946ba0149fa82c3cdf03f3a5e14: 8 (0.01%).
+4e90be5914741a360e087ec070241c2afd34fa4dfbeea70286ecd073e0e5d35d: 8 (0.01%).
+e056420717dfc36807921cd88efb308c352cf6c2990e47b693427fe1e01d367b: 8 (0.01%).
+f51b9b00408218f69da2a3e2fb59930bbefa58a6b3381519cc2ad97c0c1d8726: 8 (0.01%).
+14913b04c252cd6a65ab00334194b5b137ad2c88985758ed2fd525a604056755: 8 (0.01%).
+5c4f60ec8ded19f3aed8c9cf8831932ae7d66aae775ad71a69f6f1acce0d4b33: 8 (0.01%).
+d902a933a8a6342ce582b27c6ab253a75512fbecc153a711db2161bed827014a: 8 (0.01%).
+1fbf427e6da8827e244a6cfc76f8a1e2d1f484fd8e740c0d5c61a83fb9dc6735: 8 (0.01%).
+921084d0eed7ebb7a37a706aa4fb79ea7bfcff7f214c4510d74fada1efae731c: 8 (0.01%).
+495d11a4ffc584fdf8a2051a86d10e8dedf3b2b25bf435a2b3a6a10a00b12755: 8 (0.01%).
+7f1084d0eed7ebb7a37a706aa4fb79ea7bfcfff7214c4510d74fada12a000000: 8 (0.01%).
+
+Summary of Loop abort outputs:
+Total: 0 successful faults.
+
+
+Summary of Faulted keys:
+Total: 0 successful faults.
+
+
+Summary of Fixed outputs:
+Total: 404 successful faults.
+0000000000000000000000000000000000000000000000000000000000000000 (0): 403 successful faults.
+e0eb7a7c3b41b8ae1656e3faf19fc46ada098deb9c32b1fd866205165f49b800 (0): 1 successful faults.
+
