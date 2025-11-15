@@ -1,3 +1,4 @@
+import os
 from random import randbytes, seed
 
 from fi_evaluation.fault_finder import (Fault, SimulationResult,
@@ -134,8 +135,10 @@ def evaluate_safe_error(
             # really care about the cryptographic quality of the random numbers here.
             original_key = randbytes(32)
             complementary_key = safe_error_model.complementary_key(original_key)
-            simulate_faults(library, original_key)
-            simulate_faults(library, complementary_key)
+            if not os.path.exists(output_dir_from_key(library, original_key)) or not os.path.exists(
+                    output_dir_from_key(library, complementary_key)):
+                simulate_faults(library, original_key)
+                simulate_faults(library, complementary_key)
 
         #
         # 2. Determine potentially prone instructions for this pair.
