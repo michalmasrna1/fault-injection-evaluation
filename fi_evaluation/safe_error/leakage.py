@@ -1,24 +1,28 @@
 from abc import ABC, abstractmethod
 
+from typing_extensions import Literal
+
 
 class SafeErrorModel(ABC):
     @abstractmethod
-    def complementary_key(self, original_key: bytes) -> bytes:
+    def complementary_key(self, original_key: bytes, endianity: Literal['little', 'big'] = "little") -> bytes:
         """
         Generate a complementary key based on the original key.
         """
 
 
 class KeyBits(SafeErrorModel):
-    def complementary_key(self, original_key: bytes) -> bytes:
+    def complementary_key(self, original_key: bytes, endianity: Literal['little', 'big'] = "little") -> bytes:
         """
         Generate a key that has the opposite bits to the original key.
+
+        The endianity does not matter and is ignored.
         """
         return bytes(~b & 0xFF for b in original_key)
 
 
 class NeighbouringBitsXor(SafeErrorModel):
-    def complementary_key(self, original_key: bytes) -> bytes:
+    def complementary_key(self, original_key: bytes, endianity: Literal['little', 'big'] = "little") -> bytes:
         """
         Generate a key for which the XOR of each pair of neighbouring bits
         is different than the XOR of the two bits on the same positions
@@ -28,7 +32,7 @@ class NeighbouringBitsXor(SafeErrorModel):
         Complementary key:  10011001
         """
         bits_length = len(original_key) * 8
-        original_key_int = int.from_bytes(original_key, "little")
+        original_key_int = int.from_bytes(original_key, endianity)
         previous_bit_original = previous_bit_new = original_key_int & 1
         # We can choose the lowest bit freely, we choose it to be the same as
         # the original key's lowest bit.
@@ -43,4 +47,4 @@ class NeighbouringBitsXor(SafeErrorModel):
             previous_bit_original = current_bit_original
             previous_bit_new = current_bit_new
 
-        return new_key_int.to_bytes(len(original_key), "little")
+        return new_key_int.to_bytes(len(original_key), endianity)

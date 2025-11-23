@@ -1,6 +1,7 @@
 import os
 from random import randbytes, seed
 
+from fi_evaluation.curve import SECP256K1
 from fi_evaluation.fault_finder import (Fault, SimulationResult,
                                         get_number_of_faulted_instructions,
                                         output_dir_from_key, simulate_faults,
@@ -8,6 +9,7 @@ from fi_evaluation.fault_finder import (Fault, SimulationResult,
 from fi_evaluation.fault_finder.result import FaultType
 from fi_evaluation.library import Library
 from fi_evaluation.safe_error.leakage import SafeErrorModel
+from fi_evaluation.safe_error.utils import secp256k1_complementary_key
 
 ALLOWED_RELATIVE_CHANGE = 0.0001
 # How many (relative to the total number of iterations) key pairs without change at least to assume convergence.
@@ -112,6 +114,7 @@ def evaluate_safe_error(
     prone_instructions: list[set[Fault]] = [set() for _ in range(total_instructions)]
     total_iters = 0
     unchanged_iters = 0
+    is_secp256k1 = isinstance(library.curve, SECP256K1)
 
     # Reseed the RNG to get reproducible keys.
     seed(bytes.fromhex("ecc25519"))
@@ -128,13 +131,19 @@ def evaluate_safe_error(
         #
         if total_iters == 1 and first_key is not None:
             original_key = first_key
-            complementary_key = safe_error_model.complementary_key(original_key)
+            if is_secp256k1:
+                complementary_key = secp256k1_complementary_key(safe_error_model, original_key)
+            else:
+                complementary_key = safe_error_model.complementary_key(original_key)
             print("Skipping simulation for the first key pair as the first key was provided.")
         else:
             # Safe error leakage should be present for all keys. We also do not
             # really care about the cryptographic quality of the random numbers here.
             original_key = randbytes(32)
-            complementary_key = safe_error_model.complementary_key(original_key)
+            if is_secp256k1:
+                complementary_key = secp256k1_complementary_key(safe_error_model, original_key)
+            else:
+                complementary_key = safe_error_model.complementary_key(original_key)
             if not os.path.exists(output_dir_from_key(library, original_key)) or not os.path.exists(
                     output_dir_from_key(library, complementary_key)):
                 simulate_faults(library, original_key)
