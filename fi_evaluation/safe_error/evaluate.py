@@ -11,7 +11,7 @@ from fi_evaluation.library import Library
 from fi_evaluation.safe_error.leakage import SafeErrorModel
 from fi_evaluation.safe_error.utils import secp256k1_complementary_key
 
-ALLOWED_RELATIVE_CHANGE = 0.0001
+ALLOWED_RELATIVE_CHANGE = 0.001
 # How many (relative to the total number of iterations) key pairs without change at least to assume convergence.
 CONVERGENCE_THRESHOLD_RELATIVE = 0.1
 # How many (absolute) key pairs without change at least to assume convergence.
