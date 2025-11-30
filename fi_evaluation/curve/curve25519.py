@@ -6,6 +6,9 @@ from fi_evaluation.curve import Curve
 
 class Curve25519(Curve):
     name = "curve25519"
+    P = 2**255 - 19
+    A = 486662
+    ORDER_PRIME = 2**252 + 0x14def9dea2f79cd65812631a5cf5d3ed
     _base_point = bytes.fromhex("0900000000000000000000000000000000000000000000000000000000000000")
     # The special points from https://cr.yp.to/ecdh.html
     _small_subgroup_ints = [

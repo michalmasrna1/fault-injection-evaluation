@@ -3,11 +3,12 @@ from random import randbytes, seed
 
 from fi_evaluation.curve import SECP256K1
 from fi_evaluation.fault_finder import (Fault, SimulationResult,
+                                        find_and_set_sca25519_static_values,
                                         get_number_of_faulted_instructions,
                                         output_dir_from_key, simulate_faults,
                                         write_fault_model_file)
 from fi_evaluation.fault_finder.result import FaultType
-from fi_evaluation.library import Library
+from fi_evaluation.library import Library, Sca25519Static
 from fi_evaluation.safe_error.leakage import SafeErrorModel
 from fi_evaluation.safe_error.utils import secp256k1_complementary_key
 
@@ -131,23 +132,30 @@ def evaluate_safe_error(
         #
         if total_iters == 1 and first_key is not None:
             original_key = first_key
-            if is_secp256k1:
-                complementary_key = secp256k1_complementary_key(safe_error_model, original_key)
-            else:
-                complementary_key = safe_error_model.complementary_key(original_key)
-            print("Skipping simulation for the first key pair as the first key was provided.")
         else:
             # Safe error leakage should be present for all keys. We also do not
             # really care about the cryptographic quality of the random numbers here.
             original_key = randbytes(32)
-            if is_secp256k1:
-                complementary_key = secp256k1_complementary_key(safe_error_model, original_key)
-            else:
-                complementary_key = safe_error_model.complementary_key(original_key)
-            if not os.path.exists(output_dir_from_key(library, original_key)) or not os.path.exists(
-                    output_dir_from_key(library, complementary_key)):
-                simulate_faults(library, original_key)
-                simulate_faults(library, complementary_key)
+
+        if is_secp256k1:
+            complementary_key = secp256k1_complementary_key(safe_error_model, original_key)
+        else:
+            complementary_key = safe_error_model.complementary_key(original_key)
+
+        if isinstance(library, Sca25519Static):
+            original_blinded_key = find_and_set_sca25519_static_values(original_key)
+            complementary_blinded_key = find_and_set_sca25519_static_values(complementary_key)
+            if original_blinded_key is None or complementary_blinded_key is None:
+                continue
+            output_dir_1 = output_dir_from_key(library, original_blinded_key)
+            output_dir_2 = output_dir_from_key(library, complementary_blinded_key)
+        else:
+            output_dir_1 = output_dir_from_key(library, original_key)
+            output_dir_2 = output_dir_from_key(library, complementary_key)
+
+        if not os.path.exists(output_dir_1) or not os.path.exists(output_dir_2):
+            simulate_faults(library, original_key)
+            simulate_faults(library, complementary_key)
 
         #
         # 2. Determine potentially prone instructions for this pair.
@@ -157,8 +165,8 @@ def evaluate_safe_error(
 
         print(f"Checking safe error on key pair {original_key.hex()}, {complementary_key.hex()}.")
         potentially_prone_instructions = library.check_safe_error(
-            output_dir_from_key(library, original_key),
-            output_dir_from_key(library, complementary_key),
+            output_dir_1,
+            output_dir_2,
             public_key,
             original_key,
             complementary_key

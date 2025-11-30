@@ -1,6 +1,7 @@
 from abc import ABC
 from typing import Iterable
 
+from cryptography.hazmat.primitives.asymmetric import x25519
 from fi_evaluation.curve import Curve, Curve25519
 from fi_evaluation.library import Library
 from pyecsca.ec.context import DefaultContext, Node, ResultAction, local
@@ -77,9 +78,43 @@ class Sca25519Unprotected(Sca25519):
 class Sca25519Ephemeral(Sca25519):
     name = "sca25519-ephemeral"
 
+
 class Sca25519EphemeralHardened(Sca25519):
     name = "sca25519-ephemeral-hardened"
 
 
 class Sca25519Static(Sca25519):
     name = "sca25519-static"
+
+    @staticmethod
+    def compute_s_from_r_and_k(rx_bytes: bytes, k_bytes: bytes) -> tuple[bytes, bytes]:
+        private_key = x25519.X25519PrivateKey.from_private_bytes(k_bytes)
+        public_key = x25519.X25519PublicKey.from_public_bytes(rx_bytes)
+        sx_bytes = private_key.exchange(public_key)
+        sx = int.from_bytes(sx_bytes, 'little')
+        rhs = (sx**3 + Curve25519.A * sx**2 + sx) % Curve25519.P
+        sy = pow(rhs, (Curve25519.P + 3) // 8, Curve25519.P)
+        if (sy * sy) % Curve25519.P != rhs:
+            sy = (sy * pow(2, (Curve25519.P - 1) // 4, Curve25519.P)) % Curve25519.P
+        if (sy * sy) % Curve25519.P != rhs:
+            sy = 0
+        sy_bytes = sy.to_bytes(32, 'little')
+        return sx_bytes, sy_bytes
+
+    @staticmethod
+    def derive_blinded_key(original_key: bytes, blinding_factor: bytes, magic_constant: int) -> bytes:
+        """
+        Do not know what the magic constant is, best guess is something to do
+        with how the inversions are computed. Never encountered a key where
+        either 8 or -8 would not work.
+        """
+        clamped_key = Curve25519().preprocess_key(original_key)
+
+        original_key_int = int.from_bytes(clamped_key, byteorder='little')
+
+        blinding_factor_int = int.from_bytes(blinding_factor, byteorder='little') * magic_constant
+        blinding_factor_inv_int = pow(blinding_factor_int, -1, Curve25519.ORDER_PRIME)
+
+        derived_blinded_key_int = (original_key_int * blinding_factor_inv_int) % Curve25519.ORDER_PRIME
+        derived_blinded_key_bytes = derived_blinded_key_int.to_bytes(32, byteorder='little')
+        return derived_blinded_key_bytes

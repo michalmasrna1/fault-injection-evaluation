@@ -8,7 +8,7 @@ from time import sleep
 from dotenv import load_dotenv
 from fi_evaluation.fault_finder.process_output import process_outputs
 from fi_evaluation.fault_finder.result import Fault, FaultType
-from fi_evaluation.library import Library
+from fi_evaluation.library import Library, Sca25519Static, Sca25519Unprotected
 
 # Read the env variable FAULT_FINDER_PATH.
 # 1. If it is an absolute path, use it directly.
@@ -22,6 +22,8 @@ FAULT_FINDER_DIR = FAULT_FINDER_PATH if os.path.isabs(FAULT_FINDER_PATH) else os
 )
 if not os.path.isdir(FAULT_FINDER_DIR):
     raise ValueError(f"FAULT_FINDER_PATH does not point to a valid directory: {FAULT_FINDER_DIR}")
+BLINDING_FACTOR_BYTES = bytes.fromhex("2309ef5b3246db2f000000000000000000000000000000000000000000000000")
+RX = bytes.fromhex("0f524bef7e12258fd9eefcd9e468b21e543d90cc4a54b347f48cc5969febf432")
 
 
 def get_binary_details_path(library: Library) -> str:
@@ -144,6 +146,32 @@ def set_private_key(library: Library, key: bytes):
     replace_in_file(binary_details_json_path, r'\n\s*\"byte array\".*?\"(.{64})\"\s*\/\/\s*private_key', key.hex())
 
 
+def test_key_bytes(unblinded_key: bytes) -> bool:
+    s_out = next((line.split('Output:')[1].strip()
+                 for line in execute_golden_run(Sca25519Static()).stdout.split('\n') if 'Output:' in line), "")
+    set_private_key(Sca25519Unprotected(), unblinded_key)
+    u_out = next((line.split('Output:')[1].strip() for line in execute_golden_run(
+        Sca25519Unprotected()).stdout.split('\n') if 'Output:' in line), "")
+    return s_out == u_out and len(s_out) > 0
+
+
+def find_and_set_sca25519_static_values(original_key: bytes) -> bytes | None:
+    sx_bytes, sy_bytes = Sca25519Static.compute_s_from_r_and_k(RX, original_key)
+    for magic_constant in [8, -8]:
+        blinded_key = Sca25519Static.derive_blinded_key(original_key, BLINDING_FACTOR_BYTES, magic_constant)
+        set_sca25519_static(blinded_key, sx_bytes, sy_bytes)
+        if test_key_bytes(original_key):
+            return blinded_key
+    return None
+
+
+def set_sca25519_static(blinded_key: bytes, sx: bytes, sy: bytes) -> None:
+    static_path = get_binary_details_path(Sca25519Static())
+    replace_in_file(static_path, r'\n\s*\"byte array\".*?\"(.{64})\"\s*\/\/\s*ustatic_key', blinded_key.hex())
+    replace_in_file(static_path, r'\n\s*\"byte array\".*?\"(.{64})\"\s*\/\/\s*uSx', sx.hex())
+    replace_in_file(static_path, r'\n\s*\"byte array\".*?\"(.{64})\"\s*\/\/\s*uSy', sy.hex())
+
+
 def set_fault_range(library: Library, fault_range: range):
     fault_model_path = get_fault_model_path(library)
     replace_in_file(fault_model_path, r'Instructions:\s*(\d+)-\d+', str(fault_range.start))
@@ -152,7 +180,10 @@ def set_fault_range(library: Library, fault_range: range):
 
 def get_private_key(library: Library) -> bytes:
     binary_details_json_path = get_binary_details_path(library)
-    key_hex = read_from_file(binary_details_json_path, r'\n\s*\"byte array\".*?\"(.{64})\"\s*\/\/\s*private_key')
+    if isinstance(library, Sca25519Static):
+        key_hex = read_from_file(binary_details_json_path, r'\n\s*\"byte array\".*?\"(.{64})\"\s*\/\/\s*ustatic_key')
+    else:
+        key_hex = read_from_file(binary_details_json_path, r'\n\s*\"byte array\".*?\"(.{64})\"\s*\/\/\s*private_key')
     return bytes.fromhex(key_hex)
 
 
@@ -199,12 +230,25 @@ def execute_faults(library: Library) -> subprocess.CompletedProcess[str]:
 
 
 def simulate_faults(library: Library, key: bytes, clean: bool = True) -> None:
-    set_output_dir(library, key)
-    set_private_key(library, key)
+    is_sca25519_static = isinstance(library, Sca25519Static)
+    blinded_key = None
+    if is_sca25519_static:
+        blinded_key = find_and_set_sca25519_static_values(key)
+        if blinded_key is None:
+            raise ValueError("Could not find a working blinded key for the provided original key.")
+        set_output_dir(library, blinded_key)
+    else:
+        set_private_key(library, key)
+        set_output_dir(library, key)
 
     print(f"Simulating faults for key: {key.hex()}")
     execute_faults(library)
-    process_outputs(output_dir_from_key(library, key), clean)
+
+    if is_sca25519_static:
+        assert blinded_key is not None  # To satisfy mypy.
+        process_outputs(output_dir_from_key(library, blinded_key), clean)
+    else:
+        process_outputs(output_dir_from_key(library, key), clean)
 
 
 # There is some additional work per faulted instruction. This is hard to
