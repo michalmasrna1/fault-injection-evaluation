@@ -1,0 +1,156 @@
+No public key specified, using the base point.
+Total number of faulted instructions: 1712118
+
+# The 0th iteration was performed manually.
+
+################################################################################
+Starting iteration number 1.
+Simulating faults for key: 24932ae5a844b0c0f0d6a8fbabbe996f87c86b2d159074d7d48548c139d73298
+Checking safe error on key pair 8e39804f02ee1a6a5a7c0251011433c52d62c187bf3ade7d7e2fe26b937d9832, 24932ae5a844b0c0f0d6a8fbabbe996f87c86b2d159074d7d48548c139d73298.
+Number of potentially prone instruction-fault pairs: 302114 (Changed 100.00 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 2.
+Simulating faults for key: 6dcdd62d1626371c7023e62965238c3bab51c79c0e1b8668acc5974d02683eb9
+Simulating faults for key: c7677c87bc8c9db6da894c83cf89269101fb6d36a4b12cc2066f3de7a8c29413
+Checking safe error on key pair 6dcdd62d1626371c7023e62965238c3bab51c79c0e1b8668acc5974d02683eb9, c7677c87bc8c9db6da894c83cf89269101fb6d36a4b12cc2066f3de7a8c29413.
+Number of potentially prone instruction-fault pairs: 138278 (Changed 54.23 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 3.
+Simulating faults for key: 8b27d19557344c4d19f458147e79e6e427f49dbf788adfb86c5fe66d0531e11b
+Simulating faults for key: 218d7b3ffd9ee6e7b35ef2bed4d34c4e8d5e3715d2207512c6f54cc7af9b4bb1
+Checking safe error on key pair 8b27d19557344c4d19f458147e79e6e427f49dbf788adfb86c5fe66d0531e11b, 218d7b3ffd9ee6e7b35ef2bed4d34c4e8d5e3715d2207512c6f54cc7af9b4bb1.
+Number of potentially prone instruction-fault pairs: 66188 (Changed 52.13 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 4.
+Simulating faults for key: 6b37dc2892ec8b4824f319420a2aa1c4c3850a048c6721aff09cd2b4f12df286
+Simulating faults for key: c19d7682384621e28e59b3e8a0800b6e692fa0ae26cd8b055a36781e5b87582c
+Checking safe error on key pair 6b37dc2892ec8b4824f319420a2aa1c4c3850a048c6721aff09cd2b4f12df286, c19d7682384621e28e59b3e8a0800b6e692fa0ae26cd8b055a36781e5b87582c.
+Number of potentially prone instruction-fault pairs: 36089 (Changed 45.48 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 5.
+Simulating faults for key: b616ffcf4ceb4069c39a74d3837e91480d44b799f9e3de267eef0aef5189109f
+Simulating faults for key: 1cbc5565e641eac36930de7929d43be2a7ee1d335349748cd445a045fb23ba35
+Checking safe error on key pair b616ffcf4ceb4069c39a74d3837e91480d44b799f9e3de267eef0aef5189109f, 1cbc5565e641eac36930de7929d43be2a7ee1d335349748cd445a045fb23ba35.
+Number of potentially prone instruction-fault pairs: 19811 (Changed 45.11 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 6.
+Simulating faults for key: 8c4b026c587bc200efe1baa90adb579a5e4dc0530995d7adb2e66df68574c0b4
+Simulating faults for key: 26e1a8c6f2d168aa454b1003a071fd30f4e76af9a33f7d07184cc75c2fde6a1e
+Checking safe error on key pair 8c4b026c587bc200efe1baa90adb579a5e4dc0530995d7adb2e66df68574c0b4, 26e1a8c6f2d168aa454b1003a071fd30f4e76af9a33f7d07184cc75c2fde6a1e.
+Number of potentially prone instruction-fault pairs: 5667 (Changed 71.39 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 7.
+Simulating faults for key: f3fc10d95ba245b0f63fd205ed6661c88ea239164743d8a799bbca5e437d5083
+Simulating faults for key: 5956ba73f108ef1a5c9578af47cccb62240893bcede9720d331160f4e9d7fa29
+Checking safe error on key pair f3fc10d95ba245b0f63fd205ed6661c88ea239164743d8a799bbca5e437d5083, 5956ba73f108ef1a5c9578af47cccb62240893bcede9720d331160f4e9d7fa29.
+Number of potentially prone instruction-fault pairs: 3078 (Changed 45.69 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 8.
+Simulating faults for key: e01ccd7c15fb26d273651be5c329fdcfd2ca24b5b5e5c3b405fa1aa18a050dca
+Simulating faults for key: 4ab667d6bf518c78d9cfb14f6983576578608e1f1f4f691eaf50b00b20afa760
+Checking safe error on key pair e01ccd7c15fb26d273651be5c329fdcfd2ca24b5b5e5c3b405fa1aa18a050dca, 4ab667d6bf518c78d9cfb14f6983576578608e1f1f4f691eaf50b00b20afa760.
+Number of potentially prone instruction-fault pairs: 1467 (Changed 52.34 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 9.
+Simulating faults for key: a5992d664983f73d8c8a1015c7bdad200e6283fea724a45a21e91284bf9f3e0b
+Simulating faults for key: 0f3387cce3295d972620babf6d17078aa4c829540d8e0ef08b43b82e153594a1
+Checking safe error on key pair a5992d664983f73d8c8a1015c7bdad200e6283fea724a45a21e91284bf9f3e0b, 0f3387cce3295d972620babf6d17078aa4c829540d8e0ef08b43b82e153594a1.
+Number of potentially prone instruction-fault pairs: 671 (Changed 54.26 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 10.
+Simulating faults for key: 1a6fe6f9c0d4e5f3cee8888f9e321932a2db18118d9bc552db83e50d09977224
+Simulating faults for key: b0c54c536a7e4f59644222253498b3980871b2bb27316ff871294fa7a33dd88e
+Checking safe error on key pair 1a6fe6f9c0d4e5f3cee8888f9e321932a2db18118d9bc552db83e50d09977224, b0c54c536a7e4f59644222253498b3980871b2bb27316ff871294fa7a33dd88e.
+Number of potentially prone instruction-fault pairs: 339 (Changed 49.48 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 11.
+Simulating faults for key: b5fa4ac7fae8cbae9ca9e09c5760ae6e9d84031c1a1b1627df89fd63959006fa
+Simulating faults for key: 1f50e06d5042610436034a36fdca04c4372ea9b6b0b1bc8d752357c93f3aac50
+Checking safe error on key pair b5fa4ac7fae8cbae9ca9e09c5760ae6e9d84031c1a1b1627df89fd63959006fa, 1f50e06d5042610436034a36fdca04c4372ea9b6b0b1bc8d752357c93f3aac50.
+Number of potentially prone instruction-fault pairs: 187 (Changed 44.84 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 12.
+Simulating faults for key: 6c38fb310a04e02faa47f8c03cc844bbc7b81bd97af766e17e43e2052a6a3e41
+Simulating faults for key: c692519ba0ae4a8500ed526a9662ee116d12b173d05dcc4bd4e948af80c094eb
+Checking safe error on key pair 6c38fb310a04e02faa47f8c03cc844bbc7b81bd97af766e17e43e2052a6a3e41, c692519ba0ae4a8500ed526a9662ee116d12b173d05dcc4bd4e948af80c094eb.
+Number of potentially prone instruction-fault pairs: 111 (Changed 40.64 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 13.
+Simulating faults for key: 0b606baa6200f6c823557770e6099d03d378df1253ac80b324f55ec387efe3dd
+Simulating faults for key: a1cac100c8aa5c6289ffddda4ca337a979d275b8f9062a198e5ff4692d454977
+Checking safe error on key pair 0b606baa6200f6c823557770e6099d03d378df1253ac80b324f55ec387efe3dd, a1cac100c8aa5c6289ffddda4ca337a979d275b8f9062a198e5ff4692d454977.
+Number of potentially prone instruction-fault pairs: 70 (Changed 36.94 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 14.
+Simulating faults for key: a1e8d39c2ac34960422c9d3ff9fe9aa7ba0f63bcb540fd4515320279aa699939
+Simulating faults for key: 0b4279368069e3cae88637955354300d10a5c9161fea57efbf98a8d300c33393
+Checking safe error on key pair a1e8d39c2ac34960422c9d3ff9fe9aa7ba0f63bcb540fd4515320279aa699939, 0b4279368069e3cae88637955354300d10a5c9161fea57efbf98a8d300c33393.
+Number of potentially prone instruction-fault pairs: 23 (Changed 67.14 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 15.
+Simulating faults for key: 31e3cc2b404fd4cba5785bd9db4caf8ef47c41f94f04a41e490857499a93d025
+Simulating faults for key: 9b496681eae57e610fd2f17371e605245ed6eb53e5ae0eb4e3a2fde330397a8f
+Checking safe error on key pair 31e3cc2b404fd4cba5785bd9db4caf8ef47c41f94f04a41e490857499a93d025, 9b496681eae57e610fd2f17371e605245ed6eb53e5ae0eb4e3a2fde330397a8f.
+Number of potentially prone instruction-fault pairs: 8 (Changed 65.22 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 16.
+Simulating faults for key: d21c817d38fd235253713e0529cc0725719b4eac2f5558e5fb2b54ce0d4a4082
+Simulating faults for key: 78b62bd7925789f8f9db94af8366ad8fdb31e40685fff24f5181fe64a7e0ea28
+Checking safe error on key pair d21c817d38fd235253713e0529cc0725719b4eac2f5558e5fb2b54ce0d4a4082, 78b62bd7925789f8f9db94af8366ad8fdb31e40685fff24f5181fe64a7e0ea28.
+Number of potentially prone instruction-fault pairs: 3 (Changed 62.50 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 17.
+Simulating faults for key: 2b667924f1fc2ae8932143bd185976e5d0e1e132e07962e5c9680237a7917e61
+Simulating faults for key: 81ccd38e5b568042398be917b2f3dc4f7a4b4b984ad3c84f63c2a89d0d3bd4cb
+Checking safe error on key pair 2b667924f1fc2ae8932143bd185976e5d0e1e132e07962e5c9680237a7917e61, 81ccd38e5b568042398be917b2f3dc4f7a4b4b984ad3c84f63c2a89d0d3bd4cb.
+Number of potentially prone instruction-fault pairs: 0 (Changed 100.00 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
