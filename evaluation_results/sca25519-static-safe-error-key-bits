@@ -1,0 +1,1064 @@
+No public key specified, using the base point.
+Total number of faulted instructions: 1712118
+
+# The 0th iteration was performed manually.
+
+################################################################################
+Starting iteration number 1.
+Checking safe error on key pair 8e39804f02ee1a6a5a7c0251011433c52d62c187bf3ade7d7e2fe26b937d9832, 71c67fb0fd11e595a583fdaefeebcc3ad29d3e7840c5218281d01d946c8267cd.
+Number of potentially prone instruction-fault pairs: 344087 (Changed 100.00 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 2.
+Simulating faults for key: 6dcdd62d1626371c7023e62965238c3bab51c79c0e1b8668acc5974d02683eb9
+Simulating faults for key: 923229d2e9d9c8e38fdc19d69adc73c454ae3863f1e47997533a68b2fd97c146
+Checking safe error on key pair 6dcdd62d1626371c7023e62965238c3bab51c79c0e1b8668acc5974d02683eb9, 923229d2e9d9c8e38fdc19d69adc73c454ae3863f1e47997533a68b2fd97c146.
+Number of potentially prone instruction-fault pairs: 175458 (Changed 49.01 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 3.
+Simulating faults for key: 8b27d19557344c4d19f458147e79e6e427f49dbf788adfb86c5fe66d0531e11b
+Simulating faults for key: 74d82e6aa8cbb3b2e60ba7eb8186191bd80b62408775204793a01992face1ee4
+Checking safe error on key pair 8b27d19557344c4d19f458147e79e6e427f49dbf788adfb86c5fe66d0531e11b, 74d82e6aa8cbb3b2e60ba7eb8186191bd80b62408775204793a01992face1ee4.
+Number of potentially prone instruction-fault pairs: 96733 (Changed 44.87 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 4.
+Simulating faults for key: 6b37dc2892ec8b4824f319420a2aa1c4c3850a048c6721aff09cd2b4f12df286
+Simulating faults for key: 94c823d76d1374b7db0ce6bdf5d55e3b3c7af5fb7398de500f632d4b0ed20d79
+Checking safe error on key pair 6b37dc2892ec8b4824f319420a2aa1c4c3850a048c6721aff09cd2b4f12df286, 94c823d76d1374b7db0ce6bdf5d55e3b3c7af5fb7398de500f632d4b0ed20d79.
+Number of potentially prone instruction-fault pairs: 58653 (Changed 39.37 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 5.
+Simulating faults for key: b616ffcf4ceb4069c39a74d3837e91480d44b799f9e3de267eef0aef5189109f
+Simulating faults for key: 49e90030b314bf963c658b2c7c816eb7f2bb4866061c21d98110f510ae76ef60
+Checking safe error on key pair b616ffcf4ceb4069c39a74d3837e91480d44b799f9e3de267eef0aef5189109f, 49e90030b314bf963c658b2c7c816eb7f2bb4866061c21d98110f510ae76ef60.
+Number of potentially prone instruction-fault pairs: 37088 (Changed 36.77 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 6.
+Simulating faults for key: 8c4b026c587bc200efe1baa90adb579a5e4dc0530995d7adb2e66df68574c0b4
+Simulating faults for key: 73b4fd93a7843dff101e4556f524a865a1b23facf66a28524d1992097a8b3f4b
+Checking safe error on key pair 8c4b026c587bc200efe1baa90adb579a5e4dc0530995d7adb2e66df68574c0b4, 73b4fd93a7843dff101e4556f524a865a1b23facf66a28524d1992097a8b3f4b.
+Number of potentially prone instruction-fault pairs: 24528 (Changed 33.87 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 7.
+Simulating faults for key: f3fc10d95ba245b0f63fd205ed6661c88ea239164743d8a799bbca5e437d5083
+Simulating faults for key: 0c03ef26a45dba4f09c02dfa12999e37715dc6e9b8bc2758664435a1bc82af7c
+Checking safe error on key pair f3fc10d95ba245b0f63fd205ed6661c88ea239164743d8a799bbca5e437d5083, 0c03ef26a45dba4f09c02dfa12999e37715dc6e9b8bc2758664435a1bc82af7c.
+Number of potentially prone instruction-fault pairs: 18533 (Changed 24.44 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 8.
+Simulating faults for key: e01ccd7c15fb26d273651be5c329fdcfd2ca24b5b5e5c3b405fa1aa18a050dca
+Simulating faults for key: 1fe33283ea04d92d8c9ae41a3cd602302d35db4a4a1a3c4bfa05e55e75faf235
+Checking safe error on key pair e01ccd7c15fb26d273651be5c329fdcfd2ca24b5b5e5c3b405fa1aa18a050dca, 1fe33283ea04d92d8c9ae41a3cd602302d35db4a4a1a3c4bfa05e55e75faf235.
+Number of potentially prone instruction-fault pairs: 15646 (Changed 15.58 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 9.
+Simulating faults for key: a5992d664983f73d8c8a1015c7bdad200e6283fea724a45a21e91284bf9f3e0b
+Simulating faults for key: 5a66d299b67c08c27375efea384252dff19d7c0158db5ba5de16ed7b4060c1f4
+Checking safe error on key pair a5992d664983f73d8c8a1015c7bdad200e6283fea724a45a21e91284bf9f3e0b, 5a66d299b67c08c27375efea384252dff19d7c0158db5ba5de16ed7b4060c1f4.
+Number of potentially prone instruction-fault pairs: 13525 (Changed 13.56 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 10.
+Simulating faults for key: 3bdb287e2c39e653eee83d0bcc31eb27383ecc38dfc63dbb1d23d2a53c1835d9
+Simulating faults for key: c424d781d3c619ac1117c2f433ce14d8c7c133c72039c244e2dc2d5ac3e7ca26
+Checking safe error on key pair 3bdb287e2c39e653eee83d0bcc31eb27383ecc38dfc63dbb1d23d2a53c1835d9, c424d781d3c619ac1117c2f433ce14d8c7c133c72039c244e2dc2d5ac3e7ca26.
+Number of potentially prone instruction-fault pairs: 9276 (Changed 31.42 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 11.
+Simulating faults for key: 8779fc215eb9a29bac90ae9485c066bf4a7d6bff44c9c4b5d4cd005ce61c13a8
+Simulating faults for key: 788603dea1465d64536f516b7a3f9940b5829400bb363b4a2b32ffa319e3ec57
+Checking safe error on key pair 8779fc215eb9a29bac90ae9485c066bf4a7d6bff44c9c4b5d4cd005ce61c13a8, 788603dea1465d64536f516b7a3f9940b5829400bb363b4a2b32ffa319e3ec57.
+Number of potentially prone instruction-fault pairs: 6620 (Changed 28.63 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 12.
+Simulating faults for key: dc6304a02bc7cc5fd9f7f9ce1d7a1f48c1efd6f0ee02e0078dfab116ae7b9859
+Simulating faults for key: 239cfb5fd43833a026080631e285e0b73e10290f11fd1ff872054ee9518467a6
+Checking safe error on key pair dc6304a02bc7cc5fd9f7f9ce1d7a1f48c1efd6f0ee02e0078dfab116ae7b9859, 239cfb5fd43833a026080631e285e0b73e10290f11fd1ff872054ee9518467a6.
+Number of potentially prone instruction-fault pairs: 6531 (Changed 1.34 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 13.
+Simulating faults for key: 0098a0c2a33c5d73012d5695ed68800d089766e4cb14a54b044c6fbe6282a70a
+Simulating faults for key: ff675f3d5cc3a28cfed2a96a12977ff2f768991b34eb5ab4fbb390419d7d58f5
+Checking safe error on key pair 0098a0c2a33c5d73012d5695ed68800d089766e4cb14a54b044c6fbe6282a70a, ff675f3d5cc3a28cfed2a96a12977ff2f768991b34eb5ab4fbb390419d7d58f5.
+Number of potentially prone instruction-fault pairs: 6497 (Changed 0.52 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 14.
+Simulating faults for key: 5b5f4865e201901acf0ecd2c7b6d0f1bb20b90cba0bebc474a66bfe61ba38c2b
+Simulating faults for key: a4a0b79a1dfe6fe530f132d38492f0e44df46f345f4143b8b5994019e45c73d4
+Checking safe error on key pair 5b5f4865e201901acf0ecd2c7b6d0f1bb20b90cba0bebc474a66bfe61ba38c2b, a4a0b79a1dfe6fe530f132d38492f0e44df46f345f4143b8b5994019e45c73d4.
+Number of potentially prone instruction-fault pairs: 6444 (Changed 0.82 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 15.
+Simulating faults for key: 3f2be03a5a02a6435fd7f13386f3537f468c9b431c30c6646369a2fbc8c77204
+Simulating faults for key: c0d41fc5a5fd59bca0280ecc790cac80b97364bce3cf399b9c965d0437388dfb
+Checking safe error on key pair 3f2be03a5a02a6435fd7f13386f3537f468c9b431c30c6646369a2fbc8c77204, c0d41fc5a5fd59bca0280ecc790cac80b97364bce3cf399b9c965d0437388dfb.
+Number of potentially prone instruction-fault pairs: 6438 (Changed 0.09 % compared to the previous iteration).
+Convergence status: 1/20; 3%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 16.
+Simulating faults for key: 77f43f8cb079b082e4a54bf95f6120905b03f4ddf54517c787bd5ae4efae5f03
+Simulating faults for key: 880bc0734f864f7d1b5ab406a09edf6fa4fc0b220abae8387842a51b1051a0fc
+Checking safe error on key pair 77f43f8cb079b082e4a54bf95f6120905b03f4ddf54517c787bd5ae4efae5f03, 880bc0734f864f7d1b5ab406a09edf6fa4fc0b220abae8387842a51b1051a0fc.
+Number of potentially prone instruction-fault pairs: 5137 (Changed 20.21 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 17.
+Simulating faults for key: e8664f841df961bc5a9bfa12fd2db4addebe56b29e7dc87eb505a9524c4d816e
+Simulating faults for key: 1799b07be2069e43a56405ed02d24b522141a94d618237814afa56adb3b27e91
+Checking safe error on key pair e8664f841df961bc5a9bfa12fd2db4addebe56b29e7dc87eb505a9524c4d816e, 1799b07be2069e43a56405ed02d24b522141a94d618237814afa56adb3b27e91.
+Number of potentially prone instruction-fault pairs: 5124 (Changed 0.25 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 18.
+Simulating faults for key: 441e460a6fae966acf35a7a8afacbaeed872992bf10dba743219c2780edccadc
+Simulating faults for key: bbe1b9f59051699530ca585750534511278d66d40ef2458bcde63d87f1233523
+Checking safe error on key pair 441e460a6fae966acf35a7a8afacbaeed872992bf10dba743219c2780edccadc, bbe1b9f59051699530ca585750534511278d66d40ef2458bcde63d87f1233523.
+Number of potentially prone instruction-fault pairs: 5118 (Changed 0.12 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 19.
+Simulating faults for key: a1928859d626a3e71097740c7fe59eec3e99f0b5aa4e3908848343b569a317e1
+Simulating faults for key: 5e6d77a629d95c18ef688bf3801a6113c1660f4a55b1c6f77b7cbc4a965ce81e
+Checking safe error on key pair a1928859d626a3e71097740c7fe59eec3e99f0b5aa4e3908848343b569a317e1, 5e6d77a629d95c18ef688bf3801a6113c1660f4a55b1c6f77b7cbc4a965ce81e.
+Number of potentially prone instruction-fault pairs: 5118 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 1/20; 3%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 20.
+Simulating faults for key: e3ddeccf145b2ffa8c2ffac18bc315e339660f11ef6a6eaed1154f0657b614f3
+Simulating faults for key: 1c221330eba4d00573d0053e743cea1cc699f0ee109591512eeab0f9a849eb0c
+Checking safe error on key pair e3ddeccf145b2ffa8c2ffac18bc315e339660f11ef6a6eaed1154f0657b614f3, 1c221330eba4d00573d0053e743cea1cc699f0ee109591512eeab0f9a849eb0c.
+Number of potentially prone instruction-fault pairs: 5117 (Changed 0.02 % compared to the previous iteration).
+Convergence status: 2/20; 5%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 21.
+Simulating faults for key: 330acb2b2318c9eb4c78946e252fc674dd3e66bc421e2334b593f09c8ad6ab7d
+Simulating faults for key: ccf534d4dce73614b3876b91dad0398b22c19943bde1dccb4a6c0f6375295482
+Checking safe error on key pair 330acb2b2318c9eb4c78946e252fc674dd3e66bc421e2334b593f09c8ad6ab7d, ccf534d4dce73614b3876b91dad0398b22c19943bde1dccb4a6c0f6375295482.
+Number of potentially prone instruction-fault pairs: 5117 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 3/20; 7%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 22.
+Simulating faults for key: b1cb66a400e1c7e69a6522df9318307a71238457c31964f19811283c36d8d7ed
+Simulating faults for key: 4e34995bff1e3819659add206ce7cf858edc7ba83ce69b0e67eed7c3c9272812
+Checking safe error on key pair b1cb66a400e1c7e69a6522df9318307a71238457c31964f19811283c36d8d7ed, 4e34995bff1e3819659add206ce7cf858edc7ba83ce69b0e67eed7c3c9272812.
+Number of potentially prone instruction-fault pairs: 5116 (Changed 0.02 % compared to the previous iteration).
+Convergence status: 4/20; 10%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 23.
+Simulating faults for key: 49843e1db29e85d3417c9d0b325afd707f3abbf846fd4203557e2c4868ccb8fe
+Simulating faults for key: b67bc1e24d617a2cbe8362f4cda5028f80c54407b902bdfcaa81d3b797334701
+Checking safe error on key pair 49843e1db29e85d3417c9d0b325afd707f3abbf846fd4203557e2c4868ccb8fe, b67bc1e24d617a2cbe8362f4cda5028f80c54407b902bdfcaa81d3b797334701.
+Number of potentially prone instruction-fault pairs: 5116 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 5/20; 12%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 24.
+Simulating faults for key: 217210d2fd8a552266e20de6c789abe2a16303974884f35f12b45ff17df7404c
+Simulating faults for key: de8def2d0275aadd991df2193876541d5e9cfc68b77b0ca0ed4ba00e8208bfb3
+Checking safe error on key pair 217210d2fd8a552266e20de6c789abe2a16303974884f35f12b45ff17df7404c, de8def2d0275aadd991df2193876541d5e9cfc68b77b0ca0ed4ba00e8208bfb3.
+Number of potentially prone instruction-fault pairs: 5116 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 6/20; 14%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 25.
+Simulating faults for key: 03bf72ac11d9d82ff7a4056332ca22ad96a6f8fce10685de0dfd0c9ca27ad02b
+Simulating faults for key: fc408d53ee2627d0085bfa9ccd35dd52695907031ef97a21f202f3635d852fd4
+Checking safe error on key pair 03bf72ac11d9d82ff7a4056332ca22ad96a6f8fce10685de0dfd0c9ca27ad02b, fc408d53ee2627d0085bfa9ccd35dd52695907031ef97a21f202f3635d852fd4.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.12 % compared to the previous iteration).
+Convergence status: 0/20; 0%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 26.
+Simulating faults for key: d376146b466da7e92927be672532a212b972d2f6926b5979a832eb1e2416c188
+Simulating faults for key: 2c89eb94b9925816d6d84198dacd5ded468d2d096d94a68657cd14e1dbe93e77
+Checking safe error on key pair d376146b466da7e92927be672532a212b972d2f6926b5979a832eb1e2416c188, 2c89eb94b9925816d6d84198dacd5ded468d2d096d94a68657cd14e1dbe93e77.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 1/20; 2%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 27.
+Simulating faults for key: 58563d519a36028611b7835924b6432e3ec53538c8a82f0d13627cb640a0ee6e
+Simulating faults for key: a7a9c2ae65c9fd79ee487ca6db49bcd1c13acac73757d0f2ec9d8349bf5f1191
+Checking safe error on key pair 58563d519a36028611b7835924b6432e3ec53538c8a82f0d13627cb640a0ee6e, a7a9c2ae65c9fd79ee487ca6db49bcd1c13acac73757d0f2ec9d8349bf5f1191.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 2/20; 4%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 28.
+Simulating faults for key: 8fc09d5fb17f0fec807f30f93b7a1da6961c5abc5e76000e0a255b8c0dfcb4eb
+Simulating faults for key: 703f62a04e80f0137f80cf06c485e25969e3a543a189fff1f5daa473f2034b14
+Checking safe error on key pair 8fc09d5fb17f0fec807f30f93b7a1da6961c5abc5e76000e0a255b8c0dfcb4eb, 703f62a04e80f0137f80cf06c485e25969e3a543a189fff1f5daa473f2034b14.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 3/20; 6%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 29.
+Simulating faults for key: 38dc7ccbc337a546a239a506942e7addfaf05d0c2b39401c5362eb718a2ff9b6
+Simulating faults for key: c72383343cc85ab95dc65af96bd18522050fa2f3d4c6bfe3ac9d148e75d00649
+Checking safe error on key pair 38dc7ccbc337a546a239a506942e7addfaf05d0c2b39401c5362eb718a2ff9b6, c72383343cc85ab95dc65af96bd18522050fa2f3d4c6bfe3ac9d148e75d00649.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 4/20; 8%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 30.
+Simulating faults for key: 1826c3d8888089fd6828a92af529a1d879dbc717e019fb64723b6e8f84537e6a
+Simulating faults for key: e7d93c27777f760297d756d50ad65e27862438e81fe6049b8dc491707bac8195
+Checking safe error on key pair 1826c3d8888089fd6828a92af529a1d879dbc717e019fb64723b6e8f84537e6a, e7d93c27777f760297d756d50ad65e27862438e81fe6049b8dc491707bac8195.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 5/20; 10%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 31.
+Simulating faults for key: f29c101e0d295d646e46444edccd2e202404968844bb49e871ed3f2b2c49a156
+Simulating faults for key: 0d63efe1f2d6a29b91b9bbb12332d1dfdbfb6977bb44b6178e12c0d4d3b65ea9
+Checking safe error on key pair f29c101e0d295d646e46444edccd2e202404968844bb49e871ed3f2b2c49a156, 0d63efe1f2d6a29b91b9bbb12332d1dfdbfb6977bb44b6178e12c0d4d3b65ea9.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 6/20; 12%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 32.
+Simulating faults for key: 6516c98876cf2717174b408fa7eadb74d8445320a2c14bfb3b32a2586b70f5b5
+Simulating faults for key: 9ae936778930d8e8e8b4bf705815248b27bbacdf5d3eb404c4cd5da7948f0a4a
+Checking safe error on key pair 6516c98876cf2717174b408fa7eadb74d8445320a2c14bfb3b32a2586b70f5b5, 9ae936778930d8e8e8b4bf705815248b27bbacdf5d3eb404c4cd5da7948f0a4a.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 7/20; 13%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 33.
+Simulating faults for key: 671b0f84a0cd0cfebb6c6b03b2c681cd3b551be6bf5c78ff2c186ec011f97545
+Simulating faults for key: 98e4f07b5f32f301449394fc4d397e32c4aae41940a38700d3e7913fee068aba
+Checking safe error on key pair 671b0f84a0cd0cfebb6c6b03b2c681cd3b551be6bf5c78ff2c186ec011f97545, 98e4f07b5f32f301449394fc4d397e32c4aae41940a38700d3e7913fee068aba.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 8/20; 15%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 34.
+Simulating faults for key: a89fb31babb5fadf3321e265889c9f76654abf26efb28fb03fc3b83d10745e0d
+Simulating faults for key: 57604ce4544a0520ccde1d9a776360899ab540d9104d704fc03c47c2ef8ba1f2
+Checking safe error on key pair a89fb31babb5fadf3321e265889c9f76654abf26efb28fb03fc3b83d10745e0d, 57604ce4544a0520ccde1d9a776360899ab540d9104d704fc03c47c2ef8ba1f2.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 9/20; 17%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 35.
+Simulating faults for key: 1ae2d3774b73aba76d3db13a0368ab3f8e55cfcd0f4b349422a75399ae7b03e4
+Simulating faults for key: e51d2c88b48c545892c24ec5fc9754c071aa3032f0b4cb6bdd58ac665184fc1b
+Checking safe error on key pair 1ae2d3774b73aba76d3db13a0368ab3f8e55cfcd0f4b349422a75399ae7b03e4, e51d2c88b48c545892c24ec5fc9754c071aa3032f0b4cb6bdd58ac665184fc1b.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 10/20; 18%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 36.
+Simulating faults for key: cb1299b059710aaaf83c04c0951c9b01c3d3c9afeef9d2bcae11eeb0d9554260
+Simulating faults for key: 34ed664fa68ef55507c3fb3f6ae364fe3c2c365011062d4351ee114f26aabd9f
+Checking safe error on key pair cb1299b059710aaaf83c04c0951c9b01c3d3c9afeef9d2bcae11eeb0d9554260, 34ed664fa68ef55507c3fb3f6ae364fe3c2c365011062d4351ee114f26aabd9f.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 11/20; 20%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 37.
+Simulating faults for key: c44c94a226c1675cd9af00691b0e7b206ef76e8948904ee16a234e21d922142f
+Simulating faults for key: 3bb36b5dd93e98a32650ff96e4f184df91089176b76fb11e95dcb1de26ddebd0
+Checking safe error on key pair c44c94a226c1675cd9af00691b0e7b206ef76e8948904ee16a234e21d922142f, 3bb36b5dd93e98a32650ff96e4f184df91089176b76fb11e95dcb1de26ddebd0.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 12/20; 21%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 38.
+Simulating faults for key: 5d286b2f829b8fb851e9ea1a42184543fbe913210400962cf608fcf2e18cf42b
+Simulating faults for key: a2d794d07d647047ae1615e5bde7babc0416ecdefbff69d309f7030d1e730bd4
+Checking safe error on key pair 5d286b2f829b8fb851e9ea1a42184543fbe913210400962cf608fcf2e18cf42b, a2d794d07d647047ae1615e5bde7babc0416ecdefbff69d309f7030d1e730bd4.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 13/20; 22%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 39.
+Simulating faults for key: b0ffb9537bbc636d812505f33ba092cd0984b02ceda9cdb9fdf6f332afff0a2a
+Simulating faults for key: 4f0046ac84439c927edafa0cc45f6d32f67b4fd31256324602090ccd5000f5d5
+Checking safe error on key pair b0ffb9537bbc636d812505f33ba092cd0984b02ceda9cdb9fdf6f332afff0a2a, 4f0046ac84439c927edafa0cc45f6d32f67b4fd31256324602090ccd5000f5d5.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 14/20; 24%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 40.
+Simulating faults for key: 8c003aa7b92135589ece43c4096b4fb20bfedd4ba8648371cafcc685b6e95b37
+Simulating faults for key: 73ffc55846decaa76131bc3bf694b04df40122b4579b7c8e3503397a4916a4c8
+Checking safe error on key pair 8c003aa7b92135589ece43c4096b4fb20bfedd4ba8648371cafcc685b6e95b37, 73ffc55846decaa76131bc3bf694b04df40122b4579b7c8e3503397a4916a4c8.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 15/20; 25%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 41.
+Simulating faults for key: 5d08a7990642713f984416725bf3956262f78cbaaf6937f63e555920554a965e
+Simulating faults for key: a2f75866f9bd8ec067bbe98da40c6a9d9d0873455096c809c1aaa6dfaab569a1
+Checking safe error on key pair 5d08a7990642713f984416725bf3956262f78cbaaf6937f63e555920554a965e, a2f75866f9bd8ec067bbe98da40c6a9d9d0873455096c809c1aaa6dfaab569a1.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 16/20; 26%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 42.
+Simulating faults for key: 440d1379cf0da23791825414cb099b03d3f421ee68d3103927b0d47d8ed0b82e
+Simulating faults for key: bbf2ec8630f25dc86e7dabeb34f664fc2c0bde11972cefc6d84f2b82712f47d1
+Checking safe error on key pair 440d1379cf0da23791825414cb099b03d3f421ee68d3103927b0d47d8ed0b82e, bbf2ec8630f25dc86e7dabeb34f664fc2c0bde11972cefc6d84f2b82712f47d1.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 17/20; 27%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 43.
+Simulating faults for key: bcd05693231468dfba29fc4b7a7c981e95364c95d94f5958f08476fe67371ec0
+Simulating faults for key: 432fa96cdceb972045d603b4858367e16ac9b36a26b0a6a70f7b890198c8e13f
+Checking safe error on key pair bcd05693231468dfba29fc4b7a7c981e95364c95d94f5958f08476fe67371ec0, 432fa96cdceb972045d603b4858367e16ac9b36a26b0a6a70f7b890198c8e13f.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 18/20; 29%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 44.
+Simulating faults for key: 89ad699576c0f4baf7699395ee97fb82a24c5d132bb481eb30c1fb5c1470cfd7
+Simulating faults for key: 7652966a893f0b4508966c6a1168047d5db3a2ecd44b7e14cf3e04a3eb8f3028
+Checking safe error on key pair 89ad699576c0f4baf7699395ee97fb82a24c5d132bb481eb30c1fb5c1470cfd7, 7652966a893f0b4508966c6a1168047d5db3a2ecd44b7e14cf3e04a3eb8f3028.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 19/20; 30%/10%.
+################################################################################
+
+################################################################################
+Starting iteration number 45.
+Simulating faults for key: 59c7fbcfe9a078f646856d3181fb9c016c28e243b156112b113067dafa8d0145
+Simulating faults for key: a6380430165f8709b97a92ce7e0463fe93d71dbc4ea9eed4eecf98250572feba
+Checking safe error on key pair 59c7fbcfe9a078f646856d3181fb9c016c28e243b156112b113067dafa8d0145, a6380430165f8709b97a92ce7e0463fe93d71dbc4ea9eed4eecf98250572feba.
+Number of potentially prone instruction-fault pairs: 5110 (Changed 0.00 % compared to the previous iteration).
+Convergence status: 20/20; 31%/10%.
+################################################################################
+
+Address 080008f0:
+  Hits 133 (553137), 191 (646024), 203 (665242):
+    Flipped instruction bit 5 (push.w {r4, r5, r6, r7, r8, sb, fp, lr} -> ldmdb sp!, {r4, r5, r6, r7, r8, sb, fp, lr})
+
+Address 08000966:
+  Hits 133 (553225), 191 (646112), 203 (665330), 225 (700563):
+    Flipped instruction bit 3 (str r0, [sp, #4] -> str r0, [sp, #0x14])
+
+Address 080028b4:
+  Hits 128 (553128), 186 (646015), 198 (665233), 220 (700466):
+    Skipped 1 instruction
+    Skipped 2 instructions
+    Flipped instruction bit 1 (mov r5, r0 -> mov r4, r0)
+    Flipped instruction bit 2 (mov r5, r0 -> mov r7, r0)
+    Flipped instruction bit 3 (mov r5, r0 -> mov r1, r0)
+    Flipped instruction bit 11 (mov r5, r0 -> tst r5, r0)
+    Flipped instruction bit 12 (mov r5, r0 -> ldr r6, [pc, #0x14])
+
+Address 080028b6:
+  Hit 222 (703670):
+    Flipped instruction bit 5 (mov r6, r2 -> mov r6, r0)
+
+Address 080028c0:
+  Hits 186 (646021), 220 (700472):
+    Skipped 1 instruction
+    Skipped 2 instructions
+    Skipped 3 instructions
+    Flipped instruction bit 4 (mov r7, r1 -> mov r7, r0)
+    Flipped instruction bit 5 (mov r7, r1 -> mov r7, r3)
+    Flipped instruction bit 6 (mov r7, r1 -> mov r7, r5)
+    Flipped instruction bit 7 (mov r7, r1 -> mov r7, sb)
+    Flipped instruction bit 11 (mov r7, r1 -> tst r7, r1)
+    Flipped instruction bit 12 (mov r7, r1 -> ldr r6, [pc, #0x3c])
+    Flipped instruction bit 15 (mov r7, r1 -> lsls r7, r1, #0x18)
+  Hits 128 (553134), 198 (665239):
+    Skipped 1 instruction
+    Skipped 2 instructions
+    Skipped 3 instructions
+    Flipped instruction bit 4 (mov r7, r1 -> mov r7, r0)
+    Flipped instruction bit 5 (mov r7, r1 -> mov r7, r3)
+    Flipped instruction bit 6 (mov r7, r1 -> mov r7, r5)
+    Flipped instruction bit 7 (mov r7, r1 -> mov r7, sb)
+    Flipped instruction bit 11 (mov r7, r1 -> tst r7, r1)
+    Flipped instruction bit 12 (mov r7, r1 -> ldr r6, [pc, #0x3c])
+  Hit 196 (662036):
+    Flipped instruction bit 10 (mov r7, r1 -> add r7, r1)
+
+Address 080028c6:
+  Hits 128 (553136), 186 (646023), 198 (665241), 220 (700474):
+    Flipped instruction bit 18 (bl #0xffffe02a -> bl #0xffffe026)
+
+Address 080028d0:
+  Hits 128 (553248), 186 (646135), 198 (665353), 220 (700586):
+    Skipped 3 instructions
+
+Address 080028d2:
+  Hits 128 (553249), 186 (646136), 198 (665354), 220 (700587):
+    Skipped 2 instructions
+    Skipped 3 instructions
+
+Address 080028d6:
+  Hit 220 (700588):
+    Skipped 1 instruction
+    Skipped 2 instructions
+    Flipped instruction bit 8 (eor.w r1, r4, r7 -> and.w r1, r4, r7)
+    Flipped instruction bit 15 (eor.w r1, r4, r7 -> add r2, sp, #0x210)
+    Flipped instruction bit 17 (eor.w r1, r4, r7 -> eor.w r1, r4, r6)
+    Flipped instruction bit 18 (eor.w r1, r4, r7 -> eor.w r1, r4, r5)
+    Flipped instruction bit 19 (eor.w r1, r4, r7 -> eor.w r1, r4, r3)
+    Flipped instruction bit 20 (eor.w r1, r4, r7 -> eor.w r1, r4, pc)
+    Flipped instruction bit 21 (eor.w r1, r4, r7 -> eor.w r1, r4, r7, lsr #32)
+    Flipped instruction bit 23 (eor.w r1, r4, r7 -> eor.w r1, r4, r7, lsl #1)
+    Flipped instruction bit 25 (eor.w r1, r4, r7 -> eor.w r0, r4, r7)
+    Flipped instruction bit 28 (eor.w r1, r4, r7 -> eor.w sb, r4, r7)
+  Hits 128 (553250), 198 (665355):
+    Skipped 1 instruction
+    Skipped 2 instructions
+    Flipped instruction bit 8 (eor.w r1, r4, r7 -> and.w r1, r4, r7)
+    Flipped instruction bit 15 (eor.w r1, r4, r7 -> add r2, sp, #0x210)
+    Flipped instruction bit 17 (eor.w r1, r4, r7 -> eor.w r1, r4, r6)
+    Flipped instruction bit 18 (eor.w r1, r4, r7 -> eor.w r1, r4, r5)
+    Flipped instruction bit 19 (eor.w r1, r4, r7 -> eor.w r1, r4, r3)
+    Flipped instruction bit 20 (eor.w r1, r4, r7 -> eor.w r1, r4, pc)
+    Flipped instruction bit 21 (eor.w r1, r4, r7 -> eor.w r1, r4, r7, lsr #32)
+    Flipped instruction bit 25 (eor.w r1, r4, r7 -> eor.w r0, r4, r7)
+    Flipped instruction bit 28 (eor.w r1, r4, r7 -> eor.w sb, r4, r7)
+  Hit 186 (646137):
+    Skipped 1 instruction
+    Skipped 2 instructions
+    Flipped instruction bit 7 (eor.w r1, r4, r7 -> pkhbt r1, r4, r7)
+    Flipped instruction bit 8 (eor.w r1, r4, r7 -> and.w r1, r4, r7)
+    Flipped instruction bit 15 (eor.w r1, r4, r7 -> add r2, sp, #0x210)
+    Flipped instruction bit 17 (eor.w r1, r4, r7 -> eor.w r1, r4, r6)
+    Flipped instruction bit 18 (eor.w r1, r4, r7 -> eor.w r1, r4, r5)
+    Flipped instruction bit 19 (eor.w r1, r4, r7 -> eor.w r1, r4, r3)
+    Flipped instruction bit 20 (eor.w r1, r4, r7 -> eor.w r1, r4, pc)
+    Flipped instruction bit 21 (eor.w r1, r4, r7 -> eor.w r1, r4, r7, lsr #32)
+    Flipped instruction bit 24 (eor.w r1, r4, r7 -> eor.w r1, r4, r7, lsl #2)
+    Flipped instruction bit 25 (eor.w r1, r4, r7 -> eor.w r0, r4, r7)
+    Flipped instruction bit 28 (eor.w r1, r4, r7 -> eor.w sb, r4, r7)
+    Flipped instruction bit 29 (eor.w r1, r4, r7 -> eor.w r1, r4, r7, lsl #4)
+    Flipped instruction bit 30 (eor.w r1, r4, r7 -> eor.w r1, r4, r7, lsl #8)
+    Flipped instruction bit 31 (eor.w r1, r4, r7 -> eor.w r1, r4, r7, lsl #16)
+
+Address 080028da:
+  Hits 128 (553251), 186 (646138), 198 (665356), 220 (700589):
+    Skipped 1 instruction
+    Flipped instruction bit 1 (ror.w r0, r1, r6 -> ror.w r0, r0, r6)
+    Flipped instruction bit 2 (ror.w r0, r1, r6 -> ror.w r0, r3, r6)
+    Flipped instruction bit 3 (ror.w r0, r1, r6 -> ror.w r0, r5, r6)
+    Flipped instruction bit 4 (ror.w r0, r1, r6 -> ror.w r0, sb, r6)
+    Flipped instruction bit 25 (ror.w r0, r1, r6 -> ror.w r1, r1, r6)
+    Flipped instruction bit 26 (ror.w r0, r1, r6 -> ror.w r2, r1, r6)
+    Flipped instruction bit 27 (ror.w r0, r1, r6 -> ror.w r4, r1, r6)
+
+Address 080028e6:
+  Hits 128 (553254), 186 (646141), 198 (665359), 220 (700592):
+    Skipped 1 instruction
+    Flipped instruction bit 1 (str r0, [sp, #4] -> str r0, [sp])
+    Flipped instruction bit 5 (str r0, [sp, #4] -> str r0, [sp, #0x44])
+    Flipped instruction bit 7 (str r0, [sp, #4] -> str r0, [sp, #0x104])
+    Flipped instruction bit 9 (str r0, [sp, #4] -> str r1, [sp, #4])
+    Flipped instruction bit 10 (str r0, [sp, #4] -> str r2, [sp, #4])
+    Flipped instruction bit 11 (str r0, [sp, #4] -> str r4, [sp, #4])
+    Flipped instruction bit 12 (str r0, [sp, #4] -> ldr r0, [sp, #4])
+    Flipped instruction bit 15 (str r0, [sp, #4] -> beq #6)
+
+Address 080028ec:
+  Hits 128 (553569), 186 (646456), 198 (665674), 220 (700907):
+    Skipped 1 instruction
+    Flipped instruction bit 1 (ldr r0, [sp, #4] -> ldr r0, [sp])
+    Flipped instruction bit 2 (ldr r0, [sp, #4] -> ldr r0, [sp, #0xc])
+    Flipped instruction bit 3 (ldr r0, [sp, #4] -> ldr r0, [sp, #0x14])
+    Flipped instruction bit 4 (ldr r0, [sp, #4] -> ldr r0, [sp, #0x24])
+    Flipped instruction bit 5 (ldr r0, [sp, #4] -> ldr r0, [sp, #0x44])
+    Flipped instruction bit 6 (ldr r0, [sp, #4] -> ldr r0, [sp, #0x84])
+    Flipped instruction bit 7 (ldr r0, [sp, #4] -> ldr r0, [sp, #0x104])
+    Flipped instruction bit 8 (ldr r0, [sp, #4] -> ldr r0, [sp, #0x204])
+    Flipped instruction bit 9 (ldr r0, [sp, #4] -> ldr r1, [sp, #4])
+    Flipped instruction bit 10 (ldr r0, [sp, #4] -> ldr r2, [sp, #4])
+    Flipped instruction bit 11 (ldr r0, [sp, #4] -> ldr r4, [sp, #4])
+    Flipped instruction bit 12 (ldr r0, [sp, #4] -> str r0, [sp, #4])
+    Flipped instruction bit 13 (ldr r0, [sp, #4] -> ldrh r1, [r0])
+    Flipped instruction bit 15 (ldr r0, [sp, #4] -> bhi #6)
+    Flipped instruction bit 16 (ldr r0, [sp, #4] -> adds r1, r0, r0)
+
+Address 08002e68:
+  Hits 93 (646006), 99 (665224), 110 (700457):
+    Flipped instruction bit 4 (add r3, sp, #0x2b0 -> add r3, sp, #0x290)
+    Flipped instruction bit 5 (add r3, sp, #0x2b0 -> add r3, sp, #0x2f0)
+    Flipped instruction bit 7 (add r3, sp, #0x2b0 -> add r3, sp, #0x3b0)
+    Flipped instruction bit 8 (add r3, sp, #0x2b0 -> add r3, sp, #0xb0)
+    Flipped instruction bit 12 (add r3, sp, #0x2b0 -> adr r3, #0x2b0)
+  Hit 64 (553119):
+    Flipped instruction bit 2 (add r3, sp, #0x2b0 -> add r3, sp, #0x2b8)
+    Flipped instruction bit 4 (add r3, sp, #0x2b0 -> add r3, sp, #0x290)
+    Flipped instruction bit 5 (add r3, sp, #0x2b0 -> add r3, sp, #0x2f0)
+    Flipped instruction bit 7 (add r3, sp, #0x2b0 -> add r3, sp, #0x3b0)
+    Flipped instruction bit 8 (add r3, sp, #0x2b0 -> add r3, sp, #0xb0)
+    Flipped instruction bit 12 (add r3, sp, #0x2b0 -> adr r3, #0x2b0)
+
+Address 08002e6a:
+  Hits 64 (553120), 93 (646007), 99 (665225), 110 (700458):
+    Flipped instruction bit 3 (add.w r3, r3, r4, lsl #2 -> add.w r3, r7, r4, lsl #2)
+    Flipped instruction bit 23 (add.w r3, r3, r4, lsl #2 -> add.w r3, r3, r4, lsl #3)
+    Flipped instruction bit 29 (add.w r3, r3, r4, lsl #2 -> add.w r3, r3, r4, lsl #6)
+
+Address 08002e72:
+  Hit 93 (646009):
+    Skipped 1 instruction
+    Flipped instruction bit 3 (ldr r1, [r3, #-0x28] -> ldr r1, [r7, #-0x28])
+    Flipped instruction bit 12 (ldr r1, [r3, #-0x28] -> orrs ip, r3, #0x280028)
+    Flipped instruction bit 22 (ldr r1, [r3, #-0x28] -> ldr r1, [r3, #-0x8])
+    Flipped instruction bit 26 (ldr r1, [r3, #-0x28] -> ldrt r1, [r3, #0x28])
+    Flipped instruction bit 29 (ldr r1, [r3, #-0x28] -> ldr r0, [r3, #-0x28])
+    Flipped instruction bit 30 (ldr r1, [r3, #-0x28] -> ldr r3, [r3, #-0x28])
+    Flipped instruction bit 32 (ldr r1, [r3, #-0x28] -> ldr sb, [r3, #-0x28])
+  Hit 64 (553122):
+    Skipped 1 instruction
+    Flipped instruction bit 3 (ldr r1, [r3, #-0x28] -> ldr r1, [r7, #-0x28])
+    Flipped instruction bit 7 (ldr r1, [r3, #-0x28] -> ldrb r1, [r3, #-0x28])
+    Flipped instruction bit 12 (ldr r1, [r3, #-0x28] -> orrs ip, r3, #0x280028)
+    Flipped instruction bit 20 (ldr r1, [r3, #-0x28] -> ldr r1, [r3, #-0x20])
+    Flipped instruction bit 22 (ldr r1, [r3, #-0x28] -> ldr r1, [r3, #-0x8])
+    Flipped instruction bit 26 (ldr r1, [r3, #-0x28] -> ldrt r1, [r3, #0x28])
+    Flipped instruction bit 29 (ldr r1, [r3, #-0x28] -> ldr r0, [r3, #-0x28])
+    Flipped instruction bit 30 (ldr r1, [r3, #-0x28] -> ldr r3, [r3, #-0x28])
+    Flipped instruction bit 32 (ldr r1, [r3, #-0x28] -> ldr sb, [r3, #-0x28])
+  Hits 99 (665227), 110 (700460):
+    Skipped 1 instruction
+    Flipped instruction bit 3 (ldr r1, [r3, #-0x28] -> ldr r1, [r7, #-0x28])
+    Flipped instruction bit 7 (ldr r1, [r3, #-0x28] -> ldrb r1, [r3, #-0x28])
+    Flipped instruction bit 12 (ldr r1, [r3, #-0x28] -> orrs ip, r3, #0x280028)
+    Flipped instruction bit 22 (ldr r1, [r3, #-0x28] -> ldr r1, [r3, #-0x8])
+    Flipped instruction bit 26 (ldr r1, [r3, #-0x28] -> ldrt r1, [r3, #0x28])
+    Flipped instruction bit 29 (ldr r1, [r3, #-0x28] -> ldr r0, [r3, #-0x28])
+    Flipped instruction bit 30 (ldr r1, [r3, #-0x28] -> ldr r3, [r3, #-0x28])
+    Flipped instruction bit 32 (ldr r1, [r3, #-0x28] -> ldr sb, [r3, #-0x28])
+
+Address 08002e76:
+  Hits 64 (553123), 99 (665228), 110 (700461):
+    Skipped 3 instructions
+  Hit 93 (646010):
+    Skipped 3 instructions
+    Flipped instruction bit 11 (add r0, sp, #0x1c8 -> add r4, sp, #0x1c8)
+
+Address 08002e78:
+  Hits 64 (553124), 93 (646011), 99 (665229), 110 (700462):
+    Skipped 2 instructions
+    Skipped 3 instructions
+  Hit 111 (703665):
+    Flipped instruction bit 7 (mov r2, r8 -> mov r2, r0)
+    Flipped instruction bit 11 (mov r2, r8 -> rsbs r2, r0, #0)
+
+Address 08002e7a:
+  Hits 64 (553125), 93 (646012), 99 (665230), 110 (700463):
+    Skipped 1 instruction
+    Skipped 2 instructions
+    Skipped 3 instructions
+
+Address 08003ca2:
+  Hits 255 (553258), 256 (553576), 371 (646145), 372 (646463), 395 (665363), 396 (665681), 439 (700596), 440 (700914):
+    Skipped 2 instructions
+
+Address 08003ca6:
+  Hits 255 (553259), 256 (553577), 371 (646146), 372 (646464), 395 (665364), 396 (665682), 439 (700597), 440 (700915):
+    Skipped 1 instruction
+    Flipped instruction bit 1 (eor.w r4, r0, r3 -> eor.w r4, r1, r3)
+    Flipped instruction bit 2 (eor.w r4, r0, r3 -> eor.w r4, r2, r3)
+    Flipped instruction bit 3 (eor.w r4, r0, r3 -> eor.w r4, r4, r3)
+    Flipped instruction bit 4 (eor.w r4, r0, r3 -> eor.w r4, r8, r3)
+    Flipped instruction bit 25 (eor.w r4, r0, r3 -> eor.w r5, r0, r3)
+    Flipped instruction bit 26 (eor.w r4, r0, r3 -> eor.w r6, r0, r3)
+    Flipped instruction bit 28 (eor.w r4, r0, r3 -> eor.w ip, r0, r3)
+
+Address 08003caa:
+  Hits 307 (594899), 308 (595217), 447 (707004), 448 (707322), 491 (742237), 492 (742555):
+    Flipped instruction bit 22 (bic r0, r0, #0xff00 -> bic r0, r0, #0xdf00)
+  Hits 439 (700598), 440 (700916):
+    Flipped instruction bit 1 (bic r0, r0, #0xff00 -> bic r0, r1, #0xff00)
+    Flipped instruction bit 2 (bic r0, r0, #0xff00 -> bic r0, r2, #0xff00)
+    Flipped instruction bit 4 (bic r0, r0, #0xff00 -> bic r0, r8, #0xff00)
+    Flipped instruction bit 20 (bic r0, r0, #0xff00 -> bic r0, r0, #0xf700)
+  Hits 255 (553260), 256 (553578), 371 (646147), 372 (646465), 395 (665365), 396 (665683):
+    Flipped instruction bit 1 (bic r0, r0, #0xff00 -> bic r0, r1, #0xff00)
+    Flipped instruction bit 2 (bic r0, r0, #0xff00 -> bic r0, r2, #0xff00)
+    Flipped instruction bit 4 (bic r0, r0, #0xff00 -> bic r0, r8, #0xff00)
+  Hits 311 (598102), 312 (598420), 451 (710207), 452 (710525), 495 (745440), 496 (745758):
+    Flipped instruction bit 23 (bic r0, r0, #0xff00 -> bic r0, r0, #0xbf00)
+  Hits 275 (569275), 276 (569593), 427 (690989), 428 (691307), 471 (726222), 472 (726540):
+    Flipped instruction bit 17 (bic r0, r0, #0xff00 -> bic r0, r0, #0xfe00)
+  Hits 483 (735831), 484 (736149):
+    Flipped instruction bit 20 (bic r0, r0, #0xff00 -> bic r0, r0, #0xf700)
+  Hits 315 (601305), 316 (601623), 455 (713410), 456 (713728), 499 (748643), 500 (748961):
+    Flipped instruction bit 24 (bic r0, r0, #0xff00 -> bic r0, r0, #0x7f80)
+  Hits 443 (703801), 444 (704119), 487 (739034), 488 (739352):
+    Flipped instruction bit 21 (bic r0, r0, #0xff00 -> bic r0, r0, #0xef00)
+  Hits 287 (578884), 288 (579202):
+    Flipped instruction bit 17 (bic r0, r0, #0xff00 -> bic r0, r0, #0xfe00)
+    Flipped instruction bit 20 (bic r0, r0, #0xff00 -> bic r0, r0, #0xf700)
+  Hits 303 (591696), 304 (592014):
+    Flipped instruction bit 21 (bic r0, r0, #0xff00 -> bic r0, r0, #0xef00)
+    Flipped instruction bit 24 (bic r0, r0, #0xff00 -> bic r0, r0, #0x7f80)
+  Hits 299 (588493), 300 (588811):
+    Flipped instruction bit 20 (bic r0, r0, #0xff00 -> bic r0, r0, #0xf700)
+    Flipped instruction bit 23 (bic r0, r0, #0xff00 -> bic r0, r0, #0xbf00)
+  Hits 283 (575681), 284 (575999), 435 (697395), 436 (697713), 479 (732628), 480 (732946):
+    Flipped instruction bit 19 (bic r0, r0, #0xff00 -> bic r0, r0, #0xfb00)
+  Hits 279 (572478), 280 (572796), 431 (694192), 432 (694510), 475 (729425), 476 (729743):
+    Flipped instruction bit 18 (bic r0, r0, #0xff00 -> bic r0, r0, #0xfd00)
+  Hits 291 (582087), 292 (582405):
+    Flipped instruction bit 18 (bic r0, r0, #0xff00 -> bic r0, r0, #0xfd00)
+    Flipped instruction bit 21 (bic r0, r0, #0xff00 -> bic r0, r0, #0xef00)
+  Hits 295 (585290), 296 (585608):
+    Flipped instruction bit 19 (bic r0, r0, #0xff00 -> bic r0, r0, #0xfb00)
+    Flipped instruction bit 22 (bic r0, r0, #0xff00 -> bic r0, r0, #0xdf00)
+
+Address 08003cae:
+  Hits 291 (582088), 292 (582406):
+    Flipped instruction bit 18 (bic r4, r4, #0xff00 -> bic r4, r4, #0xfd00)
+    Flipped instruction bit 21 (bic r4, r4, #0xff00 -> bic r4, r4, #0xef00)
+  Hits 307 (594900), 308 (595218), 447 (707005), 448 (707323), 491 (742238), 492 (742556):
+    Flipped instruction bit 22 (bic r4, r4, #0xff00 -> bic r4, r4, #0xdf00)
+  Hits 255 (553261), 256 (553579), 371 (646148), 372 (646466), 395 (665366), 396 (665684):
+    Flipped instruction bit 1 (bic r4, r4, #0xff00 -> bic r4, r5, #0xff00)
+    Flipped instruction bit 2 (bic r4, r4, #0xff00 -> bic r4, r6, #0xff00)
+  Hits 439 (700599), 440 (700917):
+    Flipped instruction bit 1 (bic r4, r4, #0xff00 -> bic r4, r5, #0xff00)
+    Flipped instruction bit 2 (bic r4, r4, #0xff00 -> bic r4, r6, #0xff00)
+    Flipped instruction bit 20 (bic r4, r4, #0xff00 -> bic r4, r4, #0xf700)
+  Hits 283 (575682), 284 (576000), 435 (697396), 436 (697714), 479 (732629), 480 (732947):
+    Flipped instruction bit 19 (bic r4, r4, #0xff00 -> bic r4, r4, #0xfb00)
+  Hits 279 (572479), 280 (572797), 431 (694193), 432 (694511), 475 (729426), 476 (729744):
+    Flipped instruction bit 18 (bic r4, r4, #0xff00 -> bic r4, r4, #0xfd00)
+  Hits 295 (585291), 296 (585609):
+    Flipped instruction bit 19 (bic r4, r4, #0xff00 -> bic r4, r4, #0xfb00)
+    Flipped instruction bit 22 (bic r4, r4, #0xff00 -> bic r4, r4, #0xdf00)
+  Hits 311 (598103), 312 (598421), 451 (710208), 452 (710526), 495 (745441), 496 (745759):
+    Flipped instruction bit 23 (bic r4, r4, #0xff00 -> bic r4, r4, #0xbf00)
+  Hits 275 (569276), 276 (569594), 427 (690990), 428 (691308), 471 (726223), 472 (726541):
+    Flipped instruction bit 17 (bic r4, r4, #0xff00 -> bic r4, r4, #0xfe00)
+  Hits 315 (601306), 316 (601624), 455 (713411), 456 (713729), 499 (748644), 500 (748962):
+    Flipped instruction bit 24 (bic r4, r4, #0xff00 -> bic r4, r4, #0x7f80)
+  Hits 443 (703802), 444 (704120), 487 (739035), 488 (739353):
+    Flipped instruction bit 21 (bic r4, r4, #0xff00 -> bic r4, r4, #0xef00)
+  Hits 303 (591697), 304 (592015):
+    Flipped instruction bit 21 (bic r4, r4, #0xff00 -> bic r4, r4, #0xef00)
+    Flipped instruction bit 24 (bic r4, r4, #0xff00 -> bic r4, r4, #0x7f80)
+  Hits 287 (578885), 288 (579203):
+    Flipped instruction bit 17 (bic r4, r4, #0xff00 -> bic r4, r4, #0xfe00)
+    Flipped instruction bit 20 (bic r4, r4, #0xff00 -> bic r4, r4, #0xf700)
+  Hits 299 (588494), 300 (588812):
+    Flipped instruction bit 20 (bic r4, r4, #0xff00 -> bic r4, r4, #0xf700)
+    Flipped instruction bit 23 (bic r4, r4, #0xff00 -> bic r4, r4, #0xbf00)
+  Hits 483 (735832), 484 (736150):
+    Flipped instruction bit 20 (bic r4, r4, #0xff00 -> bic r4, r4, #0xf700)
+
+Address 08003cb6:
+  Hits 279 (572481), 280 (572799), 419 (684586), 420 (684904), 463 (719819), 464 (720137):
+    Flipped instruction bit 23 (bic r0, r0, #0xfe -> bic r0, r0, #0xbe)
+  Hits 407 (674977), 408 (675295), 451 (710210), 452 (710528):
+    Flipped instruction bit 20 (bic r0, r0, #0xfe -> bic r0, r0, #0xf6)
+  Hits 283 (575684), 284 (576002), 423 (687789), 424 (688107), 467 (723022), 468 (723340):
+    Flipped instruction bit 24 (bic r0, r0, #0xfe -> bic r0, r0, #0x7e)
+  Hits 259 (556466), 260 (556784):
+    Flipped instruction bit 18 (bic r0, r0, #0xfe -> bic r0, r0, #0xfc)
+    Flipped instruction bit 21 (bic r0, r0, #0xfe -> bic r0, r0, #0xee)
+  Hits 375 (649353), 376 (649671), 399 (668571), 400 (668889), 443 (703804), 444 (704122):
+    Flipped instruction bit 18 (bic r0, r0, #0xfe -> bic r0, r0, #0xfc)
+  Hits 371 (646150), 372 (646468), 395 (665368), 396 (665686), 439 (700601), 440 (700919):
+    Flipped instruction bit 4 (bic r0, r0, #0xfe -> bic r0, r8, #0xfe)
+    Flipped instruction bit 17 (bic r0, r0, #0xfe -> bic r0, r0, #0xff)
+  Hits 271 (566075), 272 (566393):
+    Flipped instruction bit 21 (bic r0, r0, #0xfe -> bic r0, r0, #0xee)
+    Flipped instruction bit 24 (bic r0, r0, #0xfe -> bic r0, r0, #0x7e)
+  Hits 251 (550060), 252 (550378), 403 (671774), 404 (672092), 447 (707007), 448 (707325):
+    Flipped instruction bit 19 (bic r0, r0, #0xfe -> bic r0, r0, #0xfa)
+  Hits 255 (553263), 256 (553581):
+    Flipped instruction bit 4 (bic r0, r0, #0xfe -> bic r0, r8, #0xfe)
+    Flipped instruction bit 17 (bic r0, r0, #0xfe -> bic r0, r0, #0xff)
+    Flipped instruction bit 20 (bic r0, r0, #0xfe -> bic r0, r0, #0xf6)
+  Hits 263 (559669), 264 (559987):
+    Flipped instruction bit 19 (bic r0, r0, #0xfe -> bic r0, r0, #0xfa)
+    Flipped instruction bit 22 (bic r0, r0, #0xfe -> bic r0, r0, #0xde)
+  Hits 411 (678180), 412 (678498), 455 (713413), 456 (713731):
+    Flipped instruction bit 21 (bic r0, r0, #0xfe -> bic r0, r0, #0xee)
+  Hits 267 (562872), 268 (563190):
+    Flipped instruction bit 20 (bic r0, r0, #0xfe -> bic r0, r0, #0xf6)
+    Flipped instruction bit 23 (bic r0, r0, #0xfe -> bic r0, r0, #0xbe)
+  Hits 275 (569278), 276 (569596), 415 (681383), 416 (681701), 459 (716616), 460 (716934):
+    Flipped instruction bit 22 (bic r0, r0, #0xfe -> bic r0, r0, #0xde)
+
+Address 08003cba:
+  Hits 283 (575685), 284 (576003), 423 (687790), 424 (688108), 467 (723023), 468 (723341):
+    Flipped instruction bit 24 (bic r4, r4, #0xfe -> bic r4, r4, #0x7e)
+  Hits 407 (674978), 408 (675296), 451 (710211), 452 (710529):
+    Flipped instruction bit 20 (bic r4, r4, #0xfe -> bic r4, r4, #0xf6)
+  Hits 251 (550061), 252 (550379), 403 (671775), 404 (672093), 447 (707008), 448 (707326):
+    Flipped instruction bit 19 (bic r4, r4, #0xfe -> bic r4, r4, #0xfa)
+  Hits 275 (569279), 276 (569597), 415 (681384), 416 (681702), 459 (716617), 460 (716935):
+    Flipped instruction bit 22 (bic r4, r4, #0xfe -> bic r4, r4, #0xde)
+  Hits 371 (646151), 372 (646469), 395 (665369), 396 (665687), 439 (700602), 440 (700920):
+    Flipped instruction bit 2 (bic r4, r4, #0xfe -> bic r4, r6, #0xfe)
+    Flipped instruction bit 17 (bic r4, r4, #0xfe -> bic r4, r4, #0xff)
+  Hits 411 (678181), 412 (678499), 455 (713414), 456 (713732):
+    Flipped instruction bit 21 (bic r4, r4, #0xfe -> bic r4, r4, #0xee)
+  Hits 375 (649354), 376 (649672), 399 (668572), 400 (668890), 443 (703805), 444 (704123):
+    Flipped instruction bit 18 (bic r4, r4, #0xfe -> bic r4, r4, #0xfc)
+  Hits 263 (559670), 264 (559988):
+    Flipped instruction bit 19 (bic r4, r4, #0xfe -> bic r4, r4, #0xfa)
+    Flipped instruction bit 22 (bic r4, r4, #0xfe -> bic r4, r4, #0xde)
+  Hits 267 (562873), 268 (563191):
+    Flipped instruction bit 20 (bic r4, r4, #0xfe -> bic r4, r4, #0xf6)
+    Flipped instruction bit 23 (bic r4, r4, #0xfe -> bic r4, r4, #0xbe)
+  Hits 279 (572482), 280 (572800), 419 (684587), 420 (684905), 463 (719820), 464 (720138):
+    Flipped instruction bit 23 (bic r4, r4, #0xfe -> bic r4, r4, #0xbe)
+  Hits 255 (553264), 256 (553582):
+    Flipped instruction bit 2 (bic r4, r4, #0xfe -> bic r4, r6, #0xfe)
+    Flipped instruction bit 17 (bic r4, r4, #0xfe -> bic r4, r4, #0xff)
+    Flipped instruction bit 20 (bic r4, r4, #0xfe -> bic r4, r4, #0xf6)
+  Hits 271 (566076), 272 (566394):
+    Flipped instruction bit 21 (bic r4, r4, #0xfe -> bic r4, r4, #0xee)
+    Flipped instruction bit 24 (bic r4, r4, #0xfe -> bic r4, r4, #0x7e)
+  Hits 259 (556467), 260 (556785):
+    Flipped instruction bit 18 (bic r4, r4, #0xfe -> bic r4, r4, #0xfc)
+    Flipped instruction bit 21 (bic r4, r4, #0xfe -> bic r4, r4, #0xee)
+
+Address 08003cce:
+  Hits 255 (553270), 256 (553588), 395 (665375), 396 (665693), 439 (700608), 440 (700926):
+    Flipped instruction bit 9 (mul r7, r0, r5 -> lsl.w r7, r0, r5)
+    Flipped instruction bit 17 (mul r7, r0, r5 -> mul r7, r0, r4)
+    Flipped instruction bit 18 (mul r7, r0, r5 -> mul r7, r0, r7)
+    Flipped instruction bit 19 (mul r7, r0, r5 -> mul r7, r0, r1)
+    Flipped instruction bit 20 (mul r7, r0, r5 -> mul r7, r0, sp)
+  Hits 371 (646157), 372 (646475):
+    Flipped instruction bit 4 (mul r7, r0, r5 -> mul r7, r8, r5)
+    Flipped instruction bit 9 (mul r7, r0, r5 -> lsl.w r7, r0, r5)
+    Flipped instruction bit 17 (mul r7, r0, r5 -> mul r7, r0, r4)
+    Flipped instruction bit 18 (mul r7, r0, r5 -> mul r7, r0, r7)
+    Flipped instruction bit 19 (mul r7, r0, r5 -> mul r7, r0, r1)
+    Flipped instruction bit 20 (mul r7, r0, r5 -> mul r7, r0, sp)
+
+Address 08003cd2:
+  Hits 255 (553271), 256 (553589), 395 (665376), 396 (665694), 439 (700609), 440 (700927):
+    Flipped instruction bit 9 (mul r8, r0, r6 -> lsl.w r8, r0, r6)
+    Flipped instruction bit 17 (mul r8, r0, r6 -> mul r8, r0, r7)
+    Flipped instruction bit 18 (mul r8, r0, r6 -> mul r8, r0, r4)
+    Flipped instruction bit 19 (mul r8, r0, r6 -> mul r8, r0, r2)
+    Flipped instruction bit 20 (mul r8, r0, r6 -> mul r8, r0, lr)
+    Flipped instruction bit 32 (mul r8, r0, r6 -> mla r8, r0, r6, r7)
+  Hits 371 (646158), 372 (646476):
+    Flipped instruction bit 4 (mul r8, r0, r6 -> mul r8, r8, r6)
+    Flipped instruction bit 9 (mul r8, r0, r6 -> lsl.w r8, r0, r6)
+    Flipped instruction bit 17 (mul r8, r0, r6 -> mul r8, r0, r7)
+    Flipped instruction bit 18 (mul r8, r0, r6 -> mul r8, r0, r4)
+    Flipped instruction bit 19 (mul r8, r0, r6 -> mul r8, r0, r2)
+    Flipped instruction bit 20 (mul r8, r0, r6 -> mul r8, r0, lr)
+    Flipped instruction bit 32 (mul r8, r0, r6 -> mla r8, r0, r6, r7)
+
+Address 08003cd6:
+  Hits 255 (553272), 256 (553590), 371 (646159), 372 (646477), 395 (665377), 396 (665695), 439 (700610), 440 (700928):
+    Skipped 1 instruction
+    Skipped 2 instructions
+    Flipped instruction bit 7 (umlal r7, sl, r4, r6 -> umull r7, sl, r4, r6)
+    Flipped instruction bit 8 (umlal r7, sl, r4, r6 -> smmls sl, r4, r6, r7)
+    Flipped instruction bit 17 (umlal r7, sl, r4, r6 -> umlal r7, sl, r4, r7)
+    Flipped instruction bit 18 (umlal r7, sl, r4, r6 -> umlal r7, sl, r4, r4)
+    Flipped instruction bit 19 (umlal r7, sl, r4, r6 -> umlal r7, sl, r4, r2)
+    Flipped instruction bit 20 (umlal r7, sl, r4, r6 -> umlal r7, sl, r4, lr)
+
+Address 08003cda:
+  Hits 255 (553273), 256 (553591), 371 (646160), 372 (646478), 395 (665378), 396 (665696), 439 (700611), 440 (700929):
+    Skipped 1 instruction
+    Flipped instruction bit 7 (umlal r8, sl, r4, r5 -> umull r8, sl, r4, r5)
+    Flipped instruction bit 8 (umlal r8, sl, r4, r5 -> smmls sl, r4, r5, r8)
+    Flipped instruction bit 17 (umlal r8, sl, r4, r5 -> umlal r8, sl, r4, r4)
+    Flipped instruction bit 18 (umlal r8, sl, r4, r5 -> umlal r8, sl, r4, r7)
+    Flipped instruction bit 19 (umlal r8, sl, r4, r5 -> umlal r8, sl, r4, r1)
+    Flipped instruction bit 20 (umlal r8, sl, r4, r5 -> umlal r8, sl, r4, sp)
+    Flipped instruction bit 29 (umlal r8, sl, r4, r5 -> umlal sb, sl, r4, r5)
+    Flipped instruction bit 30 (umlal r8, sl, r4, r5 -> umlal sl, sl, r4, r5)
+    Flipped instruction bit 31 (umlal r8, sl, r4, r5 -> umlal ip, sl, r4, r5)
+    Flipped instruction bit 32 (umlal r8, sl, r4, r5 -> umlal r0, sl, r4, r5)
+
+Address 08003cde:
+  Hits 255 (553274), 256 (553592), 371 (646161), 372 (646479), 395 (665379), 396 (665697), 439 (700612), 440 (700930):
+    Flipped instruction bit 4 (uxth r7, r7 -> uxth r7, r6)
+    Flipped instruction bit 5 (uxth r7, r7 -> uxth r7, r5)
+
+Address 08003cfc:
+  Hits 255 (553282), 256 (553600), 371 (646169), 372 (646487), 395 (665387), 396 (665705), 439 (700620), 440 (700938):
+    Flipped instruction bit 9 (mul r7, r0, r5 -> lsl.w r7, r0, r5)
+    Flipped instruction bit 17 (mul r7, r0, r5 -> mul r7, r0, r4)
+    Flipped instruction bit 18 (mul r7, r0, r5 -> mul r7, r0, r7)
+    Flipped instruction bit 19 (mul r7, r0, r5 -> mul r7, r0, r1)
+    Flipped instruction bit 20 (mul r7, r0, r5 -> mul r7, r0, sp)
+
+Address 08003d00:
+  Hits 255 (553283), 256 (553601), 371 (646170), 372 (646488), 395 (665388), 396 (665706), 439 (700621), 440 (700939):
+    Flipped instruction bit 9 (mul r8, r0, r6 -> lsl.w r8, r0, r6)
+    Flipped instruction bit 17 (mul r8, r0, r6 -> mul r8, r0, r7)
+    Flipped instruction bit 18 (mul r8, r0, r6 -> mul r8, r0, r4)
+    Flipped instruction bit 19 (mul r8, r0, r6 -> mul r8, r0, r2)
+    Flipped instruction bit 20 (mul r8, r0, r6 -> mul r8, r0, lr)
+    Flipped instruction bit 32 (mul r8, r0, r6 -> mla r8, r0, r6, r7)
+
+Address 08003d04:
+  Hits 255 (553284), 256 (553602), 371 (646171), 372 (646489), 395 (665389), 396 (665707), 439 (700622), 440 (700940):
+    Skipped 1 instruction
+    Skipped 2 instructions
+    Flipped instruction bit 7 (umlal r7, r6, r4, r6 -> umull r7, r6, r4, r6)
+    Flipped instruction bit 8 (umlal r7, r6, r4, r6 -> smmls r6, r4, r6, r7)
+    Flipped instruction bit 17 (umlal r7, r6, r4, r6 -> umlal r7, r6, r4, r7)
+    Flipped instruction bit 18 (umlal r7, r6, r4, r6 -> umlal r7, r6, r4, r4)
+    Flipped instruction bit 19 (umlal r7, r6, r4, r6 -> umlal r7, r6, r4, r2)
+    Flipped instruction bit 20 (umlal r7, r6, r4, r6 -> umlal r7, r6, r4, lr)
+    Flipped instruction bit 29 (umlal r7, r6, r4, r6 -> umlal r6, r6, r4, r6)
+    Flipped instruction bit 30 (umlal r7, r6, r4, r6 -> umlal r5, r6, r4, r6)
+
+Address 08003d08:
+  Hits 255 (553285), 256 (553603), 371 (646172), 372 (646490), 395 (665390), 396 (665708), 439 (700623), 440 (700941):
+    Skipped 1 instruction
+    Flipped instruction bit 7 (umlal r8, r5, r4, r5 -> umull r8, r5, r4, r5)
+    Flipped instruction bit 8 (umlal r8, r5, r4, r5 -> smmls r5, r4, r5, r8)
+    Flipped instruction bit 17 (umlal r8, r5, r4, r5 -> umlal r8, r5, r4, r4)
+    Flipped instruction bit 18 (umlal r8, r5, r4, r5 -> umlal r8, r5, r4, r7)
+    Flipped instruction bit 19 (umlal r8, r5, r4, r5 -> umlal r8, r5, r4, r1)
+    Flipped instruction bit 20 (umlal r8, r5, r4, r5 -> umlal r8, r5, r4, sp)
+    Flipped instruction bit 31 (umlal r8, r5, r4, r5 -> umlal ip, r5, r4, r5)
+    Flipped instruction bit 32 (umlal r8, r5, r4, r5 -> umlal r0, r5, r4, r5)
+
+Address 08003d52:
+  Hits 1780 (553343), 1781 (553380), 1782 (553417), 1783 (553454), 1784 (553491), 1785 (553528), 1787 (553661), 1788 (553698), 1789 (553735), 1790 (553772), 1791 (553809), 1792 (553846), 2592 (646230), 2593 (646267), 2594 (646304), 2595 (646341), 2596 (646378), 2597 (646415), 2599 (646548), 2600 (646585), 2601 (646622), 2602 (646659), 2603 (646696), 2604 (646733), 2760 (665448), 2761 (665485), 2762 (665522), 2763 (665559), 2764 (665596), 2765 (665633), 2767 (665766), 2768 (665803), 2769 (665840), 2770 (665877), 2771 (665914), 2772 (665951), 3068 (700681), 3069 (700718), 3070 (700755), 3071 (700792), 3072 (700829), 3073 (700866), 3075 (700999), 3076 (701036), 3077 (701073), 3078 (701110), 3079 (701147), 3080 (701184):
+    Skipped 1 instruction
+    Skipped 2 instructions
+    Flipped instruction bit 4 (mul r7, r0, r5 -> mul r7, r8, r5)
+    Flipped instruction bit 9 (mul r7, r0, r5 -> lsl.w r7, r0, r5)
+    Flipped instruction bit 14 (mul r7, r0, r5 -> blt #4)
+    Flipped instruction bit 17 (mul r7, r0, r5 -> mul r7, r0, r4)
+    Flipped instruction bit 18 (mul r7, r0, r5 -> mul r7, r0, r7)
+    Flipped instruction bit 19 (mul r7, r0, r5 -> mul r7, r0, r1)
+    Flipped instruction bit 20 (mul r7, r0, r5 -> mul r7, r0, sp)
+  Hits 1779 (553306), 1786 (553624), 2591 (646193), 2598 (646511), 2759 (665411), 2766 (665729), 3067 (700644), 3074 (700962):
+    Skipped 1 instruction
+    Skipped 2 instructions
+    Flipped instruction bit 4 (mul r7, r0, r5 -> mul r7, r8, r5)
+    Flipped instruction bit 9 (mul r7, r0, r5 -> lsl.w r7, r0, r5)
+    Flipped instruction bit 17 (mul r7, r0, r5 -> mul r7, r0, r4)
+    Flipped instruction bit 18 (mul r7, r0, r5 -> mul r7, r0, r7)
+    Flipped instruction bit 19 (mul r7, r0, r5 -> mul r7, r0, r1)
+    Flipped instruction bit 20 (mul r7, r0, r5 -> mul r7, r0, sp)
+
+Address 08003d56:
+  Hits 1780 (553344), 1781 (553381), 1782 (553418), 1783 (553455), 1784 (553492), 1785 (553529), 1787 (553662), 1788 (553699), 1789 (553736), 1790 (553773), 1791 (553810), 1792 (553847), 2592 (646231), 2593 (646268), 2594 (646305), 2595 (646342), 2596 (646379), 2597 (646416), 2599 (646549), 2600 (646586), 2601 (646623), 2602 (646660), 2603 (646697), 2604 (646734), 2760 (665449), 2761 (665486), 2762 (665523), 2763 (665560), 2764 (665597), 2765 (665634), 2767 (665767), 2768 (665804), 2769 (665841), 2770 (665878), 2771 (665915), 2772 (665952), 3068 (700682), 3069 (700719), 3070 (700756), 3071 (700793), 3072 (700830), 3073 (700867), 3075 (701000), 3077 (701074), 3078 (701111), 3079 (701148), 3080 (701185):
+    Skipped 1 instruction
+    Flipped instruction bit 4 (mul r8, r0, r6 -> mul r8, r8, r6)
+    Flipped instruction bit 9 (mul r8, r0, r6 -> lsl.w r8, r0, r6)
+    Flipped instruction bit 14 (mul r8, r0, r6 -> blt #4)
+    Flipped instruction bit 17 (mul r8, r0, r6 -> mul r8, r0, r7)
+    Flipped instruction bit 18 (mul r8, r0, r6 -> mul r8, r0, r4)
+    Flipped instruction bit 19 (mul r8, r0, r6 -> mul r8, r0, r2)
+    Flipped instruction bit 20 (mul r8, r0, r6 -> mul r8, r0, lr)
+    Flipped instruction bit 27 (mul r8, r0, r6 -> mul ip, r0, r6)
+    Flipped instruction bit 28 (mul r8, r0, r6 -> mul r0, r0, r6)
+    Flipped instruction bit 32 (mul r8, r0, r6 -> mla r8, r0, r6, r7)
+  Hits 1779 (553307), 1786 (553625), 2591 (646194), 2598 (646512), 2759 (665412), 2766 (665730), 3067 (700645), 3074 (700963):
+    Skipped 1 instruction
+    Flipped instruction bit 4 (mul r8, r0, r6 -> mul r8, r8, r6)
+    Flipped instruction bit 9 (mul r8, r0, r6 -> lsl.w r8, r0, r6)
+    Flipped instruction bit 17 (mul r8, r0, r6 -> mul r8, r0, r7)
+    Flipped instruction bit 18 (mul r8, r0, r6 -> mul r8, r0, r4)
+    Flipped instruction bit 19 (mul r8, r0, r6 -> mul r8, r0, r2)
+    Flipped instruction bit 20 (mul r8, r0, r6 -> mul r8, r0, lr)
+    Flipped instruction bit 27 (mul r8, r0, r6 -> mul ip, r0, r6)
+    Flipped instruction bit 28 (mul r8, r0, r6 -> mul r0, r0, r6)
+    Flipped instruction bit 32 (mul r8, r0, r6 -> mla r8, r0, r6, r7)
+  Hit 3076 (701037):
+    Skipped 1 instruction
+    Flipped instruction bit 4 (mul r8, r0, r6 -> mul r8, r8, r6)
+    Flipped instruction bit 9 (mul r8, r0, r6 -> lsl.w r8, r0, r6)
+    Flipped instruction bit 14 (mul r8, r0, r6 -> blt #4)
+    Flipped instruction bit 17 (mul r8, r0, r6 -> mul r8, r0, r7)
+    Flipped instruction bit 18 (mul r8, r0, r6 -> mul r8, r0, r4)
+    Flipped instruction bit 20 (mul r8, r0, r6 -> mul r8, r0, lr)
+    Flipped instruction bit 27 (mul r8, r0, r6 -> mul ip, r0, r6)
+    Flipped instruction bit 28 (mul r8, r0, r6 -> mul r0, r0, r6)
+    Flipped instruction bit 32 (mul r8, r0, r6 -> mla r8, r0, r6, r7)
+
+Address 08003d5a:
+  Hits 1779 (553308), 1780 (553345), 1781 (553382), 1782 (553419), 1783 (553456), 1784 (553493), 1785 (553530), 1786 (553626), 1787 (553663), 1788 (553700), 1789 (553737), 1790 (553774), 1791 (553811), 1792 (553848), 2591 (646195), 2592 (646232), 2593 (646269), 2594 (646306), 2595 (646343), 2596 (646380), 2597 (646417), 2598 (646513), 2599 (646550), 2600 (646587), 2601 (646624), 2602 (646661), 2603 (646698), 2604 (646735), 2759 (665413), 2760 (665450), 2761 (665487), 2762 (665524), 2763 (665561), 2764 (665598), 2765 (665635), 2766 (665731), 2767 (665768), 2768 (665805), 2769 (665842), 2770 (665879), 2771 (665916), 2772 (665953), 3067 (700646), 3068 (700683), 3069 (700720), 3070 (700757), 3071 (700794), 3072 (700831), 3073 (700868), 3074 (700964), 3075 (701001), 3076 (701038), 3077 (701075), 3078 (701112), 3079 (701149), 3080 (701186):
+    Skipped 1 instruction
+    Skipped 2 instructions
+    Flipped instruction bit 7 (umlal r7, r1, r4, r6 -> umull r7, r1, r4, r6)
+    Flipped instruction bit 8 (umlal r7, r1, r4, r6 -> smmls r1, r4, r6, r7)
+    Flipped instruction bit 17 (umlal r7, r1, r4, r6 -> umlal r7, r1, r4, r7)
+    Flipped instruction bit 18 (umlal r7, r1, r4, r6 -> umlal r7, r1, r4, r4)
+    Flipped instruction bit 19 (umlal r7, r1, r4, r6 -> umlal r7, r1, r4, r2)
+    Flipped instruction bit 20 (umlal r7, r1, r4, r6 -> umlal r7, r1, r4, lr)
+
+Address 08003d5e:
+  Hits 1779 (553309), 1780 (553346), 1781 (553383), 1782 (553420), 1783 (553457), 1784 (553494), 1785 (553531), 1786 (553627), 1787 (553664), 1788 (553701), 1789 (553738), 1790 (553775), 1791 (553812), 1792 (553849), 2591 (646196), 2592 (646233), 2593 (646270), 2594 (646307), 2595 (646344), 2596 (646381), 2597 (646418), 2598 (646514), 2599 (646551), 2600 (646588), 2601 (646625), 2602 (646662), 2603 (646699), 2604 (646736), 2759 (665414), 2760 (665451), 2761 (665488), 2762 (665525), 2763 (665562), 2764 (665599), 2765 (665636), 2766 (665732), 2768 (665806), 2769 (665843), 2770 (665880), 2771 (665917), 2772 (665954), 3067 (700647), 3068 (700684), 3069 (700721), 3070 (700758), 3071 (700795), 3072 (700832), 3073 (700869), 3074 (700965), 3075 (701002), 3076 (701039), 3077 (701076), 3078 (701113), 3079 (701150), 3080 (701187):
+    Skipped 1 instruction
+    Flipped instruction bit 7 (umlal r8, r1, r4, r5 -> umull r8, r1, r4, r5)
+    Flipped instruction bit 8 (umlal r8, r1, r4, r5 -> smmls r1, r4, r5, r8)
+    Flipped instruction bit 17 (umlal r8, r1, r4, r5 -> umlal r8, r1, r4, r4)
+    Flipped instruction bit 18 (umlal r8, r1, r4, r5 -> umlal r8, r1, r4, r7)
+    Flipped instruction bit 19 (umlal r8, r1, r4, r5 -> umlal r8, r1, r4, r1)
+    Flipped instruction bit 20 (umlal r8, r1, r4, r5 -> umlal r8, r1, r4, sp)
+    Flipped instruction bit 31 (umlal r8, r1, r4, r5 -> umlal ip, r1, r4, r5)
+    Flipped instruction bit 32 (umlal r8, r1, r4, r5 -> umlal r0, r1, r4, r5)
+  Hit 2767 (665769):
+    Skipped 1 instruction
+    Flipped instruction bit 7 (umlal r8, r1, r4, r5 -> umull r8, r1, r4, r5)
+    Flipped instruction bit 8 (umlal r8, r1, r4, r5 -> smmls r1, r4, r5, r8)
+    Flipped instruction bit 17 (umlal r8, r1, r4, r5 -> umlal r8, r1, r4, r4)
+    Flipped instruction bit 19 (umlal r8, r1, r4, r5 -> umlal r8, r1, r4, r1)
+    Flipped instruction bit 20 (umlal r8, r1, r4, r5 -> umlal r8, r1, r4, sp)
+    Flipped instruction bit 31 (umlal r8, r1, r4, r5 -> umlal ip, r1, r4, r5)
+    Flipped instruction bit 32 (umlal r8, r1, r4, r5 -> umlal r0, r1, r4, r5)
+
+Address 08003d62:
+  Hits 1779 (553310), 1780 (553347), 1781 (553384), 1782 (553421), 1783 (553458), 1784 (553495), 1785 (553532), 1786 (553628), 1787 (553665), 1788 (553702), 1789 (553739), 1790 (553776), 1791 (553813), 1792 (553850), 2591 (646197), 2592 (646234), 2593 (646271), 2594 (646308), 2595 (646345), 2596 (646382), 2597 (646419), 2598 (646515), 2599 (646552), 2600 (646589), 2601 (646626), 2602 (646663), 2603 (646700), 2604 (646737), 2759 (665415), 2760 (665452), 2761 (665489), 2762 (665526), 2763 (665563), 2764 (665600), 2765 (665637), 2766 (665733), 2768 (665807), 2769 (665844), 2770 (665881), 2771 (665918), 2772 (665955), 3067 (700648), 3068 (700685), 3069 (700722), 3070 (700759), 3071 (700796), 3072 (700833), 3073 (700870), 3074 (700966), 3075 (701003), 3076 (701040), 3077 (701077), 3078 (701114), 3079 (701151), 3080 (701188):
+    Flipped instruction bit 4 (uxth r7, r7 -> uxth r7, r6)
+    Flipped instruction bit 5 (uxth r7, r7 -> uxth r7, r5)
+  Hit 2767 (665770):
+    Flipped instruction bit 4 (uxth r7, r7 -> uxth r7, r6)
+
+Address 08003d80:
+  Hits 1779 (553318), 1780 (553355), 1781 (553392), 1782 (553429), 1783 (553466), 1784 (553503), 1785 (553540), 1786 (553636), 1787 (553673), 1788 (553710), 1789 (553747), 1790 (553784), 1791 (553821), 1792 (553858), 2591 (646205), 2592 (646242), 2593 (646279), 2594 (646316), 2595 (646353), 2596 (646390), 2597 (646427), 2598 (646523), 2599 (646560), 2600 (646597), 2601 (646634), 2602 (646671), 2603 (646708), 2604 (646745), 2759 (665423), 2760 (665460), 2761 (665497), 2762 (665534), 2763 (665571), 2764 (665608), 2765 (665645), 2766 (665741), 2767 (665778), 2768 (665815), 2769 (665852), 2770 (665889), 2771 (665926), 2772 (665963), 3067 (700656), 3068 (700693), 3069 (700730), 3070 (700767), 3071 (700804), 3072 (700841), 3073 (700878), 3074 (700974), 3075 (701011), 3076 (701048), 3077 (701085), 3078 (701122), 3079 (701159), 3080 (701196):
+    Flipped instruction bit 9 (mul r7, r0, r5 -> lsl.w r7, r0, r5)
+    Flipped instruction bit 17 (mul r7, r0, r5 -> mul r7, r0, r4)
+    Flipped instruction bit 18 (mul r7, r0, r5 -> mul r7, r0, r7)
+    Flipped instruction bit 19 (mul r7, r0, r5 -> mul r7, r0, r1)
+    Flipped instruction bit 20 (mul r7, r0, r5 -> mul r7, r0, sp)
+
+Address 08003d84:
+  Hits 1779 (553319), 1780 (553356), 1781 (553393), 1782 (553430), 1783 (553467), 1784 (553504), 1785 (553541), 1786 (553637), 1787 (553674), 1788 (553711), 1789 (553748), 1790 (553785), 1791 (553822), 1792 (553859), 2591 (646206), 2592 (646243), 2593 (646280), 2594 (646317), 2595 (646354), 2596 (646391), 2597 (646428), 2598 (646524), 2599 (646561), 2600 (646598), 2601 (646635), 2602 (646672), 2603 (646709), 2604 (646746), 2759 (665424), 2760 (665461), 2761 (665498), 2762 (665535), 2763 (665572), 2764 (665609), 2765 (665646), 2766 (665742), 2767 (665779), 2768 (665816), 2769 (665853), 2770 (665890), 2771 (665927), 2772 (665964), 3067 (700657), 3068 (700694), 3069 (700731), 3070 (700768), 3071 (700805), 3072 (700842), 3073 (700879), 3074 (700975), 3075 (701012), 3076 (701049), 3077 (701086), 3078 (701123), 3079 (701160), 3080 (701197):
+    Flipped instruction bit 9 (mul r8, r0, r6 -> lsl.w r8, r0, r6)
+    Flipped instruction bit 17 (mul r8, r0, r6 -> mul r8, r0, r7)
+    Flipped instruction bit 18 (mul r8, r0, r6 -> mul r8, r0, r4)
+    Flipped instruction bit 19 (mul r8, r0, r6 -> mul r8, r0, r2)
+    Flipped instruction bit 20 (mul r8, r0, r6 -> mul r8, r0, lr)
+    Flipped instruction bit 32 (mul r8, r0, r6 -> mla r8, r0, r6, r7)
+
+Address 08003d88:
+  Hits 1779 (553320), 1780 (553357), 1781 (553394), 1782 (553431), 1783 (553468), 1784 (553505), 1785 (553542), 1786 (553638), 1787 (553675), 1788 (553712), 1789 (553749), 1790 (553786), 1791 (553823), 1792 (553860), 2591 (646207), 2592 (646244), 2593 (646281), 2594 (646318), 2595 (646355), 2596 (646392), 2597 (646429), 2598 (646525), 2599 (646562), 2600 (646599), 2601 (646636), 2602 (646673), 2603 (646710), 2604 (646747), 2759 (665425), 2760 (665462), 2761 (665499), 2762 (665536), 2763 (665573), 2764 (665610), 2765 (665647), 2766 (665743), 2767 (665780), 2768 (665817), 2769 (665854), 2770 (665891), 2771 (665928), 2772 (665965), 3067 (700658), 3068 (700695), 3069 (700732), 3070 (700769), 3071 (700806), 3072 (700843), 3073 (700880), 3074 (700976), 3075 (701013), 3076 (701050), 3077 (701087), 3078 (701124), 3079 (701161), 3080 (701198):
+    Skipped 1 instruction
+    Skipped 2 instructions
+    Flipped instruction bit 7 (umlal r7, r6, r4, r6 -> umull r7, r6, r4, r6)
+    Flipped instruction bit 8 (umlal r7, r6, r4, r6 -> smmls r6, r4, r6, r7)
+    Flipped instruction bit 17 (umlal r7, r6, r4, r6 -> umlal r7, r6, r4, r7)
+    Flipped instruction bit 18 (umlal r7, r6, r4, r6 -> umlal r7, r6, r4, r4)
+    Flipped instruction bit 19 (umlal r7, r6, r4, r6 -> umlal r7, r6, r4, r2)
+    Flipped instruction bit 20 (umlal r7, r6, r4, r6 -> umlal r7, r6, r4, lr)
+    Flipped instruction bit 29 (umlal r7, r6, r4, r6 -> umlal r6, r6, r4, r6)
+    Flipped instruction bit 30 (umlal r7, r6, r4, r6 -> umlal r5, r6, r4, r6)
+
+Address 08003d8c:
+  Hits 1779 (553321), 1780 (553358), 1781 (553395), 1782 (553432), 1783 (553469), 1784 (553506), 1785 (553543), 1786 (553639), 1787 (553676), 1788 (553713), 1789 (553750), 1790 (553787), 1791 (553824), 1792 (553861), 2591 (646208), 2592 (646245), 2593 (646282), 2594 (646319), 2595 (646356), 2596 (646393), 2597 (646430), 2598 (646526), 2599 (646563), 2600 (646600), 2601 (646637), 2602 (646674), 2603 (646711), 2604 (646748), 2759 (665426), 2760 (665463), 2761 (665500), 2762 (665537), 2763 (665574), 2764 (665611), 2765 (665648), 2767 (665781), 2768 (665818), 2769 (665855), 2770 (665892), 2771 (665929), 2772 (665966), 3067 (700659), 3068 (700696), 3069 (700733), 3071 (700807), 3072 (700844), 3073 (700881), 3074 (700977), 3075 (701014), 3076 (701051), 3077 (701088), 3078 (701125), 3079 (701162), 3080 (701199):
+    Skipped 1 instruction
+    Flipped instruction bit 7 (umlal r8, r5, r4, r5 -> umull r8, r5, r4, r5)
+    Flipped instruction bit 8 (umlal r8, r5, r4, r5 -> smmls r5, r4, r5, r8)
+    Flipped instruction bit 17 (umlal r8, r5, r4, r5 -> umlal r8, r5, r4, r4)
+    Flipped instruction bit 18 (umlal r8, r5, r4, r5 -> umlal r8, r5, r4, r7)
+    Flipped instruction bit 19 (umlal r8, r5, r4, r5 -> umlal r8, r5, r4, r1)
+    Flipped instruction bit 20 (umlal r8, r5, r4, r5 -> umlal r8, r5, r4, sp)
+    Flipped instruction bit 31 (umlal r8, r5, r4, r5 -> umlal ip, r5, r4, r5)
+    Flipped instruction bit 32 (umlal r8, r5, r4, r5 -> umlal r0, r5, r4, r5)
+  Hit 3070 (700770):
+    Skipped 1 instruction
+    Flipped instruction bit 7 (umlal r8, r5, r4, r5 -> umull r8, r5, r4, r5)
+    Flipped instruction bit 8 (umlal r8, r5, r4, r5 -> smmls r5, r4, r5, r8)
+    Flipped instruction bit 18 (umlal r8, r5, r4, r5 -> umlal r8, r5, r4, r7)
+    Flipped instruction bit 19 (umlal r8, r5, r4, r5 -> umlal r8, r5, r4, r1)
+    Flipped instruction bit 20 (umlal r8, r5, r4, r5 -> umlal r8, r5, r4, sp)
+    Flipped instruction bit 31 (umlal r8, r5, r4, r5 -> umlal ip, r5, r4, r5)
+    Flipped instruction bit 32 (umlal r8, r5, r4, r5 -> umlal r0, r5, r4, r5)
+  Hit 2766 (665744):
+    Skipped 1 instruction
+    Flipped instruction bit 7 (umlal r8, r5, r4, r5 -> umull r8, r5, r4, r5)
+    Flipped instruction bit 8 (umlal r8, r5, r4, r5 -> smmls r5, r4, r5, r8)
+    Flipped instruction bit 17 (umlal r8, r5, r4, r5 -> umlal r8, r5, r4, r4)
+    Flipped instruction bit 19 (umlal r8, r5, r4, r5 -> umlal r8, r5, r4, r1)
+    Flipped instruction bit 20 (umlal r8, r5, r4, r5 -> umlal r8, r5, r4, sp)
+    Flipped instruction bit 31 (umlal r8, r5, r4, r5 -> umlal ip, r5, r4, r5)
+    Flipped instruction bit 32 (umlal r8, r5, r4, r5 -> umlal r0, r5, r4, r5)
+
+Address 08003dac:
+  Hits 2759 (665434), 2760 (665471), 2761 (665508), 2762 (665545), 2763 (665582), 2765 (665656), 2766 (665752), 2768 (665826), 2769 (665863), 2770 (665900), 2772 (665974), 3067 (700667), 3072 (700852), 3073 (700889):
+    Flipped instruction bit 5 (ldr r1, [sp, #4] -> ldr r1, [sp, #0x44])
+
+Total potentially prone instruction-fault pairs: 5110
+  Instruction skips: 648
+  Instruction bit flips: 4462
+Unique instructions: 904
+Unique addresses: 43
